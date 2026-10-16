@@ -28,6 +28,33 @@
     <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}?v=2">
     <link rel="apple-touch-icon" href="{% static 'images/logo.png' %}?v=2">
     <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+        {# ─── Extra SEO ─── #}
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
+    <meta name="google" content="notranslate">
+    <meta name="format-detection" content="telephone=no">
+
+    {# ─── Structured Data (Schema.org JSON-LD) ─── #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "{{ BRAND_NAME }}",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "description": "{{ SITE_DESCRIPTION|escapejs }}",
+      "email": "{{ BRAND_EMAIL }}",
+      "telephone": "+{{ BRAND_WHATSAPP }}",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Accra",
+        "addressCountry": "GH"
+      },
+      "areaServed": "Worldwide",
+      "priceRange": "$$",
+      "sameAs": [
+        "{{ BRAND_WHATSAPP_URL }}"
+      ]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
