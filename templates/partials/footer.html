@@ -1,46 +1,96 @@
+{% load static %}
 <footer class="site-footer">
     <div class="container">
+
+        {# ─── Main footer grid ─── #}
         <div class="footer__grid">
 
+            {# Column 1 — Brand + social #}
             <div class="footer__brand-col">
-                <div class="footer__brand">{{ BRAND_NAME }}</div>
+                <a href="{% url 'tkmedia:home' %}" class="footer__brand-link" aria-label="{{ BRAND_NAME }} home">
+                    <span class="footer__brand" style="color: rgb(245, 175, 24);">TEAKAY</span>
+                    <span class="footer__brand-text">
+                        <span class="footer__brand">MULTIMEDIA</span>
+                        
+                    </span>
+                </a>
+
                 <p class="footer__tagline">{{ BRAND_TAGLINE }}</p>
 
-                <ul class="footer__contact">
-                    <li>
-                        <a class="footer__link" href="{{ BRAND_EMAIL_URL }}">
-                            {{ BRAND_EMAIL }}
-                        </a>
-                    </li>
-                    <li>
-                        <a class="footer__link"
-                           href="{{ BRAND_WHATSAPP_URL }}"
-                           target="_blank" rel="noopener noreferrer">
-                            WhatsApp: +{{ BRAND_WHATSAPP }}
-                        </a>
-                    </li>
-                </ul>
+                <div class="footer__social" aria-label="Social links">
+                    <a href="#" aria-label="Facebook" rel="noopener"><i class="bx bxl-facebook" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Instagram" rel="noopener"><i class="bx bxl-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="X (Twitter)" rel="noopener"><i class="bx bxl-twitter" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="LinkedIn" rel="noopener"><i class="bx bxl-linkedin" aria-hidden="true"></i></a>
+                    <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                        <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
 
-            <div class="footer__links-col">
+            {# Column 2 — Explore #}
+            <div class="footer__column">
                 <h3 class="footer__heading">Explore</h3>
-                <ul class="footer__links-grid">
+                <ul class="footer__list">
                     <li><a class="footer__link" href="{% url 'tkmedia:home' %}">Home</a></li>
                     <li><a class="footer__link" href="{% url 'tkmedia:about' %}">About</a></li>
                     <li><a class="footer__link" href="{% url 'tkmedia:services' %}">Services</a></li>
                     <li><a class="footer__link" href="{% url 'tkmedia:portfolio' %}">Portfolio</a></li>
                     <li><a class="footer__link" href="{% url 'tkmedia:gallery' %}">Gallery</a></li>
-                    <li><a class="footer__link" href="{% url 'tkmedia:contact' %}">Contact</a></li>
-                    <li><a class="footer__link" href="{% url 'tkmedia:privacy' %}">Privacy</a></li>
-                    <li><a class="footer__link" href="{% url 'tkmedia:terms' %}">Terms</a></li>
                 </ul>
+            </div>
+
+            {# Column 3 — Company #}
+            <div class="footer__column">
+                <h3 class="footer__heading">Company</h3>
+                <ul class="footer__list">
+                    <li><a class="footer__link" href="{% url 'tkmedia:contact' %}">Contact</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:privacy' %}">Privacy Policy</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:terms' %}">Terms of Use</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:contact' %}">Careers</a></li>
+                </ul>
+            </div>
+
+            {# Column 4 — Contact #}
+            <div class="footer__column">
+                <h3 class="footer__heading">Get In Touch</h3>
+                <ul class="footer__contact-list">
+                    <li>
+                        <span class="footer__contact-icon" aria-hidden="true">
+                            <i class="bx bx-envelope"></i>
+                        </span>
+                        <a class="footer__link" href="{{ BRAND_EMAIL_URL }}">{{ BRAND_EMAIL }}</a>
+                    </li>
+                    <li>
+                        <span class="footer__contact-icon" aria-hidden="true">
+                            <i class="bx bxl-whatsapp"></i>
+                        </span>
+                        <a class="footer__link" href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer">
+                            +{{ BRAND_WHATSAPP }}
+                        </a>
+                    </li>
+                    <li>
+                        <span class="footer__contact-icon" aria-hidden="true">
+                            <i class="bx bx-map"></i>
+                        </span>
+                        <span class="footer__link" style="color: var(--text-muted);">Accra, Ghana</span>
+                    </li>
+                </ul>
+
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--primary btn--sm" style="margin-top: var(--space-4);">
+                    Let's Talk <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
             </div>
 
         </div>
 
+        {# ─── Bottom bar ─── #}
         <div class="footer__bottom">
             <span>&copy; {% now "Y" %} {{ BRAND_NAME }}. All rights reserved.</span>
-            <span>Built with Django.</span>
+            <span class="footer__bottom-right">
+                Designed by teakay multimedia
+            </span>
         </div>
+
     </div>
 </footer>

@@ -116,7 +116,18 @@
 
     {# ── SLIDE 5 — E-commerce ── #}
     <div class="hero-slide" data-slide>
-        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-5.jpg" %}');"></div>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-5.jpg" %}');">
+             <video class="hero-slide__video"
+               autoplay
+               muted
+               loop
+               playsinline
+               preload="metadata"
+               poster="{% static 'images/hero/hero-5-poster.jpg' %}"
+               aria-hidden="true">
+            <source src="{% static 'videos/hero-5.mp4' %}" type="video/mp4">
+        </video>
+        </div>
         <div class="hero-slide__overlay"></div>
         <div class="hero-slide__content">
             <h1 class="hero-slide__title">
@@ -137,7 +148,18 @@
 
     {# ── SLIDE 6 — Digital Branding ── #}
     <div class="hero-slide" data-slide>
-        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-6.jpg" %}');"></div>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-6.jpg" %}');">
+             <video class="hero-slide__video"
+               autoplay
+               muted
+               loop
+               playsinline
+               preload="metadata"
+               poster="{% static 'images/hero/hero-6-poster.jpg' %}"
+               aria-hidden="true">
+            <source src="{% static 'videos/hero-6.mp4' %}" type="video/mp4">
+        </video>
+        </div>
         <div class="hero-slide__overlay"></div>
         <div class="hero-slide__content">
             <h1 class="hero-slide__title">

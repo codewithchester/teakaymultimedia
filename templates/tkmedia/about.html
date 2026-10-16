@@ -1,49 +1,154 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}About — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}About {{ BRAND_NAME }} — a technology, media, and digital solutions brand.{% endblock %}
 
 {% block content %}
 
-<section class="page-header">
+{# ═══════════════ FLOATING GLASS ORBS (page background) ═══════════════ #}
+<div class="about-orbs" aria-hidden="true">
+    <span class="about-orb about-orb--1"></span>
+    <span class="about-orb about-orb--2"></span>
+    <span class="about-orb about-orb--3"></span>
+    <span class="about-orb about-orb--4"></span>
+    <span class="about-orb about-orb--5"></span>
+</div>
+
+{# ═══════════════ PAGE HEADER — with floating orbs ═══════════════ #}
+<section class="page-header about-header">
+
+    {# Floating glass orbs INSIDE the header #}
+    <div class="header-orbs" aria-hidden="true">
+        <span class="header-orb header-orb--1"></span>
+        <span class="header-orb header-orb--2"></span>
+        <span class="header-orb header-orb--3"></span>
+        <span class="header-orb header-orb--4"></span>
+        <span class="header-orb header-orb--5"></span>
+        <span class="header-orb header-orb--6"></span>
+    </div>
+
+    {# Faint gold grid overlay #}
+    <div class="header-grid" aria-hidden="true"></div>
+
     <div class="container">
         <div class="page-header__inner">
-            <span class="badge">About</span>
-            <h1>A technology, media, and digital solutions brand.</h1>
-            <p>{{ BRAND_NAME }} combines software development, creative design, and multimedia production.</p>
+            <span class="eyebrow">About Us</span>
+            <h1 class="display-lg" style="margin-top: var(--space-4);">
+                A technology, media &amp; <span class="text-gold">digital solutions</span> brand.
+            </h1>
+            <p style="color: var(--text-muted); font-size: var(--fs-md); max-width: 60ch; margin-top: var(--space-5);">
+                {{ BRAND_NAME }} combines software development, creative design, and multimedia
+                production to deliver professional digital experiences.
+            </p>
         </div>
     </div>
 </section>
 
+{# ═══════════════ BRAND STORY ═══════════════ #}
+<section class="section">
+    <div class="container">
+        <div class="about-split">
+
+            {# Visual — glass card with logo #}
+            <div class="about-visual reveal reveal--scale">
+                <div class="about-visual__inner glass-card">
+                    <div class="about-visual__glow" aria-hidden="true"></div>
+                    <span class="about-visual__mark" aria-hidden="true">TK</span>
+                    <span class="about-visual__label">{{ BRAND_NAME }}</span>
+                    <span class="about-visual__sub">The Nexus</span>
+                </div>
+            </div>
+
+            {# Story — glass panel #}
+            <div class="about-story glass-panel reveal reveal--delay-1">
+                <span class="eyebrow">Our Story</span>
+                <h2 style="margin-block: var(--space-4) var(--space-6);">
+                    Built to bridge <span class="text-gold">technology</span> and <span class="text-gold">creativity</span>.
+                </h2>
+
+                {% if settings_obj.about_story %}
+                    <div class="about-text">{{ settings_obj.about_story }}</div>
+                {% else %}
+                    <p class="about-text">
+                        {{ BRAND_NAME }} was created to bring technology, creativity, and digital
+                        innovation together for businesses and individuals. Every project is
+                        approached with care, clarity, and attention to detail.
+                    </p>
+                    <p class="about-text">
+                        We work with clients across industries — from small businesses building
+                        their first website to established brands needing multimedia and design support.
+                    </p>
+                {% endif %}
+
+                <ul class="about-highlights">
+                    <li>
+                        <i class="bx bx-check-circle" aria-hidden="true"></i>
+                        <span>Custom web development with Django</span>
+                    </li>
+                    <li>
+                        <i class="bx bx-check-circle" aria-hidden="true"></i>
+                        <span>Graphic design &amp; digital branding</span>
+                    </li>
+                    <li>
+                        <i class="bx bx-check-circle" aria-hidden="true"></i>
+                        <span>Multimedia &amp; video production</span>
+                    </li>
+                    <li>
+                        <i class="bx bx-check-circle" aria-hidden="true"></i>
+                        <span>Technical support &amp; consulting</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ═══════════════ PHILOSOPHY — glass quote panel ═══════════════ #}
 <section class="section">
     <div class="container container--narrow">
+        <div class="about-quote-panel glass-panel reveal">
+            <div class="about-quote-mark" aria-hidden="true">
+                <i class="bx bxs-quote-alt-left"></i>
+            </div>
+            <span class="eyebrow" style="display: block; text-align: center;">Our Philosophy</span>
+            <blockquote class="about-quote">
+                {% if settings_obj.about_philosophy %}
+                    {{ settings_obj.about_philosophy }}
+                {% else %}
+                    Every project starts with understanding the goal, then designing and building a
+                    solution that is clean, reliable, and appropriate for the real problem.
+                {% endif %}
+            </blockquote>
+            <div class="about-quote__signature">
+                <span class="about-quote__line" aria-hidden="true"></span>
+                <span class="about-quote__name">{{ BRAND_NAME }}</span>
+                <span class="about-quote__line" aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <h2>Brand story</h2>
-        <p class="text-muted">
-            {% if settings_obj.about_story %}
-                {{ settings_obj.about_story }}
-            {% else %}
-                {{ BRAND_NAME }} was created to bring technology, creativity, and digital innovation
-                together for businesses and individuals. Every project is approached with care,
-                clarity, and attention to detail.
-            {% endif %}
-        </p>
-
-        <h2 style="margin-top: var(--space-12);">Working philosophy</h2>
-        <p class="text-muted">
-            {% if settings_obj.about_philosophy %}
-                {{ settings_obj.about_philosophy }}
-            {% else %}
-                Every project starts with understanding the goal, then designing and building a
-                solution that is clean, reliable, and appropriate for the real problem.
-            {% endif %}
-        </p>
+{# ═══════════════ SKILLS ═══════════════ #}
+{% if technical_skills or creative_skills or tools %}
+<section class="section">
+    <div class="container">
+        <div class="section-header section-header--center reveal">
+            <span class="eyebrow">What We Do Best</span>
+            <h2>Skills &amp; <span class="text-gold">expertise</span>.</h2>
+            <p>A blend of technical depth and creative execution.</p>
+        </div>
 
         {% if technical_skills %}
-            <div class="skills-group" style="margin-top: var(--space-12);">
-                <h3 class="skills-group__heading">Technical skills</h3>
+            <div class="skills-group reveal">
+                <h3 class="skills-group__heading">
+                    <i class="bx bx-code-alt" aria-hidden="true"></i>
+                    Technical Skills
+                </h3>
                 <div class="skills-grid">
                     {% for skill in technical_skills %}
-                        <div class="skill-card">
+                        <div class="skill-card glass-chip">
                             <div class="skill-card__name">{{ skill.name }}</div>
                             {% if skill.description %}
                                 <div class="skill-card__desc">{{ skill.description }}</div>
@@ -55,11 +160,14 @@
         {% endif %}
 
         {% if creative_skills %}
-            <div class="skills-group">
-                <h3 class="skills-group__heading">Creative skills</h3>
+            <div class="skills-group reveal">
+                <h3 class="skills-group__heading">
+                    <i class="bx bx-palette" aria-hidden="true"></i>
+                    Creative Skills
+                </h3>
                 <div class="skills-grid">
                     {% for skill in creative_skills %}
-                        <div class="skill-card">
+                        <div class="skill-card glass-chip">
                             <div class="skill-card__name">{{ skill.name }}</div>
                             {% if skill.description %}
                                 <div class="skill-card__desc">{{ skill.description }}</div>
@@ -71,11 +179,14 @@
         {% endif %}
 
         {% if tools %}
-            <div class="skills-group">
-                <h3 class="skills-group__heading">Tools &amp; technologies</h3>
+            <div class="skills-group reveal">
+                <h3 class="skills-group__heading">
+                    <i class="bx bx-wrench" aria-hidden="true"></i>
+                    Tools &amp; Technologies
+                </h3>
                 <div class="skills-grid">
                     {% for skill in tools %}
-                        <div class="skill-card">
+                        <div class="skill-card glass-chip">
                             <div class="skill-card__name">{{ skill.name }}</div>
                             {% if skill.description %}
                                 <div class="skill-card__desc">{{ skill.description }}</div>
@@ -85,13 +196,601 @@
                 </div>
             </div>
         {% endif %}
+    </div>
+</section>
+{% endif %}
 
-        <div class="hero__actions" style="margin-top: var(--space-12);">
-            <a href="{% url 'tkmedia:services' %}" class="btn btn--primary">View Services</a>
-            <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--secondary">See Portfolio</a>
+{# ═══════════════ VALUES ═══════════════ #}
+<section class="section">
+    <div class="container">
+        <div class="section-header section-header--center reveal">
+            <span class="eyebrow">What We Stand For</span>
+            <h2>Our core <span class="text-gold">values</span>.</h2>
         </div>
 
+        <div class="values-grid">
+            <div class="value-card glass-card reveal">
+                <div class="value-card__icon"><i class="bx bx-shield-quarter" aria-hidden="true"></i></div>
+                <h4>Reliability</h4>
+                <p>Deadlines kept, promises honored, and quality delivered — every time.</p>
+            </div>
+            <div class="value-card glass-card reveal reveal--delay-1">
+                <div class="value-card__icon"><i class="bx bx-bulb" aria-hidden="true"></i></div>
+                <h4>Creativity</h4>
+                <p>Fresh thinking that solves real problems and stands out from the noise.</p>
+            </div>
+            <div class="value-card glass-card reveal reveal--delay-2">
+                <div class="value-card__icon"><i class="bx bx-line-chart" aria-hidden="true"></i></div>
+                <h4>Growth</h4>
+                <p>Every project is built to help your business move forward, measurably.</p>
+            </div>
+            <div class="value-card glass-card reveal reveal--delay-3">
+                <div class="value-card__icon"><i class="bx bx-heart" aria-hidden="true"></i></div>
+                <h4>Craft</h4>
+                <p>Attention to detail is not optional — it's the difference between good and great.</p>
+            </div>
+        </div>
     </div>
 </section>
 
+{# ═══════════════ FINAL CTA ═══════════════ #}
+<section class="section">
+    <div class="container container--narrow">
+        <div class="about-cta glass-panel reveal">
+            <span class="eyebrow">Let's Work Together</span>
+            <h2 style="margin-top: var(--space-4); margin-bottom: var(--space-6);">
+                Ready to bring your idea <span class="text-gold">to life</span>?
+            </h2>
+            <p style="color: var(--text-muted); font-size: var(--fs-md); margin-bottom: var(--space-8);">
+                Explore our services or get in touch to start your next project.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center;">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    View Services <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--outline btn--lg">See Portfolio</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════════════════════
+       1. PAGE HEADER — FLOATING GLASS ORBS
+       ═══════════════════════════════════════════════════════════ */
+    .about-header {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        padding-block: clamp(var(--space-20), 12vw, var(--space-32));
+    }
+
+    .header-orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .header-orb {
+        position: absolute;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.18),
+                rgba(245, 183, 0, 0.10) 30%,
+                rgba(245, 183, 0, 0.04) 55%,
+                transparent 75%);
+        box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.15),
+            inset -10px -10px 40px rgba(245, 183, 0, 0.15),
+            0 0 60px rgba(245, 183, 0, 0.20),
+            0 20px 40px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(2px) saturate(180%);
+        -webkit-backdrop-filter: blur(2px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        will-change: transform;
+    }
+
+    .header-orb::before {
+        content: "";
+        position: absolute;
+        top: 12%;
+        left: 15%;
+        width: 30%;
+        height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%);
+        filter: blur(3px);
+    }
+
+    .header-orb::after {
+        content: "";
+        position: absolute;
+        bottom: 8%;
+        right: 18%;
+        width: 40%;
+        height: 20%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(245, 183, 0, 0.15), transparent 70%);
+        filter: blur(6px);
+    }
+
+    .header-orb--1 { width: 100px; height: 100px; top: 15%; left: 6%;  animation: header-orb-drift-a 18s ease-in-out infinite; }
+    .header-orb--2 { width: 60px;  height: 60px;  top: 60%; left: 14%; animation: header-orb-drift-b 22s ease-in-out infinite; }
+    .header-orb--3 { width: 140px; height: 140px; top: 10%; right: 8%; animation: header-orb-drift-c 26s ease-in-out infinite; opacity: 0.7; }
+    .header-orb--4 { width: 70px;  height: 70px;  top: 70%; right: 18%; animation: header-orb-drift-a 20s ease-in-out infinite reverse; }
+    .header-orb--5 { width: 50px;  height: 50px;  top: 25%; left: 45%; animation: header-orb-drift-b 24s ease-in-out infinite; opacity: 0.8; }
+    .header-orb--6 { width: 90px;  height: 90px;  top: 50%; right: 40%; animation: header-orb-drift-c 28s ease-in-out infinite reverse; opacity: 0.5; }
+
+    @keyframes header-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(30px, -20px) scale(1.06); }
+        66%      { transform: translate(-15px, 25px) scale(0.96); }
+    }
+    @keyframes header-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-25px, 30px) scale(1.10); }
+    }
+    @keyframes header-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(35px, -30px) scale(1.05); }
+    }
+
+    .header-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(245, 183, 0, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(245, 183, 0, 0.04) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
+        -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
+    }
+
+    .about-header .container,
+    .about-header .page-header__inner {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       2. PAGE BACKGROUND ORBS (fixed position — drift while scrolling)
+       ═══════════════════════════════════════════════════════════ */
+    .about-orbs {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .about-orb {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%,
+            rgba(245, 183, 0, 0.35),
+            rgba(245, 183, 0, 0.08) 40%,
+            transparent 70%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.15),
+            inset 0 0 80px rgba(245, 183, 0, 0.15),
+            0 0 60px rgba(245, 183, 0, 0.15);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        will-change: transform;
+    }
+    .about-orb::before {
+        content: "";
+        position: absolute;
+        top: 15%;
+        left: 20%;
+        width: 30%;
+        height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%);
+        filter: blur(4px);
+    }
+
+    .about-orb--1 { width: 180px; height: 180px; top: 12%; left: 4%;  animation: orb-drift-1 22s ease-in-out infinite; }
+    .about-orb--2 { width: 120px; height: 120px; top: 55%; right: 6%; animation: orb-drift-2 26s ease-in-out infinite; }
+    .about-orb--3 { width: 240px; height: 240px; top: 80%; left: 8%;  animation: orb-drift-3 30s ease-in-out infinite; opacity: 0.6; }
+    .about-orb--4 { width: 90px;  height: 90px;  top: 28%; right: 20%; animation: orb-drift-2 20s ease-in-out infinite reverse; }
+    .about-orb--5 { width: 140px; height: 140px; top: 42%; left: 42%; animation: orb-drift-1 28s ease-in-out infinite; opacity: 0.5; }
+
+    @keyframes orb-drift-1 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(40px, -30px) scale(1.08); }
+        66%      { transform: translate(-20px, 40px) scale(0.95); }
+    }
+    @keyframes orb-drift-2 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-50px, 30px) scale(1.12); }
+    }
+    @keyframes orb-drift-3 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(60px, -40px) scale(1.05); }
+    }
+
+    /* Content should sit above the fixed orbs */
+    .about-header, .about-split, .about-quote-panel, .skills-group, .values-grid, .about-cta {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       3. GLASS PRIMITIVES
+       ═══════════════════════════════════════════════════════════ */
+    .glass-panel {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        padding: clamp(var(--space-6), 4vw, var(--space-10));
+        position: relative;
+        overflow: hidden;
+    }
+    .glass-panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        pointer-events: none;
+    }
+
+    .glass-card {
+        background: rgba(20, 20, 22, 0.5);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+        transition: all var(--duration-slow) var(--ease-out);
+    }
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+        pointer-events: none;
+    }
+    .glass-card:hover {
+        border-color: rgba(245, 183, 0, 0.4);
+        transform: translateY(-6px);
+        box-shadow:
+            0 24px 60px rgba(0, 0, 0, 0.5),
+            0 0 40px rgba(245, 183, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-chip {
+        background: rgba(30, 30, 34, 0.55);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--radius-md);
+        transition: all var(--duration-base) var(--ease-out);
+    }
+    .glass-chip:hover {
+        background: rgba(40, 40, 46, 0.7);
+        border-color: rgba(245, 183, 0, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 183, 0, 0.12);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       4. ABOUT: SPLIT LAYOUT
+       ═══════════════════════════════════════════════════════════ */
+    .about-split {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-10);
+        align-items: center;
+    }
+    @media (min-width: 900px) {
+        .about-split { grid-template-columns: 1fr 1.4fr; gap: var(--space-12); }
+    }
+
+    .about-visual { display: flex; justify-content: center; }
+    .about-visual__inner {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        aspect-ratio: 1/1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-4);
+        animation: float-card 6s ease-in-out infinite;
+    }
+    @keyframes float-card {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-12px); }
+    }
+
+    .about-visual__glow {
+        position: absolute;
+        inset: -30%;
+        background: radial-gradient(circle at center, rgba(245, 183, 0, 0.25), transparent 60%);
+        filter: blur(40px);
+        z-index: -1;
+        pointer-events: none;
+        animation: glow-pulse 4s ease-in-out infinite;
+    }
+    @keyframes glow-pulse {
+        0%, 100% { opacity: 0.7; transform: scale(1); }
+        50%      { opacity: 1; transform: scale(1.1); }
+    }
+
+    .about-visual__mark {
+        position: relative;
+        font-family: var(--font-display);
+        font-size: clamp(4rem, 12vw, 6rem);
+        font-weight: var(--fw-black);
+        color: var(--gold);
+        letter-spacing: -0.04em;
+        line-height: 1;
+        text-shadow: 0 0 40px rgba(245, 183, 0, 0.4);
+    }
+    .about-visual__label {
+        position: relative;
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        text-align: center;
+    }
+    .about-visual__sub {
+        position: relative;
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.25em;
+        color: var(--gold);
+        text-transform: uppercase;
+    }
+
+    .about-text {
+        color: var(--text-muted);
+        font-size: var(--fs-md);
+        line-height: var(--lh-relaxed);
+        white-space: pre-line;
+        margin-bottom: var(--space-5);
+    }
+
+    .about-highlights {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        margin-top: var(--space-8);
+        padding-top: var(--space-6);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .about-highlights li {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: var(--fs-base);
+        color: var(--text);
+        transition: var(--transition-base);
+    }
+    .about-highlights li:hover { transform: translateX(6px); }
+    .about-highlights i {
+        color: var(--gold);
+        font-size: 1.4rem;
+        flex-shrink: 0;
+        transition: transform var(--duration-base) var(--ease-out);
+    }
+    .about-highlights li:hover i { transform: scale(1.15); }
+
+    /* ═══════════════════════════════════════════════════════════
+       5. PHILOSOPHY QUOTE PANEL
+       ═══════════════════════════════════════════════════════════ */
+    .about-quote-panel {
+        text-align: center;
+        padding: clamp(var(--space-8), 6vw, var(--space-16)) clamp(var(--space-6), 4vw, var(--space-10));
+    }
+    .about-quote-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--gold-soft);
+        color: var(--gold);
+        border: 1px solid rgba(245, 183, 0, 0.3);
+        font-size: 1.75rem;
+        margin-bottom: var(--space-5);
+        animation: float-card 5s ease-in-out infinite;
+    }
+    .about-quote {
+        font-family: var(--font-display);
+        font-size: clamp(var(--fs-xl), 3vw, var(--fs-3xl));
+        font-weight: var(--fw-bold);
+        line-height: 1.3;
+        letter-spacing: -0.02em;
+        color: var(--heading);
+        margin-block: var(--space-6) var(--space-8);
+        white-space: pre-line;
+    }
+    .about-quote__signature {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+    .about-quote__line {
+        display: block;
+        width: 40px;
+        height: 2px;
+        background: var(--gold);
+    }
+    .about-quote__name {
+        font-size: var(--fs-sm);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       6. SKILLS
+       ═══════════════════════════════════════════════════════════ */
+    .skills-group { margin-bottom: var(--space-10); }
+    .skills-group__heading {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: var(--fs-sm);
+        font-weight: var(--fw-bold);
+        text-transform: uppercase;
+        letter-spacing: var(--ls-wide);
+        color: var(--gold);
+        margin-bottom: var(--space-5);
+    }
+    .skills-group__heading i { font-size: 1.4rem; }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--space-3);
+    }
+    .skill-card { padding: var(--space-4); }
+    .skill-card__name {
+        font-weight: var(--fw-semibold);
+        color: var(--heading);
+        font-size: var(--fs-sm);
+    }
+    .skill-card__desc {
+        font-size: var(--fs-xs);
+        color: var(--text-muted);
+        margin-top: var(--space-1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       7. VALUES
+       ═══════════════════════════════════════════════════════════ */
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--space-6);
+    }
+    .value-card { padding: var(--space-8) var(--space-6); }
+    .value-card__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-md);
+        background: var(--gold-soft);
+        color: var(--gold);
+        border: 1px solid rgba(245, 183, 0, 0.3);
+        font-size: 1.75rem;
+        margin-bottom: var(--space-5);
+        transition: var(--transition-base);
+    }
+    .value-card:hover .value-card__icon {
+        background: var(--gold);
+        color: #0B0B0D;
+        transform: scale(1.1) rotate(-6deg);
+        box-shadow: 0 8px 24px rgba(245, 183, 0, 0.4);
+    }
+    .value-card h4 {
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        margin-bottom: var(--space-3);
+    }
+    .value-card p {
+        color: var(--text-muted);
+        font-size: var(--fs-sm);
+        line-height: var(--lh-relaxed);
+        margin: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       8. CTA
+       ═══════════════════════════════════════════════════════════ */
+    .about-cta { text-align: center; }
+
+    /* ═══════════════════════════════════════════════════════════
+       9. RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+        .header-orb--3,
+        .header-orb--5,
+        .header-orb--6 { display: none; }
+        .header-orb--1 { width: 80px; height: 80px; }
+        .header-orb--2 { width: 45px; height: 45px; }
+        .header-orb--4 { width: 55px; height: 55px; }
+
+        .about-orb--3,
+        .about-orb--5 { display: none; }
+        .about-orb--1 { width: 120px; height: 120px; }
+        .about-orb--2 { width: 80px; height: 80px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       10. REDUCED MOTION
+       ═══════════════════════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+        .header-orb,
+        .about-orb,
+        .about-visual__inner,
+        .about-visual__glow,
+        .about-quote-mark { animation: none !important; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       11. LIGHT THEME
+       ═══════════════════════════════════════════════════════════ */
+    [data-theme="light"] .glass-panel,
+    [data-theme="light"] .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow:
+            0 20px 60px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .glass-chip {
+        background: rgba(255, 255, 255, 0.65);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+    [data-theme="light"] .about-orb,
+    [data-theme="light"] .header-orb {
+        background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.6),
+            rgba(184, 136, 0, 0.12) 30%,
+            rgba(184, 136, 0, 0.04) 55%,
+            transparent 75%);
+        box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(184, 136, 0, 0.15),
+            0 20px 40px rgba(15, 23, 42, 0.06);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+</style>
 {% endblock %}
