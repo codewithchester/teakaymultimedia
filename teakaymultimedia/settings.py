@@ -164,7 +164,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "teakaymultimedia@gmail.com")
 
 # ─── Brand Settings ──────────────────────────────────────
-BRAND_NAME = "TK MULTIMEDIA"
+BRAND_NAME = "TEAKAY MULTIMEDIA"
 BRAND_EMAIL = os.getenv("BRAND_EMAIL", "teakaymultimedia@gmail.com")
 BRAND_WHATSAPP = os.getenv("BRAND_WHATSAPP", "233531372310")
 BRAND_TAGLINE = "Building Digital Experiences. Creating Possibilities."

@@ -12,9 +12,10 @@
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     function updateToggleUI(theme) {
-        document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
-            btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-            const icon = btn.querySelector('i');
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+            btn.setAttribute('aria-label',
+                theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+            var icon = btn.querySelector('i');
             if (icon) {
                 icon.className = theme === 'dark' ? 'bx bx-sun' : 'bx bx-moon';
             }
@@ -29,22 +30,23 @@
         applyTheme(theme);
     }
     function toggleTheme() {
-        const current = root.getAttribute('data-theme') || 'dark';
+        var current = root.getAttribute('data-theme') || 'dark';
         setTheme(current === 'dark' ? 'light' : 'dark');
     }
     function init() {
-        const current = root.getAttribute('data-theme') || getStoredTheme() || getSystemTheme();
+        var current = root.getAttribute('data-theme') || getStoredTheme() || getSystemTheme();
         applyTheme(current);
-        document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
             btn.addEventListener('click', toggleTheme);
         });
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (!getStoredTheme()) applyTheme(e.matches ? 'dark' : 'light');
-        });
+
+        window.matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', function (e) {
+                if (!getStoredTheme()) applyTheme(e.matches ? 'dark' : 'light');
+            });
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    } else { init(); }
 })();

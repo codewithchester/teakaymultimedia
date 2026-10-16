@@ -1,23 +1,28 @@
-{% if settings_obj.homepage_audio %}
+{% load static %}
+{% if settings_obj.homepage_audio or True %}
 <div class="audio-intro" data-audio-player>
     <div class="audio-intro__header">
         <div class="audio-intro__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            <i class="bx bx-headphone"></i>
         </div>
         <div>
-            <div class="audio-intro__title">Audio introduction</div>
+            <div class="audio-intro__title">Audio Introduction</div>
             <div class="audio-intro__subtitle">A short welcome from {{ BRAND_NAME }}</div>
         </div>
     </div>
 
     <audio preload="metadata">
-        <source src="{{ settings_obj.homepage_audio.url }}" type="audio/mpeg">
+        {% if settings_obj.homepage_audio %}
+            <source src="{{ settings_obj.homepage_audio.url }}" type="audio/mpeg">
+        {% else %}
+            <source src="{% static 'audio/intro.mp3' %}" type="audio/mpeg">
+        {% endif %}
         Your browser does not support the audio element.
     </audio>
 
     <div class="audio-intro__controls">
         <button type="button" class="audio-intro__play" data-audio-play aria-label="Play audio introduction">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <i class="bx bx-play" aria-hidden="true"></i>
         </button>
         <div class="audio-intro__progress" data-audio-progress role="slider" aria-label="Audio progress" tabindex="0">
             <div class="audio-intro__progress-fill" data-audio-fill></div>

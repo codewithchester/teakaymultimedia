@@ -3,127 +3,311 @@
 
 {% block title %}{{ BRAND_NAME }} — {{ BRAND_TAGLINE }}{% endblock %}
 
-{% block extra_js %}
-<script src="{% static 'js/audio-player.js' %}" defer></script>
-{% endblock %}
 {% block content %}
 
-{# ═══════════════ HERO ═══════════════ #}
-<section class="hero">
-    <div class="container">
-        <div class="hero__inner">
+{# ═══════════════ HERO SLIDER — 7 SLIDES ═══════════════ #}
+<section class="hero-slider" data-hero-slider aria-label="Featured highlights">
 
-            <div class="hero__copy">
-                <span class="badge hero__badge fade-up">Technology &bull; Creativity &bull; Innovation</span>
-
-                <h1 class="hero__title fade-up fade-up--delay-1">
-                    Building Digital Experiences.<br>
-                    Creating Possibilities.
-                </h1>
-
-                <p class="hero__subtitle fade-up fade-up--delay-2">
-                    {{ BRAND_NAME }} brings technology, creativity, and digital innovation
-                    together through web development, multimedia production, digital design,
-                    and practical technology solutions.
-                </p>
-
-                <div class="hero__actions fade-up fade-up--delay-3">
-                    <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--primary btn--lg">Explore My Work</a>
-                    <a href="{% url 'tkmedia:services' %}" class="btn btn--secondary btn--lg">View My Services</a>
-                </div>
+    {# ── SLIDE 1 ── #}
+    <div class="hero-slide active" data-slide>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-1.jpg" %}');"></div>
+        <div class="hero-slide__overlay"></div>
+        <div class="hero-slide__content">
+            <h1 class="hero-slide__title">
+                <span class="line">Building Digital Experiences.</span>
+                <span class="line line--accent"> Creating Possibilities.</span>
+            </h1>
+            <p class="hero-slide__subtitle">
+               A human-centered technology and creative company building digital experiences that move brands forward.
+            </p>
+            <div class="hero-slide__actions">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    Explore Our Services <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">Get In Touch</a>
             </div>
-
-            <div class="hero__visual fade-up fade-up--delay-2">
-                <div class="hero__portrait" role="img" aria-label="TK MULTIMEDIA brand mark">
-                    TK
-                </div>
-            </div>
-
         </div>
     </div>
-</section>
-{# ═══════════════ AUDIO INTRODUCTION ═══════════════ #}
-{% if settings_obj.homepage_audio %}
-<section class="section section--tight">
-    <div class="container">
-        {% include "partials/audio_player.html" %}
-    </div>
-</section>
-{% endif %}
 
-{# ═══════════════ ABOUT PREVIEW ═══════════════ #}
-<section class="section" id="about">
-    <div class="container container--narrow text-center">
-        <span class="badge">About</span>
-        <h2 style="margin-top: var(--space-4);">A technology, media, and digital solutions brand.</h2>
-        <p class="text-muted" style="margin-top: var(--space-4);">
-            {{ BRAND_NAME }} combines software development, creative design, and multimedia
-            production to deliver professional digital experiences for businesses and individuals.
-        </p>
-        <p class="text-muted">
-            This section will be fully editable from the private dashboard in a later stage.
-        </p>
+    {# ── SLIDE 2 — Web Development ── #}
+    <div class="hero-slide" data-slide>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-2.jpg" %}');"></div>
+        <div class="hero-slide__overlay"></div>
+        <div class="hero-slide__content">
+            <h1 class="hero-slide__title">
+                <span class="line">We Build Websites.</span>
+                <span class="line line--accent">You Grow Business.</span>
+            </h1>
+            <p class="hero-slide__subtitle">
+                Custom websites and Django web applications — fast, secure, and designed to convert.
+            </p>
+            <div class="hero-slide__actions">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    Web Development <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--outline btn--lg">See Our Work</a>
+            </div>
+        </div>
+    </div>
+
+    {# ── SLIDE 3 — Graphic Design ── #}
+    <div class="hero-slide" data-slide>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-3.jpg" %}');">
+             <video class="hero-slide__video"
+               autoplay
+               muted
+               loop
+               playsinline
+               preload="metadata"
+               poster="{% static 'images/hero/hero-3-poster.jpg' %}"
+               aria-hidden="true">
+            <source src="{% static 'videos/hero-3.mp4' %}" type="video/mp4">
+        </video>
+        </div>
+        <div class="hero-slide__overlay"></div>
+        <div class="hero-slide__content">
+            <h1 class="hero-slide__title">
+                <span class="line">Design That Speaks.</span>
+                <span class="line line--accent">Brands That Stick.</span>
+            </h1>
+            <p class="hero-slide__subtitle">
+                Logos, flyers, brand identities, and visual storytelling that make your business unforgettable.
+            </p>
+            <div class="hero-slide__actions">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    Graphic Design <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:gallery' %}" class="btn btn--outline btn--lg">View Gallery</a>
+            </div>
+        </div>
+    </div>
+
+    {# ── SLIDE 4 — Video Editing ── #}
+    <div class="hero-slide" data-slide>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-4.jpg" %}');">
+             <video class="hero-slide__video"
+               autoplay
+               muted
+               loop
+               playsinline
+               preload="metadata"
+               poster="{% static 'images/hero/hero-4-poster.jpg' %}"
+               aria-hidden="true">
+            <source src="{% static 'videos/hero-4.mp4' %}" type="video/mp4">
+        </video>
+        </div>
+        <div class="hero-slide__overlay"></div>
+        <div class="hero-slide__content">
+            <h1 class="hero-slide__title">
+                <span class="line">Cinematic Frames.</span>
+                <span class="line line--accent">Powerful Stories.</span>
+            </h1>
+            <p class="hero-slide__subtitle">
+                Video editing and multimedia production that makes every frame count.
+            </p>
+            <div class="hero-slide__actions">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    Video Editing <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">Discuss A Project</a>
+            </div>
+        </div>
+    </div>
+
+    {# ── SLIDE 5 — E-commerce ── #}
+    <div class="hero-slide" data-slide>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-5.jpg" %}');"></div>
+        <div class="hero-slide__overlay"></div>
+        <div class="hero-slide__content">
+            <h1 class="hero-slide__title">
+                <span class="line">Online Stores.</span>
+                <span class="line line--accent">Real Revenue.</span>
+            </h1>
+            <p class="hero-slide__subtitle">
+                E-commerce websites and online store setups that help you sell more, effortlessly.
+            </p>
+            <div class="hero-slide__actions">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    E-commerce Solutions <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">Request A Quote</a>
+            </div>
+        </div>
+    </div>
+
+    {# ── SLIDE 6 — Digital Branding ── #}
+    <div class="hero-slide" data-slide>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-6.jpg" %}');"></div>
+        <div class="hero-slide__overlay"></div>
+        <div class="hero-slide__content">
+            <h1 class="hero-slide__title">
+                <span class="line">Your Vision.</span>
+                <span class="line line--accent">Our Creativity.</span>
+            </h1>
+            <p class="hero-slide__subtitle">
+                Digital branding and multimedia design that positions your business at the top.
+            </p>
+            <div class="hero-slide__actions">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    Digital Branding <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:about' %}" class="btn btn--outline btn--lg">Meet The Team</a>
+            </div>
+        </div>
+    </div>
+
+    {# ── SLIDE 7 — Technical Support ── #}
+    <div class="hero-slide" data-slide>
+        <div class="hero-slide__bg" style="background-image: url('{% static "images/hero/hero-7.jpg" %}');"></div>
+        <div class="hero-slide__overlay"></div>
+        <div class="hero-slide__content">
+            <h1 class="hero-slide__title">
+                <span class="line">We Build.</span>
+                <span class="line line--accent">You Succeed.</span>
+            </h1>
+            <p class="hero-slide__subtitle">
+                Website maintenance, technical support, and digital consultation — trusted by businesses and creators.
+            </p>
+            <div class="hero-slide__actions">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--primary btn--lg">
+                    Technical Support <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">Talk To Us</a>
+            </div>
+        </div>
+    </div>
+
+    {# ═══════════════ AUDIO WAVEFORM PLAYER ═══════════════ #}
+    <div class="hero-audio" data-hero-audio>
+        <audio class="hero-audio__el" preload="none" src="{% static 'audio/intro.mp3' %}"></audio>
+
+        <button type="button" class="hero-audio__play" data-audio-play aria-label="Play introduction">
+            <i class="bx bx-play" aria-hidden="true"></i>
+        </button>
+
+        <span class="hero-audio__label">Brand Song</span>
+
+        <div class="hero-audio__wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="hero-audio__tracks" role="tablist" aria-label="Slides">
+            <button type="button" class="hero-audio__track active" data-track-to="0">01</button>
+            <button type="button" class="hero-audio__track" data-track-to="1">02</button>
+            <button type="button" class="hero-audio__track" data-track-to="2">03</button>
+            <button type="button" class="hero-audio__track" data-track-to="3">04</button>
+            <button type="button" class="hero-audio__track" data-track-to="4">05</button>
+            <button type="button" class="hero-audio__track" data-track-to="5">06</button>
+            <button type="button" class="hero-audio__track" data-track-to="6">07</button>
+        </div>
+    </div>
+
+    <!-- {# ═══════════════ DOT NAVIGATION ═══════════════ #}
+    <div class="hero-slider__nav" role="tablist" aria-label="Hero slides">
+        <button type="button" class="hero-slider__dot active" data-slide-to="0">01</button>
+        <button type="button" class="hero-slider__dot" data-slide-to="1">02</button>
+        <button type="button" class="hero-slider__dot" data-slide-to="2">03</button>
+        <button type="button" class="hero-slider__dot" data-slide-to="3">04</button>
+        <button type="button" class="hero-slider__dot" data-slide-to="4">05</button>
+        <button type="button" class="hero-slider__dot" data-slide-to="5">06</button>
+        <button type="button" class="hero-slider__dot" data-slide-to="6">07</button>
+    </div> -->
+
+</section>
+
+{# ═══════════════ STATS BAR ═══════════════ #}
+<section class="stats-bar">
+    <div class="container">
+        <div class="stats-bar__grid">
+            <div class="stat">
+                <div class="stat__number">500+</div>
+                <div class="stat__label">Happy Clients</div>
+            </div>
+            <div class="stat">
+                <div class="stat__number">10+</div>
+                <div class="stat__label">Core Services</div>
+            </div>
+            <div class="stat">
+                <div class="stat__number">100%</div>
+                <div class="stat__label">Success Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat__number">24/7</div>
+                <div class="stat__label">Support</div>
+            </div>
+        </div>
     </div>
 </section>
 
 {# ═══════════════ SERVICES PREVIEW ═══════════════ #}
-<section class="section" id="services" style="background: var(--color-surface);">
+<section class="section">
     <div class="container">
-        <div class="text-center" style="margin-bottom: var(--space-12);">
-            <span class="badge">Services</span>
-            <h2 style="margin-top: var(--space-4);">What {{ BRAND_NAME }} does</h2>
-            <p class="text-muted" style="margin-top: var(--space-4);">A preview of core service areas.</p>
+        <div class="section-header section-header--center reveal">
+            <span class="eyebrow">What We Do</span>
+            <h2>Digital services that <span class="text-gold">deliver</span>.</h2>
+            <p>From websites to full multimedia production — we build the tools your brand needs to grow.</p>
         </div>
 
         {% if services %}
             <div class="grid grid--wide">
                 {% for service in services %}
-                    <article class="service-card">
+                    <article class="service-card reveal">
                         <div class="service-card__media">
                             {% if service.cover_image %}
                                 <img src="{{ service.cover_image.url }}" alt="{{ service.title }}">
                             {% else %}
-                                <span aria-hidden="true">{{ service.icon|default:"◆" }}</span>
+                                <span aria-hidden="true">{{ service.title|slice:":1" }}</span>
                             {% endif %}
                         </div>
                         <div class="service-card__body">
                             <h3>{{ service.title }}</h3>
                             <p>{{ service.short_description }}</p>
-                            <a href="{{ service.get_absolute_url }}" class="btn btn--ghost btn--sm">Learn more →</a>
+                            <a href="{{ service.get_absolute_url }}" class="btn btn--ghost btn--sm">
+                                Learn More <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </article>
                 {% endfor %}
             </div>
-            <div class="text-center" style="margin-top: var(--space-8);">
-                <a href="{% url 'tkmedia:services' %}" class="btn btn--secondary">View all services</a>
+            <div class="text-center" style="margin-top: var(--space-12);">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--outline btn--lg">View All Services</a>
             </div>
         {% else %}
             <div class="empty-state">
-                <h3>No services yet</h3>
-                <p>Add services from the admin panel to see them here.</p>
+                <h3>Services coming soon</h3>
+                <p>Add your first service from the admin panel.</p>
             </div>
         {% endif %}
     </div>
 </section>
 
-{# ═══════════════ PORTFOLIO PREVIEW ═══════════════ #}
-<section class="section" id="portfolio">
+{# ═══════════════ FEATURED WORK ═══════════════ #}
+<section class="section" style="background: var(--surface);">
     <div class="container">
-        <div class="text-center" style="margin-bottom: var(--space-12);">
-            <span class="badge">Portfolio</span>
-            <h2 style="margin-top: var(--space-4);">Selected work</h2>
-            <p class="text-muted" style="margin-top: var(--space-4);">A few recent projects.</p>
+        <div class="section-header section-header--center reveal">
+            <span class="eyebrow">Selected Work</span>
+            <h2>Projects that <span class="text-gold">speak</span>.</h2>
+            <p>A glimpse into recent websites, designs, and multimedia work.</p>
         </div>
 
         {% if featured_projects %}
             <div class="grid grid--wide">
                 {% for project in featured_projects %}
-                    <a href="{{ project.get_absolute_url }}" class="project-card">
-                        <div class="project-card__media {% if not project.cover_image %}project-card__media--placeholder{% endif %}">
+                    <a href="{{ project.get_absolute_url }}" class="project-card reveal">
+                        <div class="project-card__media">
                             {% if project.cover_image %}
                                 <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">
                             {% else %}
-                                <span aria-hidden="true">{{ project.title|slice:":1"|upper }}</span>
+                                <span aria-hidden="true">{{ project.title|slice:":1" }}</span>
                             {% endif %}
                         </div>
                         <div class="project-card__body">
@@ -136,35 +320,34 @@
                     </a>
                 {% endfor %}
             </div>
-            <div class="text-center" style="margin-top: var(--space-8);">
-                <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--secondary">View full portfolio</a>
+            <div class="text-center" style="margin-top: var(--space-12);">
+                <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--outline btn--lg">Full Portfolio</a>
             </div>
         {% else %}
             <div class="empty-state">
-                <h3>No featured projects yet</h3>
-                <p>Mark projects as "Featured" in the admin panel to display them here.</p>
+                <h3>Featured work coming soon</h3>
+                <p>Mark projects as "Featured" in the admin panel.</p>
             </div>
         {% endif %}
     </div>
 </section>
 
-{# ═══════════════ CONTACT CTA ═══════════════ #}
-<section class="section" id="contact" style="background: var(--color-surface);">
-    <div class="container container--narrow text-center">
-        <span class="badge badge--accent">Let's Work Together</span>
-        <h2 style="margin-top: var(--space-4);">Ready to build something great?</h2>
-        <p class="text-muted" style="margin-top: var(--space-4); margin-bottom: var(--space-8);">
-            Reach out on WhatsApp or email to discuss your project.
+{# ═══════════════ FINAL CTA ═══════════════ #}
+<section class="section">
+    <div class="container container--narrow text-center reveal">
+        <span class="eyebrow">Let's Work Together</span>
+        <h2 style="margin-top: var(--space-4); margin-bottom: var(--space-6);">
+            Ready to build something <span class="text-gold">remarkable</span>?
+        </h2>
+        <p class="text-muted" style="margin-bottom: var(--space-8); font-size: var(--fs-md);">
+            Tell us about your project — we'll get back to you the same day.
         </p>
-
-        <div class="hero__actions" style="justify-content: center;">
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center;">
             <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
                class="btn btn--primary btn--lg">
-                WhatsApp TK MULTIMEDIA
+                <i class="bx bxl-whatsapp" aria-hidden="true"></i> WhatsApp Us
             </a>
-            <a href="{{ BRAND_EMAIL_URL }}" class="btn btn--secondary btn--lg">
-                Send an Email
-            </a>
+            <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">Send a Message</a>
         </div>
     </div>
 </section>
