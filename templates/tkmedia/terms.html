@@ -1,30 +1,485 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Terms of Use — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}Terms of use for {{ BRAND_NAME }}.{% endblock %}
 
 {% block content %}
 
-<section class="page-header">
+{# ═══════════════ FLOATING ORBS ═══════════════ #}
+<div class="lg-orbs" aria-hidden="true">
+    <span class="lg-orb lg-orb--1"></span>
+    <span class="lg-orb lg-orb--2"></span>
+    <span class="lg-orb lg-orb--3"></span>
+    <span class="lg-orb lg-orb--4"></span>
+</div>
+
+{# ═══════════════ PAGE HEADER ═══════════════ #}
+<section class="page-header lg-header">
+
+    <div class="geo-grid" aria-hidden="true"></div>
+    <div class="geo-diagonals" aria-hidden="true"></div>
+    <div class="geo-corners" aria-hidden="true">
+        <span class="geo-corner geo-corner--tl"></span>
+        <span class="geo-corner geo-corner--tr"></span>
+        <span class="geo-corner geo-corner--bl"></span>
+        <span class="geo-corner geo-corner--br"></span>
+    </div>
+
+    <div class="header-orbs" aria-hidden="true">
+        <span class="header-orb header-orb--1"></span>
+        <span class="header-orb header-orb--2"></span>
+        <span class="header-orb header-orb--3"></span>
+        <span class="header-orb header-orb--4"></span>
+        <span class="header-orb header-orb--5"></span>
+    </div>
+
     <div class="container">
         <div class="page-header__inner">
-            <span class="badge">Legal</span>
-            <h1>Terms of Use</h1>
+            <span class="eyebrow reveal">Legal</span>
+            <h1 class="display-lg reveal reveal--delay-1" style="margin-top: var(--space-4);">
+                Terms of <span class="text-gold">Use</span>.
+            </h1>
+            <p class="reveal reveal--delay-2" style="color: var(--text-muted); font-size: var(--fs-md); max-width: 60ch; margin-top: var(--space-5);">
+                The rules for using our website.
+            </p>
         </div>
     </div>
 </section>
 
-<section class="section">
+{# ═══════════════ CONTENT ═══════════════ #}
+<section class="section lg-body-section">
     <div class="container container--narrow">
-        <div class="legal-content">
+        <div class="lg-card glass-panel reveal">
+
+            <div class="lg-card__meta">
+                <i class="bx bx-file" aria-hidden="true"></i>
+                <span>Last updated: 2026</span>
+            </div>
+
+            <div class="lg-content legal-content">
 {% if settings_obj.terms_of_use %}
 {{ settings_obj.terms_of_use }}
 {% else %}
-This is a placeholder terms page. Please review and replace it with terms appropriate to your business.
+<h2>1. Acceptance of Terms</h2>
+<p>By accessing or using this website, you agree to be bound by these terms of use. If you do not agree, please do not use this site.</p>
 
-By using this website you agree to use it lawfully, not to attempt to disrupt its operation, and to respect all applicable intellectual property rights. All content on this site is the property of {{ BRAND_NAME }} unless otherwise noted.
+<h2>2. Permitted Use</h2>
+<p>You agree to use this website only for lawful purposes and in a way that does not infringe the rights of, or restrict or inhibit the use and enjoyment of this site by any third party.</p>
+
+<h2>3. Intellectual Property</h2>
+<p>All content on this site — including text, graphics, logos, images, and multimedia — is the property of {{ BRAND_NAME }} unless otherwise noted, and is protected by applicable intellectual property laws.</p>
+<p>You may not reproduce, distribute, modify, or republish any part of this site without prior written permission.</p>
+
+<h2>4. External Links</h2>
+<p>This site may contain links to external websites. We are not responsible for the content, privacy practices, or accuracy of any external sites.</p>
+
+<h2>5. Disclaimers</h2>
+<p>This website and its content are provided "as is" without warranties of any kind, express or implied. We do not guarantee that the site will be error-free, secure, or continuously available.</p>
+
+<h2>6. Limitation of Liability</h2>
+<p>To the fullest extent permitted by law, {{ BRAND_NAME }} shall not be liable for any direct, indirect, incidental, or consequential damages arising from the use of this website.</p>
+
+<h2>7. Changes to Terms</h2>
+<p>We may update these terms from time to time. Continued use of the site after changes constitutes acceptance of the updated terms.</p>
+
+<h2>8. Contact</h2>
+<p>For any questions about these terms, please contact <a href="{{ BRAND_EMAIL_URL }}">{{ BRAND_EMAIL }}</a>.</p>
+
+<p class="lg-note"><em>This is a placeholder terms page. Please review and replace it with terms appropriate to your business.</em></p>
 {% endif %}
+            </div>
+
         </div>
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Same styles as privacy.html — copy identical block */
+
+    .lg-orbs {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .lg-orb {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%,
+            rgba(245, 183, 0, 0.28),
+            rgba(245, 183, 0, 0.06) 40%,
+            transparent 70%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.12),
+            inset 0 0 80px rgba(245, 183, 0, 0.12),
+            0 0 80px rgba(245, 183, 0, 0.15);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        will-change: transform;
+    }
+    .lg-orb::before {
+        content: "";
+        position: absolute;
+        top: 15%; left: 20%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
+        filter: blur(4px);
+    }
+
+    .lg-orb--1 { width: 220px; height: 220px; top: 8%;  left: 3%;   animation: lg-orb-drift-a 24s ease-in-out infinite; }
+    .lg-orb--2 { width: 140px; height: 140px; top: 50%; right: 5%;  animation: lg-orb-drift-b 28s ease-in-out infinite; }
+    .lg-orb--3 { width: 280px; height: 280px; top: 82%; left: 6%;   animation: lg-orb-drift-c 32s ease-in-out infinite; opacity: 0.6; }
+    .lg-orb--4 { width: 100px; height: 100px; top: 30%; right: 22%; animation: lg-orb-drift-b 22s ease-in-out infinite reverse; }
+
+    @keyframes lg-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(50px, -40px) scale(1.08); }
+        66%      { transform: translate(-30px, 50px) scale(0.94); }
+    }
+    @keyframes lg-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-60px, 40px) scale(1.15); }
+    }
+    @keyframes lg-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(70px, -50px) scale(1.06); }
+    }
+
+    .lg-header, .lg-body-section { position: relative; z-index: 1; }
+
+    .lg-header {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        padding-block: clamp(var(--space-20), 12vw, var(--space-28));
+    }
+
+    .geo-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(245, 183, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(245, 183, 0, 0.05) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        animation: geo-grid-drift 40s linear infinite;
+    }
+    @keyframes geo-grid-drift {
+        0%   { background-position: 0 0, 0 0; }
+        100% { background-position: 64px 64px, 64px 64px; }
+    }
+
+    .geo-diagonals {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.5;
+    }
+    .geo-diagonals::before,
+    .geo-diagonals::after {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(245, 183, 0, 0.4), transparent);
+        top: 30%;
+        left: -50%;
+        transform: rotate(-12deg);
+        animation: geo-diag-slide 8s ease-in-out infinite;
+    }
+    .geo-diagonals::after {
+        top: 70%;
+        transform: rotate(8deg);
+        animation-delay: 2s;
+        animation-direction: reverse;
+    }
+    @keyframes geo-diag-slide {
+        0%, 100% { transform: rotate(-12deg) translateX(0); opacity: 0.3; }
+        50%      { transform: rotate(-12deg) translateX(60px); opacity: 0.8; }
+    }
+
+    .geo-corners {
+        position: absolute;
+        inset: var(--space-6);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .geo-corner {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(245, 183, 0, 0.5);
+    }
+    .geo-corner--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .geo-corner--tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .geo-corner--bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .geo-corner--br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+    .header-orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .header-orb {
+        position: absolute;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.20),
+                rgba(245, 183, 0, 0.12) 30%,
+                rgba(245, 183, 0, 0.04) 55%,
+                transparent 75%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.15),
+            inset -10px -10px 60px rgba(245, 183, 0, 0.15),
+            0 0 80px rgba(245, 183, 0, 0.25),
+            0 24px 48px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(3px) saturate(180%);
+        -webkit-backdrop-filter: blur(3px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        will-change: transform;
+    }
+    .header-orb::before {
+        content: "";
+        position: absolute;
+        top: 12%; left: 15%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+        filter: blur(3px);
+    }
+    .header-orb::after {
+        content: "";
+        position: absolute;
+        bottom: 8%; right: 18%;
+        width: 40%; height: 20%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(245, 183, 0, 0.25), transparent 70%);
+        filter: blur(6px);
+    }
+
+    .header-orb--1 { width: 130px; height: 130px; top: 12%; left: 5%;  animation: header-orb-drift-a 18s ease-in-out infinite; }
+    .header-orb--2 { width: 70px;  height: 70px;  top: 65%; left: 12%; animation: header-orb-drift-b 22s ease-in-out infinite; }
+    .header-orb--3 { width: 180px; height: 180px; top: 8%;  right: 6%; animation: header-orb-drift-c 26s ease-in-out infinite; opacity: 0.75; }
+    .header-orb--4 { width: 90px;  height: 90px;  top: 72%; right: 15%; animation: header-orb-drift-a 20s ease-in-out infinite reverse; }
+    .header-orb--5 { width: 60px;  height: 60px;  top: 22%; left: 48%; animation: header-orb-drift-b 24s ease-in-out infinite; opacity: 0.85; }
+
+    @keyframes header-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(40px, -25px) scale(1.08); }
+        66%      { transform: translate(-20px, 30px) scale(0.94); }
+    }
+    @keyframes header-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-30px, 40px) scale(1.12); }
+    }
+    @keyframes header-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(45px, -35px) scale(1.06); }
+    }
+
+    .lg-header .container,
+    .lg-header .page-header__inner {
+        position: relative;
+        z-index: 2;
+    }
+
+    .glass-panel {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        padding: clamp(var(--space-6), 4vw, var(--space-12));
+        position: relative;
+        overflow: hidden;
+    }
+    .glass-panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        pointer-events: none;
+    }
+
+    .lg-card__meta {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        background: rgba(245, 183, 0, 0.10);
+        color: var(--gold);
+        border: 1px solid rgba(245, 183, 0, 0.3);
+        border-radius: var(--radius-full);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: var(--space-8);
+    }
+    .lg-card__meta i { font-size: 1.1em; }
+
+    .lg-content {
+        color: var(--text);
+        font-size: var(--fs-base);
+        line-height: 1.75;
+    }
+    .lg-content :where(h2) {
+        font-family: var(--font-display);
+        font-size: clamp(var(--fs-lg), 2vw, var(--fs-xl));
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        margin-top: var(--space-8);
+        margin-bottom: var(--space-4);
+        padding-bottom: var(--space-3);
+        border-bottom: 1px solid rgba(245, 183, 0, 0.25);
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+    .lg-content :where(h2)::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 1.2em;
+        background: var(--gold);
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+    .lg-content :where(h2):first-child { margin-top: 0; }
+
+    .lg-content :where(h3) {
+        font-family: var(--font-display);
+        font-size: var(--fs-base);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        margin-top: var(--space-6);
+        margin-bottom: var(--space-3);
+    }
+
+    .lg-content :where(p) {
+        color: var(--text-muted);
+        margin-bottom: var(--space-4);
+    }
+
+    .lg-content :where(ul) {
+        margin-bottom: var(--space-5);
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    .lg-content :where(ul li) {
+        color: var(--text-muted);
+        padding-left: var(--space-6);
+        position: relative;
+        line-height: 1.65;
+    }
+    .lg-content :where(ul li)::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.6em;
+        width: 6px;
+        height: 6px;
+        background: var(--gold);
+        border-radius: 50%;
+        transform: translateY(-50%);
+        box-shadow: 0 0 8px rgba(245, 183, 0, 0.5);
+    }
+
+    .lg-content :where(a) {
+        color: var(--gold);
+        text-decoration: underline;
+        text-decoration-color: rgba(245, 183, 0, 0.35);
+        text-underline-offset: 3px;
+        transition: all 200ms ease-out;
+    }
+    .lg-content :where(a):hover {
+        text-decoration-color: var(--gold);
+    }
+
+    .lg-content :where(strong) {
+        color: var(--heading);
+        font-weight: var(--fw-bold);
+    }
+
+    .lg-content .lg-note {
+        margin-top: var(--space-10);
+        padding: var(--space-4) var(--space-5);
+        background: rgba(245, 183, 0, 0.06);
+        border-left: 3px solid var(--gold);
+        border-radius: var(--radius-md);
+        font-size: var(--fs-sm);
+        color: var(--text-muted);
+    }
+    .lg-content .lg-note em { font-style: normal; }
+
+    @media (max-width: 768px) {
+        .header-orb--3,
+        .header-orb--5 { display: none; }
+        .header-orb--1 { width: 90px; height: 90px; }
+        .header-orb--2 { width: 50px; height: 50px; }
+        .header-orb--4 { width: 60px; height: 60px; }
+
+        .lg-orb--3,
+        .lg-orb--4 { display: none; }
+        .lg-orb--1 { width: 140px; height: 140px; }
+        .lg-orb--2 { width: 90px; height: 90px; }
+
+        .geo-corners { inset: var(--space-4); }
+        .geo-corner { width: 28px; height: 28px; }
+
+        .lg-content :where(h2) { font-size: var(--fs-lg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .header-orb, .lg-orb, .geo-grid, .geo-diagonals {
+            animation: none !important;
+        }
+    }
+
+    [data-theme="light"] .glass-panel {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow:
+            0 20px 60px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .lg-orb,
+    [data-theme="light"] .header-orb {
+        background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.6),
+            rgba(184, 136, 0, 0.12) 30%,
+            rgba(184, 136, 0, 0.04) 55%,
+            transparent 75%);
+        box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(184, 136, 0, 0.12),
+            0 20px 40px rgba(15, 23, 42, 0.06);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+</style>
 {% endblock %}

@@ -6,108 +6,255 @@
 
 {% block content %}
 
-<section class="page-header">
+{# ═══════════════ FLOATING ORBS (page background) ═══════════════ #}
+<div class="pd-orbs" aria-hidden="true">
+    <span class="pd-orb pd-orb--1"></span>
+    <span class="pd-orb pd-orb--2"></span>
+    <span class="pd-orb pd-orb--3"></span>
+    <span class="pd-orb pd-orb--4"></span>
+    <span class="pd-orb pd-orb--5"></span>
+</div>
+
+{# ═══════════════ PAGE HEADER ═══════════════ #}
+<section class="page-header pd-header">
+
+    <div class="geo-grid" aria-hidden="true"></div>
+    <div class="geo-diagonals" aria-hidden="true"></div>
+    <div class="geo-corners" aria-hidden="true">
+        <span class="geo-corner geo-corner--tl"></span>
+        <span class="geo-corner geo-corner--tr"></span>
+        <span class="geo-corner geo-corner--bl"></span>
+        <span class="geo-corner geo-corner--br"></span>
+    </div>
+
+    <div class="header-orbs" aria-hidden="true">
+        <span class="header-orb header-orb--1"></span>
+        <span class="header-orb header-orb--2"></span>
+        <span class="header-orb header-orb--3"></span>
+        <span class="header-orb header-orb--4"></span>
+        <span class="header-orb header-orb--5"></span>
+        <span class="header-orb header-orb--6"></span>
+    </div>
+
     <div class="container">
         <div class="page-header__inner">
-            <span class="badge">{{ project.get_category_display }}</span>
-            <h1>{{ project.title }}</h1>
-            <p>{{ project.summary }}</p>
+            <span class="eyebrow reveal">{{ project.get_category_display }}</span>
+            <h1 class="display-lg reveal reveal--delay-1" style="margin-top: var(--space-4);">
+                {{ project.title }}
+            </h1>
+            <p class="reveal reveal--delay-2" style="color: var(--text-muted); font-size: var(--fs-md); max-width: 60ch; margin-top: var(--space-5);">
+                {{ project.summary }}
+            </p>
         </div>
     </div>
 </section>
 
-<section class="section">
+{# ═══════════════ MAIN DETAIL LAYOUT ═══════════════ #}
+<section class="section pd-body-section">
     <div class="container">
-        <div class="detail-layout">
+        <div class="pd-layout">
 
-            <div>
+            {# ─── Main content ─── #}
+            <div class="pd-main">
+
                 {% if project.cover_image %}
-                    <img src="{{ project.cover_image.url }}" alt="{{ project.title }}"
-                         style="border-radius: var(--radius-lg); margin-bottom: var(--space-8); width: 100%;">
-                {% endif %}
-
-                <div class="detail-body">
-                    {{ project.description }}
-                </div>
-
-                {% if project.images.all %}
-                    <h2 style="margin-top: var(--space-12); margin-bottom: var(--space-6);">Gallery</h2>
-                    <div class="gallery-grid">
-                        {% for img in project.images.all %}
-                            <div class="gallery-item"
-                                 data-lightbox
-                                 data-lightbox-src="{{ img.image.url }}"
-                                 data-lightbox-alt="{{ img.caption|default:project.title }}"
-                                 data-lightbox-caption="{{ img.caption }}">
-                                <img src="{{ img.image.url }}"
-                                     alt="{{ img.caption|default:project.title }}"
-                                     loading="lazy">
-                            </div>
-                        {% endfor %}
+                    <div class="pd-cover glass-card reveal">
+                        <img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+                        <div class="pd-cover__glow" aria-hidden="true"></div>
+                    </div>
+                {% else %}
+                    <div class="pd-cover pd-cover--placeholder glass-card reveal">
+                        <span class="pd-cover__letter" aria-hidden="true">
+                            {{ project.title|slice:":1"|upper }}
+                        </span>
+                        <span class="pd-cover__ring" aria-hidden="true"></span>
+                        <span class="pd-cover__label">{{ project.title }}</span>
                     </div>
                 {% endif %}
+
+                <div class="pd-description glass-panel reveal">
+                    <span class="eyebrow">Overview</span>
+                    <div class="pd-description__body detail-body">
+                        {{ project.description }}
+                    </div>
+                </div>
+
+                {# ─── Gallery ─── #}
+                {% if project.images.all %}
+                    <div class="pd-gallery glass-panel reveal">
+                        <span class="eyebrow">Gallery</span>
+                        <h3 style="margin-block: var(--space-4) var(--space-6);">
+                            More <span class="text-gold">visuals</span>.
+                        </h3>
+
+                        <div class="pd-gallery-grid">
+                            {% for img in project.images.all %}
+                                <div class="pd-gallery-item"
+                                     data-lightbox
+                                     data-lightbox-src="{{ img.image.url }}"
+                                     data-lightbox-alt="{{ img.caption|default:project.title }}"
+                                     data-lightbox-caption="{{ img.caption }}">
+                                    <img src="{{ img.image.url }}"
+                                         alt="{{ img.caption|default:project.title }}"
+                                         loading="lazy">
+                                    <span class="pd-gallery-item__overlay" aria-hidden="true">
+                                        <i class="bx bx-expand-alt"></i>
+                                    </span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {# ─── Outcome / Impact strip ─── #}
+                <div class="pd-outcome glass-panel reveal">
+                    <span class="eyebrow">What We Delivered</span>
+                    <h3 style="margin-block: var(--space-4) var(--space-6);">
+                        Built to <span class="text-gold">last</span>.
+                    </h3>
+
+                    <div class="pd-outcome__grid">
+                        <div class="pd-outcome__item">
+                            <i class="bx bx-target-lock" aria-hidden="true"></i>
+                            <span>Purpose-led design</span>
+                        </div>
+                        <div class="pd-outcome__item">
+                            <i class="bx bx-code-alt" aria-hidden="true"></i>
+                            <span>Clean, modern code</span>
+                        </div>
+                        <div class="pd-outcome__item">
+                            <i class="bx bx-devices" aria-hidden="true"></i>
+                            <span>Fully responsive</span>
+                        </div>
+                        <div class="pd-outcome__item">
+                            <i class="bx bx-rocket" aria-hidden="true"></i>
+                            <span>Performance-focused</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            <aside class="detail-meta">
-                <h3>Project details</h3>
-                <div class="detail-meta__list">
-                    <div class="detail-meta__row">
-                        <span class="detail-meta__label">Category</span>
-                        <span class="detail-meta__value">{{ project.get_category_display }}</span>
+            {# ─── Sidebar ─── #}
+            <aside class="pd-sidebar reveal reveal--delay-1">
+                <div class="pd-sidebar__inner glass-panel">
+
+                    <span class="eyebrow">Project Details</span>
+
+                    <div class="pd-meta">
+                        <div class="pd-meta__row">
+                            <span class="pd-meta__label">Category</span>
+                            <span class="pd-meta__value">{{ project.get_category_display }}</span>
+                        </div>
+
+                        {% if project.completed_on %}
+                            <div class="pd-meta__row">
+                                <span class="pd-meta__label">Completed</span>
+                                <span class="pd-meta__value">{{ project.completed_on|date:"F Y" }}</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="pd-meta__row">
+                            <span class="pd-meta__label">Status</span>
+                            <span class="pd-meta__value pd-meta__value--status">
+                                <span class="pd-meta__dot" aria-hidden="true"></span>
+                                Live Project
+                            </span>
+                        </div>
+
+                        {% if project.technologies %}
+                            <div class="pd-meta__row">
+                                <span class="pd-meta__label">Technologies</span>
+                                <div class="tag-list" style="margin-top: var(--space-2);">
+                                    {% for tech in project.technologies_list %}
+                                        <span class="tag">{{ tech }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
 
-                    {% if project.completed_on %}
-                        <div class="detail-meta__row">
-                            <span class="detail-meta__label">Completed</span>
-                            <span class="detail-meta__value">{{ project.completed_on|date:"F Y" }}</span>
+                    {% if project.external_url or project.source_url %}
+                        <div class="pd-sidebar__cta">
+                            {% if project.external_url %}
+                                <a href="{{ project.external_url }}" target="_blank" rel="noopener noreferrer"
+                                   class="btn btn--primary btn--block">
+                                    <i class="bx bx-link-external" aria-hidden="true"></i>
+                                    View Live Project
+                                </a>
+                            {% endif %}
+
+                            {% if project.source_url %}
+                                <a href="{{ project.source_url }}" target="_blank" rel="noopener noreferrer"
+                                   class="btn btn--outline btn--block"
+                                   style="margin-top: var(--space-3);">
+                                    <i class="bx bxl-github" aria-hidden="true"></i>
+                                    View Source Code
+                                </a>
+                            {% endif %}
                         </div>
                     {% endif %}
 
-                    {% if project.technologies %}
-                        <div class="detail-meta__row">
-                            <span class="detail-meta__label">Technologies</span>
-                            <div class="tag-list" style="margin-top: var(--space-2);">
-                                {% for tech in project.technologies_list %}
-                                    <span class="tag">{{ tech }}</span>
-                                {% endfor %}
-                            </div>
+                    <div class="pd-sidebar__trust">
+                        <div class="pd-sidebar__trust-item">
+                            <i class="bx bx-check-shield" aria-hidden="true"></i>
+                            <span>Delivered on schedule</span>
                         </div>
-                    {% endif %}
+                        <div class="pd-sidebar__trust-item">
+                            <i class="bx bx-check-shield" aria-hidden="true"></i>
+                            <span>Client-approved</span>
+                        </div>
+                        <div class="pd-sidebar__trust-item">
+                            <i class="bx bx-check-shield" aria-hidden="true"></i>
+                            <span>Post-launch support</span>
+                        </div>
+                    </div>
+
                 </div>
-
-                {% if project.external_url %}
-                    <a href="{{ project.external_url }}" target="_blank" rel="noopener noreferrer"
-                       class="btn btn--primary btn--block">View live project</a>
-                {% endif %}
-
-                {% if project.source_url %}
-                    <a href="{{ project.source_url }}" target="_blank" rel="noopener noreferrer"
-                       class="btn btn--secondary btn--block"
-                       style="margin-top: var(--space-2);">View source code</a>
-                {% endif %}
             </aside>
 
         </div>
     </div>
 </section>
 
+{# ═══════════════ RELATED PROJECTS ═══════════════ #}
 {% if related_projects %}
-<section class="section" style="background: var(--color-surface);">
+<section class="section pd-related-section">
     <div class="container">
-        <h2 style="margin-bottom: var(--space-8);">Related projects</h2>
-        <div class="grid grid--wide">
+        <div class="section-header section-header--center reveal">
+            <span class="eyebrow">Explore More</span>
+            <h2>Related <span class="text-gold">projects</span>.</h2>
+            <p>More work from our portfolio.</p>
+        </div>
+
+        <div class="pd-related-grid">
             {% for p in related_projects %}
-                <a href="{{ p.get_absolute_url }}" class="project-card">
-                    <div class="project-card__media {% if not p.cover_image %}project-card__media--placeholder{% endif %}">
+                <a href="{{ p.get_absolute_url }}"
+                   class="pd-related-card glass-card reveal"
+                   style="transition-delay: {{ forloop.counter0 }}00ms;">
+
+                    <div class="pd-related-card__border" aria-hidden="true"></div>
+
+                    <div class="pd-related-card__media {% if not p.cover_image %}pd-related-card__media--placeholder{% endif %}">
                         {% if p.cover_image %}
                             <img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">
                         {% else %}
-                            <span aria-hidden="true">{{ p.title|slice:":1"|upper }}</span>
+                            <span class="pd-related-card__letter" aria-hidden="true">
+                                {{ p.title|slice:":1"|upper }}
+                            </span>
                         {% endif %}
+                        <span class="pd-related-card__overlay" aria-hidden="true">
+                            <i class="bx bx-right-arrow-alt"></i>
+                        </span>
                     </div>
-                    <div class="project-card__body">
+
+                    <div class="pd-related-card__body">
                         <h3>{{ p.title }}</h3>
                         <p>{{ p.summary }}</p>
+                        <span class="pd-related-card__cta">
+                            View Project
+                            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                        </span>
                     </div>
                 </a>
             {% endfor %}
@@ -116,6 +263,839 @@
 </section>
 {% endif %}
 
+{# ═══════════════ CTA ═══════════════ #}
+<section class="section">
+    <div class="container container--narrow">
+        <div class="pd-cta glass-panel reveal">
+
+            <div class="cta-geo" aria-hidden="true">
+                <span class="cta-geo__dot cta-geo__dot--1"></span>
+                <span class="cta-geo__dot cta-geo__dot--2"></span>
+                <span class="cta-geo__dot cta-geo__dot--3"></span>
+            </div>
+
+            <span class="eyebrow" style="display: block; text-align: center; position: relative; z-index: 1;">Start Your Project</span>
+            <h2 style="margin-top: var(--space-4); margin-bottom: var(--space-6); text-align: center; position: relative; z-index: 1;">
+                Want results like <span class="text-gold">this</span>?
+            </h2>
+            <p style="color: var(--text-muted); font-size: var(--fs-md); margin-bottom: var(--space-8); text-align: center; position: relative; z-index: 1;">
+                Tell us about your idea and we'll bring it to life.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center; position: relative; z-index: 1;">
+                <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+                   class="btn btn--primary btn--lg">
+                    <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+                    WhatsApp Us
+                </a>
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">
+                    Send a Message
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════════════════════
+       1. PAGE BACKGROUND ORBS
+       ═══════════════════════════════════════════════════════════ */
+    .pd-orbs {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .pd-orb {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%,
+            rgba(245, 183, 0, 0.28),
+            rgba(245, 183, 0, 0.06) 40%,
+            transparent 70%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.12),
+            inset 0 0 80px rgba(245, 183, 0, 0.12),
+            0 0 80px rgba(245, 183, 0, 0.15);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        will-change: transform;
+    }
+    .pd-orb::before {
+        content: "";
+        position: absolute;
+        top: 15%; left: 20%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
+        filter: blur(4px);
+    }
+
+    .pd-orb--1 { width: 220px; height: 220px; top: 8%;  left: 3%;   animation: pd-orb-drift-a 24s ease-in-out infinite; }
+    .pd-orb--2 { width: 140px; height: 140px; top: 50%; right: 5%;  animation: pd-orb-drift-b 28s ease-in-out infinite; }
+    .pd-orb--3 { width: 280px; height: 280px; top: 82%; left: 6%;   animation: pd-orb-drift-c 32s ease-in-out infinite; opacity: 0.6; }
+    .pd-orb--4 { width: 100px; height: 100px; top: 30%; right: 22%; animation: pd-orb-drift-b 22s ease-in-out infinite reverse; }
+    .pd-orb--5 { width: 160px; height: 160px; top: 45%; left: 40%;  animation: pd-orb-drift-a 26s ease-in-out infinite; opacity: 0.5; }
+
+    @keyframes pd-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(50px, -40px) scale(1.08); }
+        66%      { transform: translate(-30px, 50px) scale(0.94); }
+    }
+    @keyframes pd-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-60px, 40px) scale(1.15); }
+    }
+    @keyframes pd-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(70px, -50px) scale(1.06); }
+    }
+
+    .pd-header, .pd-body-section, .pd-related-section, .pd-cta { position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════════════════════════
+       2. HEADER GEOMETRY
+       ═══════════════════════════════════════════════════════════ */
+    .pd-header {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        padding-block: clamp(var(--space-24), 14vw, var(--space-32));
+    }
+
+    .geo-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(245, 183, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(245, 183, 0, 0.05) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        animation: geo-grid-drift 40s linear infinite;
+    }
+    @keyframes geo-grid-drift {
+        0%   { background-position: 0 0, 0 0; }
+        100% { background-position: 64px 64px, 64px 64px; }
+    }
+
+    .geo-diagonals {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.5;
+    }
+    .geo-diagonals::before,
+    .geo-diagonals::after {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(245, 183, 0, 0.4), transparent);
+        top: 30%;
+        left: -50%;
+        transform: rotate(-12deg);
+        animation: geo-diag-slide 8s ease-in-out infinite;
+    }
+    .geo-diagonals::after {
+        top: 70%;
+        transform: rotate(8deg);
+        animation-delay: 2s;
+        animation-direction: reverse;
+    }
+    @keyframes geo-diag-slide {
+        0%, 100% { transform: rotate(-12deg) translateX(0); opacity: 0.3; }
+        50%      { transform: rotate(-12deg) translateX(60px); opacity: 0.8; }
+    }
+
+    .geo-corners {
+        position: absolute;
+        inset: var(--space-6);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .geo-corner {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(245, 183, 0, 0.5);
+    }
+    .geo-corner--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .geo-corner--tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .geo-corner--bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .geo-corner--br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+    .header-orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .header-orb {
+        position: absolute;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.20),
+                rgba(245, 183, 0, 0.12) 30%,
+                rgba(245, 183, 0, 0.04) 55%,
+                transparent 75%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.15),
+            inset -10px -10px 60px rgba(245, 183, 0, 0.15),
+            0 0 80px rgba(245, 183, 0, 0.25),
+            0 24px 48px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(3px) saturate(180%);
+        -webkit-backdrop-filter: blur(3px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        will-change: transform;
+    }
+    .header-orb::before {
+        content: "";
+        position: absolute;
+        top: 12%; left: 15%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+        filter: blur(3px);
+    }
+    .header-orb::after {
+        content: "";
+        position: absolute;
+        bottom: 8%; right: 18%;
+        width: 40%; height: 20%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(245, 183, 0, 0.25), transparent 70%);
+        filter: blur(6px);
+    }
+
+    .header-orb--1 { width: 130px; height: 130px; top: 12%; left: 5%;  animation: header-orb-drift-a 18s ease-in-out infinite; }
+    .header-orb--2 { width: 70px;  height: 70px;  top: 65%; left: 12%; animation: header-orb-drift-b 22s ease-in-out infinite; }
+    .header-orb--3 { width: 180px; height: 180px; top: 8%;  right: 6%; animation: header-orb-drift-c 26s ease-in-out infinite; opacity: 0.75; }
+    .header-orb--4 { width: 90px;  height: 90px;  top: 72%; right: 15%; animation: header-orb-drift-a 20s ease-in-out infinite reverse; }
+    .header-orb--5 { width: 60px;  height: 60px;  top: 22%; left: 48%; animation: header-orb-drift-b 24s ease-in-out infinite; opacity: 0.85; }
+    .header-orb--6 { width: 110px; height: 110px; top: 48%; right: 38%; animation: header-orb-drift-c 28s ease-in-out infinite reverse; opacity: 0.55; }
+
+    @keyframes header-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(40px, -25px) scale(1.08); }
+        66%      { transform: translate(-20px, 30px) scale(0.94); }
+    }
+    @keyframes header-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-30px, 40px) scale(1.12); }
+    }
+    @keyframes header-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(45px, -35px) scale(1.06); }
+    }
+
+    .pd-header .container,
+    .pd-header .page-header__inner {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       3. GLASS PRIMITIVES
+       ═══════════════════════════════════════════════════════════ */
+    .glass-panel {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        padding: clamp(var(--space-6), 4vw, var(--space-10));
+        position: relative;
+        overflow: hidden;
+    }
+    .glass-panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        pointer-events: none;
+    }
+
+    .glass-card {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+        pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       4. DETAIL LAYOUT
+       ═══════════════════════════════════════════════════════════ */
+    .pd-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-10);
+        align-items: start;
+    }
+    @media (min-width: 960px) {
+        .pd-layout { grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: var(--space-12); }
+    }
+
+    .pd-main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-8);
+        min-width: 0;
+    }
+
+    /* Cover image */
+    .pd-cover {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+    .pd-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pd-cover:hover img { transform: scale(1.04); }
+
+    .pd-cover__glow {
+        position: absolute;
+        inset: -20%;
+        background: radial-gradient(circle at 50% 50%, rgba(245, 183, 0, 0.25), transparent 55%);
+        filter: blur(40px);
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.7;
+        animation: pd-glow-pulse 4s ease-in-out infinite;
+    }
+    @keyframes pd-glow-pulse {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50%      { opacity: 0.9; transform: scale(1.08); }
+    }
+
+    /* Placeholder cover */
+    .pd-cover--placeholder {
+        aspect-ratio: 16/9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-4);
+        padding: var(--space-12) !important;
+    }
+    .pd-cover__letter {
+        font-family: var(--font-display);
+        font-size: 6rem;
+        font-weight: var(--fw-black);
+        color: var(--gold);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        position: relative;
+        z-index: 1;
+        text-shadow: 0 0 40px rgba(245, 183, 0, 0.4);
+    }
+    .pd-cover__ring {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 200px; height: 200px;
+        margin: -100px 0 0 -100px;
+        border-radius: 50%;
+        border: 1px dashed rgba(245, 183, 0, 0.35);
+        animation: pd-ring-spin 24s linear infinite;
+        pointer-events: none;
+    }
+    @keyframes pd-ring-spin {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .pd-cover__label {
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Description body */
+    .pd-description__body {
+        color: var(--text);
+        font-size: var(--fs-md);
+        line-height: var(--lh-relaxed);
+        white-space: pre-line;
+        margin-top: var(--space-5);
+    }
+
+    /* ─── Gallery ─── */
+    .pd-gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--space-4);
+    }
+    .pd-gallery-item {
+        position: relative;
+        aspect-ratio: 1/1;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        cursor: zoom-in;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pd-gallery-item:hover {
+        border-color: rgba(245, 183, 0, 0.45);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 30px rgba(245, 183, 0, 0.15);
+    }
+    .pd-gallery-item img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pd-gallery-item:hover img { transform: scale(1.08); }
+
+    .pd-gallery-item__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(11, 11, 13, 0.55);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+        pointer-events: none;
+    }
+    .pd-gallery-item:hover .pd-gallery-item__overlay { opacity: 1; }
+    .pd-gallery-item__overlay i {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: #0B0B0D;
+        font-size: 1.5rem;
+        transform: scale(0.7) rotate(-20deg);
+        transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 12px 40px rgba(245, 183, 0, 0.5);
+    }
+    .pd-gallery-item:hover .pd-gallery-item__overlay i {
+        transform: scale(1) rotate(0deg);
+    }
+
+    /* ─── Outcome strip ─── */
+    .pd-outcome__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: var(--space-4);
+    }
+    .pd-outcome__item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-4);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--radius-md);
+        font-size: var(--fs-sm);
+        color: var(--text);
+        transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pd-outcome__item:hover {
+        background: rgba(245, 183, 0, 0.06);
+        border-color: rgba(245, 183, 0, 0.3);
+        transform: translateY(-2px);
+    }
+    .pd-outcome__item i {
+        font-size: 1.5rem;
+        color: var(--gold);
+        flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       5. SIDEBAR
+       ═══════════════════════════════════════════════════════════ */
+    .pd-sidebar {
+        position: sticky;
+        top: 96px;
+    }
+    .pd-sidebar__inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+    }
+
+    .pd-meta {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    .pd-meta__row {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        padding-block: var(--space-3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .pd-meta__row:last-child { border-bottom: none; }
+    .pd-meta__label {
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        text-transform: uppercase;
+        letter-spacing: var(--ls-wide);
+        color: var(--text-subtle);
+    }
+    .pd-meta__value {
+        font-family: var(--font-sans);
+        font-size: var(--fs-base);
+        font-weight: var(--fw-semibold);
+        color: var(--heading);
+    }
+    .pd-meta__value--status {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        color: var(--success);
+    }
+    .pd-meta__dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+        animation: pd-dot-pulse 2s ease-in-out infinite;
+    }
+    @keyframes pd-dot-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+        50%      { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    }
+
+    .pd-sidebar__cta {
+        display: flex;
+        flex-direction: column;
+        padding-top: var(--space-4);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .pd-sidebar__trust {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        padding-top: var(--space-4);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .pd-sidebar__trust-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--fs-xs);
+        color: var(--text-muted);
+    }
+    .pd-sidebar__trust-item i {
+        font-size: 1.1rem;
+        color: var(--gold);
+        flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       6. RELATED PROJECTS
+       ═══════════════════════════════════════════════════════════ */
+    .pd-related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--space-6);
+    }
+
+    .pd-related-card {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pd-related-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(245, 183, 0, 0.45);
+        box-shadow:
+            0 30px 70px rgba(0, 0, 0, 0.55),
+            0 0 50px rgba(245, 183, 0, 0.20);
+    }
+
+    .pd-related-card__border {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(245, 183, 0, 0.9) 60deg,
+            transparent 120deg,
+            transparent 360deg
+        );
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+        animation: pd-border-rotate 6s linear infinite;
+        pointer-events: none;
+        z-index: 2;
+    }
+    .pd-related-card:hover .pd-related-card__border { opacity: 1; }
+    @keyframes pd-border-rotate {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .pd-related-card__media {
+        position: relative;
+        aspect-ratio: 16/10;
+        background: linear-gradient(135deg, var(--surface-2), var(--surface));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .pd-related-card__media img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pd-related-card:hover .pd-related-card__media img { transform: scale(1.08); }
+    .pd-related-card__media--placeholder {
+        background: linear-gradient(135deg, rgba(245, 183, 0, 0.08), var(--surface));
+    }
+    .pd-related-card__letter {
+        font-family: var(--font-display);
+        font-size: 4rem;
+        font-weight: var(--fw-black);
+        color: var(--gold);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        position: relative;
+        z-index: 1;
+        text-shadow: 0 0 40px rgba(245, 183, 0, 0.4);
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pd-related-card:hover .pd-related-card__letter {
+        transform: scale(1.08) rotate(-4deg);
+    }
+    .pd-related-card__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(11, 11, 13, 0.55);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+        pointer-events: none;
+        z-index: 2;
+    }
+    .pd-related-card:hover .pd-related-card__overlay { opacity: 1; }
+    .pd-related-card__overlay i {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: #0B0B0D;
+        font-size: 1.5rem;
+        transform: scale(0.7) rotate(-20deg);
+        transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 12px 40px rgba(245, 183, 0, 0.5);
+    }
+    .pd-related-card:hover .pd-related-card__overlay i {
+        transform: scale(1) rotate(0deg);
+    }
+
+    .pd-related-card__body {
+        padding: var(--space-5);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        flex: 1;
+    }
+    .pd-related-card__body h3 {
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        transition: color 300ms ease-out;
+    }
+    .pd-related-card:hover .pd-related-card__body h3 { color: var(--gold); }
+    .pd-related-card__body p {
+        color: var(--text-muted);
+        font-size: var(--fs-sm);
+        line-height: var(--lh-relaxed);
+        flex: 1;
+        margin: 0;
+    }
+    .pd-related-card__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding-top: var(--space-3);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        transition: color 300ms ease-out, gap 300ms ease-out;
+    }
+    .pd-related-card:hover .pd-related-card__cta {
+        color: var(--gold);
+        gap: var(--space-3);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       7. CTA
+       ═══════════════════════════════════════════════════════════ */
+    .pd-cta {
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .cta-geo {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .cta-geo__dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.6;
+        animation: pd-dot-pulse-cta 3s ease-in-out infinite;
+    }
+    .cta-geo__dot--1 { top: 20%; left: 15%; animation-delay: 0s; }
+    .cta-geo__dot--2 { top: 70%; right: 12%; animation-delay: 1s; }
+    .cta-geo__dot--3 { bottom: 25%; left: 25%; animation-delay: 2s; }
+    @keyframes pd-dot-pulse-cta {
+        0%, 100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 0 0 rgba(245, 183, 0, 0.5); }
+        50%      { transform: scale(1.4); opacity: 1; box-shadow: 0 0 0 10px rgba(245, 183, 0, 0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       8. LIGHTBOX (overrides base if base has one, else fine)
+       ═══════════════════════════════════════════════════════════ */
+    .pd-cover img { border-radius: inherit; }
+
+    /* ═══════════════════════════════════════════════════════════
+       9. RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 960px) {
+        .pd-sidebar { position: static; }
+    }
+    @media (max-width: 768px) {
+        .header-orb--3,
+        .header-orb--5,
+        .header-orb--6 { display: none; }
+        .header-orb--1 { width: 90px; height: 90px; }
+        .header-orb--2 { width: 50px; height: 50px; }
+        .header-orb--4 { width: 60px; height: 60px; }
+
+        .pd-orb--3,
+        .pd-orb--5 { display: none; }
+        .pd-orb--1 { width: 140px; height: 140px; }
+        .pd-orb--2 { width: 90px; height: 90px; }
+
+        .geo-corners { inset: var(--space-4); }
+        .geo-corner { width: 28px; height: 28px; }
+
+        .pd-cover--placeholder { padding: var(--space-8) !important; }
+        .pd-cover__letter { font-size: 4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .header-orb, .pd-orb, .geo-grid, .geo-diagonals,
+        .pd-cover__ring, .pd-cover__glow, .pd-related-card__border,
+        .cta-geo__dot, .pd-meta__dot {
+            animation: none !important;
+        }
+    }
+
+    [data-theme="light"] .glass-panel,
+    [data-theme="light"] .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow:
+            0 20px 60px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .pd-orb,
+    [data-theme="light"] .header-orb {
+        background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.6),
+            rgba(184, 136, 0, 0.12) 30%,
+            rgba(184, 136, 0, 0.04) 55%,
+            transparent 75%);
+        box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(184, 136, 0, 0.12),
+            0 20px 40px rgba(15, 23, 42, 0.06);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+    [data-theme="light"] .pd-outcome__item {
+        background: rgba(15, 23, 42, 0.02);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+</style>
 {% endblock %}
 
 {% block extra_js %}

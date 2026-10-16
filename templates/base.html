@@ -562,7 +562,6 @@
     }
     .hero-slide.active .hero-slide__bg { transform: scale(1); }
 
-    /* Lighter overlay — you wanted the image more visible */
     .hero-slide__overlay {
         position: absolute;
         inset: 0;
@@ -1178,11 +1177,11 @@
     .skill-card__desc { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-1); }
 
     /* ═══════════════════════════════════════════════════════════
-       23. FOOTER — 4-column
+       23. FOOTER — compact, side-by-side links
        ═══════════════════════════════════════════════════════════ */
     .site-footer {
         margin-top: auto;
-        padding-block: var(--space-16) var(--space-6);
+        padding-block: clamp(var(--space-10), 6vw, var(--space-16)) var(--space-6);
         background: #0B0B0D;
         border-top: 1px solid var(--border);
         position: relative;
@@ -1203,14 +1202,30 @@
     .footer__grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: var(--space-10);
-        margin-bottom: var(--space-12);
+        gap: var(--space-8);
+        margin-bottom: var(--space-10);
     }
-    @media (min-width: 640px) {
-        .footer__grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-10); }
+    /* Two-column layout: brand full-width on top, links side-by-side below */
+    @media (min-width: 480px) {
+        .footer__grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-8) var(--space-6);
+        }
+        .footer__brand-col {
+            grid-column: 1 / -1;
+            max-width: 100%;
+        }
+        .footer__column:last-child {
+            grid-column: 1 / -1;
+        }
     }
     @media (min-width: 1024px) {
-        .footer__grid { grid-template-columns: 1.6fr 1fr 1fr 1.4fr; gap: var(--space-12); }
+        .footer__grid {
+            grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+            gap: var(--space-12);
+        }
+        .footer__brand-col { grid-column: auto; max-width: 420px; }
+        .footer__column:last-child { grid-column: auto; }
     }
 
     .footer__brand-col { max-width: 420px; }
@@ -1219,7 +1234,7 @@
         display: inline-flex;
         align-items: center;
         gap: var(--space-3);
-        margin-bottom: var(--space-5);
+        margin-bottom: var(--space-4);
         transition: var(--transition-base);
     }
     .footer__brand-link:hover { opacity: 0.85; }
@@ -1228,14 +1243,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         border-radius: var(--radius-md);
         background: var(--gold);
         color: #0B0B0D;
         font-family: var(--font-display);
         font-weight: var(--fw-black);
-        font-size: var(--fs-base);
+        font-size: var(--fs-sm);
         flex-shrink: 0;
         line-height: 1;
     }
@@ -1247,7 +1262,7 @@
     }
     .footer__brand {
         font-family: var(--font-display);
-        font-size: var(--fs-lg);
+        font-size: var(--fs-base);
         font-weight: var(--fw-black);
         color: var(--heading);
         text-transform: uppercase;
@@ -1255,7 +1270,7 @@
     }
     .footer__brand-sub {
         font-family: var(--font-sans);
-        font-size: 0.65rem;
+        font-size: 0.6rem;
         font-weight: var(--fw-semibold);
         letter-spacing: 0.18em;
         color: var(--gold);
@@ -1266,9 +1281,9 @@
     .footer__tagline {
         color: var(--text-muted);
         font-size: var(--fs-sm);
-        line-height: var(--lh-relaxed);
+        line-height: 1.55;
         max-width: 42ch;
-        margin-bottom: var(--space-5);
+        margin-bottom: var(--space-4);
     }
 
     .footer__social {
@@ -1280,13 +1295,13 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
         border-radius: var(--radius-md);
         background: var(--surface-2);
         color: var(--text-muted);
         border: 1px solid var(--border);
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         transition: var(--transition-base);
     }
     .footer__social a:hover {
@@ -1306,7 +1321,7 @@
         text-transform: uppercase;
         letter-spacing: var(--ls-wide);
         color: var(--gold);
-        margin-bottom: var(--space-5);
+        margin-bottom: var(--space-3);
         position: relative;
         padding-bottom: var(--space-2);
     }
@@ -1320,10 +1335,14 @@
         border-radius: 1px;
     }
 
+    /* 2-column list so links sit side by side */
     .footer__list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-3);
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-2) var(--space-4);
+    }
+    @media (min-width: 1024px) {
+        .footer__list { grid-template-columns: 1fr; }
     }
 
     .footer__link {
@@ -1334,34 +1353,43 @@
         display: inline-flex;
         align-items: center;
         gap: var(--space-2);
+        padding-block: 2px;
+        line-height: 1.5;
     }
     .footer__link:hover {
         color: var(--gold);
         transform: translateX(3px);
     }
+    @media (max-width: 640px) {
+        .footer__link { font-size: var(--fs-xs); }
+    }
 
+    /* Contact list — 2-column on small tablets */
     .footer__contact-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-4);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    @media (min-width: 480px) and (max-width: 1023px) {
+        .footer__contact-list { grid-template-columns: repeat(2, 1fr); }
     }
     .footer__contact-list li {
         display: flex;
         align-items: center;
-        gap: var(--space-3);
+        gap: var(--space-2);
         min-width: 0;
     }
     .footer__contact-icon {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         border-radius: var(--radius-md);
         background: var(--gold-soft);
         color: var(--gold);
         border: 1px solid rgba(245, 183, 0, 0.3);
-        font-size: 1.1rem;
+        font-size: 1rem;
         flex-shrink: 0;
         transition: var(--transition-base);
     }
@@ -1373,6 +1401,7 @@
     .footer__contact-list .footer__link {
         word-break: break-word;
         min-width: 0;
+        font-size: var(--fs-xs);
     }
 
     .footer__bottom {
@@ -1380,8 +1409,8 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: var(--space-4);
-        padding-top: var(--space-6);
+        gap: var(--space-3);
+        padding-top: var(--space-5);
         border-top: 1px solid var(--border);
         font-size: var(--fs-xs);
         color: var(--text-subtle);
@@ -1556,10 +1585,8 @@
     .reveal--delay-3 { transition-delay: 300ms; }
 
     /* ═══════════════════════════════════════════════════════════
-       28. MOBILE OVERRIDES — Everything below is mobile-only
+       28. MOBILE OVERRIDES
        ═══════════════════════════════════════════════════════════ */
-
-    /* Mobile: smaller nav */
     @media (max-width: 768px) {
         .container { padding-inline: var(--space-5); }
         .nav {
@@ -1584,7 +1611,6 @@
         .nav__logo-text { display: none; }
     }
 
-    /* Mobile hero: shorter, content stacked and centered */
     @media (max-width: 768px) {
         .hero-slider {
             height: auto;
@@ -1631,8 +1657,6 @@
             width: 100%;
             justify-content: center;
         }
-
-        /* Hero audio: repositioned, wave hidden */
         .hero-audio {
             bottom: 62px;
             gap: var(--space-2);
@@ -1663,8 +1687,6 @@
             font-size: 0.62rem;
             padding: 2px 3px;
         }
-
-        /* Dots nav: tighter */
         .hero-slider__nav {
             bottom: var(--space-3);
             gap: var(--space-1);
@@ -1676,7 +1698,6 @@
         }
     }
 
-    /* Tiny phones: even tighter */
     @media (max-width: 380px) {
         .hero-slide__title { font-size: 1.4rem; }
         .hero-audio__tracks { gap: 2px; }
@@ -1686,7 +1707,6 @@
         .hero-slider__dot { font-size: 0.55rem; padding: 2px; }
     }
 
-    /* Mobile: stats bar */
     @media (max-width: 640px) {
         .stats-bar__grid { grid-template-columns: repeat(2, 1fr); }
         .stat {
@@ -1700,7 +1720,6 @@
         .stat__label { font-size: var(--fs-xs); }
     }
 
-    /* Mobile: page header + sections */
     @media (max-width: 640px) {
         .page-header { padding-block: var(--space-12) var(--space-10); }
         .page-header h1,
@@ -1711,7 +1730,6 @@
         .section { padding-block: var(--space-12); }
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
             animation-duration: 0.01ms !important;
@@ -1724,7 +1742,6 @@
         .hero-slide__bg { transform: none; }
     }
 
-    /* Custom scrollbar */
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 5px; }
@@ -1751,7 +1768,7 @@
     <script src="{% static 'js/audio-player.js' %}" defer></script>
 
     <script>
-    /* ═══════ Scroll reveal ═══════ */
+    /* Scroll reveal */
     (function () {
         'use strict';
         function init() {
@@ -1775,12 +1792,11 @@
         else init();
     })();
 
-    /* ═══════ Close mobile menu on scroll ═══════ */
+    /* Close mobile menu on scroll */
     (function () {
         'use strict';
         var lastY = 0;
         var THRESHOLD = 25;
-
         function closeMenu() {
             var menu = document.querySelector('[data-nav-menu]');
             var toggle = document.querySelector('[data-nav-toggle]');
@@ -1789,34 +1805,27 @@
             menu.setAttribute('data-open', 'false');
             toggle.setAttribute('aria-expanded', 'false');
         }
-
         window.addEventListener('scroll', function () {
             var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-            if (Math.abs(y - lastY) > THRESHOLD) {
-                closeMenu();
-            }
+            if (Math.abs(y - lastY) > THRESHOLD) closeMenu();
             lastY = y;
         }, { passive: true });
     })();
 
-    /* ═══════ Hero slider — 7 slides ═══════ */
+    /* Hero slider */
     (function () {
         'use strict';
         var INTERVAL = 7000;
-
         function init() {
             var slider = document.querySelector('[data-hero-slider]');
             if (!slider) return;
-
             var slides = slider.querySelectorAll('[data-slide]');
             var dots = slider.querySelectorAll('[data-slide-to]');
             var tracks = slider.querySelectorAll('[data-track-to]');
             if (slides.length < 2) return;
-
             var current = 0;
             var timer = null;
             var isPaused = false;
-
             function goTo(index) {
                 index = (index + slides.length) % slides.length;
                 slides.forEach(function (s, i) { s.classList.toggle('active', i === index); });
@@ -1824,58 +1833,46 @@
                 tracks.forEach(function (t, i) { t.classList.toggle('active', i === index); });
                 current = index;
             }
-
             function next() { if (!isPaused) goTo(current + 1); }
-
             function start() { stop(); timer = setInterval(next, INTERVAL); }
             function stop() { if (timer) { clearInterval(timer); timer = null; } }
-
             dots.forEach(function (dot) {
                 dot.addEventListener('click', function () {
                     var i = parseInt(dot.getAttribute('data-slide-to'), 10);
                     if (!isNaN(i)) { goTo(i); start(); }
                 });
             });
-
             tracks.forEach(function (track) {
                 track.addEventListener('click', function () {
                     var i = parseInt(track.getAttribute('data-track-to'), 10);
                     if (!isNaN(i)) { goTo(i); start(); }
                 });
             });
-
             slider.addEventListener('mouseenter', function () { isPaused = true; });
             slider.addEventListener('mouseleave', function () { isPaused = false; });
-
             document.addEventListener('visibilitychange', function () {
                 if (document.hidden) stop(); else start();
             });
-
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'ArrowLeft')  { goTo(current - 1); start(); }
                 if (e.key === 'ArrowRight') { goTo(current + 1); start(); }
             });
-
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
             start();
         }
-
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
         else init();
     })();
 
-    /* ═══════ Hero audio waveform player ═══════ */
+    /* Hero audio waveform player */
     (function () {
         'use strict';
         function init() {
             var player = document.querySelector('[data-hero-audio]');
             if (!player) return;
-
             var audio = player.querySelector('audio');
             var playBtn = player.querySelector('[data-audio-play]');
             if (!playBtn) return;
-
             function setPlaying(state) {
                 player.classList.toggle('playing', state);
                 playBtn.classList.toggle('playing', state);
@@ -1883,7 +1880,6 @@
                 if (icon) icon.className = state ? 'bx bx-pause' : 'bx bx-play';
                 playBtn.setAttribute('aria-label', state ? 'Pause introduction' : 'Play introduction');
             }
-
             playBtn.addEventListener('click', function () {
                 if (!audio || !audio.src) {
                     setPlaying(!player.classList.contains('playing'));
@@ -1896,7 +1892,6 @@
                     setPlaying(false);
                 }
             });
-
             if (audio) {
                 audio.addEventListener('ended', function () { setPlaying(false); });
                 audio.addEventListener('pause', function () { setPlaying(false); });

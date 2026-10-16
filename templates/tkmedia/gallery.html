@@ -6,47 +6,110 @@
 
 {% block content %}
 
-<section class="page-header">
+{# ═══════════════ FLOATING ORBS (page background) ═══════════════ #}
+<div class="gal-orbs" aria-hidden="true">
+    <span class="gal-orb gal-orb--1"></span>
+    <span class="gal-orb gal-orb--2"></span>
+    <span class="gal-orb gal-orb--3"></span>
+    <span class="gal-orb gal-orb--4"></span>
+    <span class="gal-orb gal-orb--5"></span>
+</div>
+
+{# ═══════════════ PAGE HEADER ═══════════════ #}
+<section class="page-header gal-header">
+
+    <div class="geo-grid" aria-hidden="true"></div>
+    <div class="geo-diagonals" aria-hidden="true"></div>
+    <div class="geo-corners" aria-hidden="true">
+        <span class="geo-corner geo-corner--tl"></span>
+        <span class="geo-corner geo-corner--tr"></span>
+        <span class="geo-corner geo-corner--bl"></span>
+        <span class="geo-corner geo-corner--br"></span>
+    </div>
+
+    <div class="header-orbs" aria-hidden="true">
+        <span class="header-orb header-orb--1"></span>
+        <span class="header-orb header-orb--2"></span>
+        <span class="header-orb header-orb--3"></span>
+        <span class="header-orb header-orb--4"></span>
+        <span class="header-orb header-orb--5"></span>
+        <span class="header-orb header-orb--6"></span>
+    </div>
+
     <div class="container">
         <div class="page-header__inner">
-            <span class="badge">Gallery</span>
-            <h1>Selected visual work</h1>
-            <p>A curated collection of designs, flyers, and creative media.</p>
+            <span class="eyebrow reveal">Gallery</span>
+            <h1 class="display-lg reveal reveal--delay-1" style="margin-top: var(--space-4);">
+                Selected <span class="text-gold">visual</span> work.
+            </h1>
+            <p class="reveal reveal--delay-2" style="color: var(--text-muted); font-size: var(--fs-md); max-width: 60ch; margin-top: var(--space-5);">
+                A curated collection of designs, flyers, and creative media.
+            </p>
         </div>
     </div>
 </section>
 
-<section class="section">
+{# ═══════════════ FILTER + GRID ═══════════════ #}
+<section class="section gal-grid-section">
     <div class="container">
 
-        <div class="filter-bar" data-filter-bar>
+        {# Filter chips — server-side filtering via ?category= #}
+        <div class="filter-bar reveal" data-filter-bar>
             <a href="{% url 'tkmedia:gallery' %}"
                class="filter-chip {% if not active_category %}filter-chip--active{% endif %}"
-               data-filter="all">All</a>
+               data-filter="all">
+                <i class="bx bx-grid-alt" aria-hidden="true"></i>
+                All
+            </a>
             {% for key, label in categories %}
                 <a href="?category={{ key }}"
                    class="filter-chip {% if active_category == key %}filter-chip--active{% endif %}"
-                   data-filter="{{ key }}">{{ label }}</a>
+                   data-filter="{{ key }}">
+                    {{ label }}
+                </a>
             {% endfor %}
         </div>
 
         {% if items %}
-            <div class="gallery-public">
+            <div class="gal-grid">
                 {% for item in items %}
-                    <div class="gallery-public__item"
+                    <div class="gal-tile glass-card reveal"
+                         style="transition-delay: {{ forloop.counter0 }}00ms;"
                          data-lightbox
                          data-lightbox-src="{{ item.image.url }}"
                          data-lightbox-alt="{{ item.alt_text }}"
                          data-lightbox-caption="{{ item.caption|default:item.title }}">
-                        <img src="{{ item.image.url }}" alt="{{ item.alt_text }}" loading="lazy">
-                        {% if item.caption %}
-                            <div class="gallery-public__overlay">{{ item.caption }}</div>
-                        {% endif %}
+
+                        <div class="gal-tile__border" aria-hidden="true"></div>
+
+                        <div class="gal-tile__media">
+                            <img src="{{ item.image.url }}"
+                                 alt="{{ item.alt_text }}"
+                                 loading="lazy">
+
+                            {# Category badge #}
+                            <span class="gal-tile__badge">{{ item.get_category_display }}</span>
+
+                            {# Hover overlay with expand icon #}
+                            <div class="gal-tile__overlay" aria-hidden="true">
+                                <span class="gal-tile__expand">
+                                    <i class="bx bx-expand-alt"></i>
+                                </span>
+                            </div>
+
+                            {# Caption on bottom #}
+                            {% if item.caption %}
+                                <div class="gal-tile__caption">
+                                    <span>{{ item.caption }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="empty-state">
+            <div class="empty-state glass-panel reveal">
+                <i class="bx bx-image-alt" style="font-size: 3rem; color: var(--gold); margin-bottom: var(--space-4); display: block;" aria-hidden="true"></i>
                 <h3>No gallery items yet</h3>
                 <p>Add public images from the admin panel to display them here.</p>
             </div>
@@ -55,6 +118,643 @@
     </div>
 </section>
 
+{# ═══════════════ CTA ═══════════════ #}
+<section class="section">
+    <div class="container container--narrow">
+        <div class="gal-cta glass-panel reveal">
+
+            <div class="cta-geo" aria-hidden="true">
+                <span class="cta-geo__dot cta-geo__dot--1"></span>
+                <span class="cta-geo__dot cta-geo__dot--2"></span>
+                <span class="cta-geo__dot cta-geo__dot--3"></span>
+            </div>
+
+            <span class="eyebrow" style="display: block; text-align: center; position: relative; z-index: 1;">Like What You See?</span>
+            <h2 style="margin-top: var(--space-4); margin-bottom: var(--space-6); text-align: center; position: relative; z-index: 1;">
+                Let's create something <span class="text-gold">beautiful</span>.
+            </h2>
+            <p style="color: var(--text-muted); font-size: var(--fs-md); margin-bottom: var(--space-8); text-align: center; position: relative; z-index: 1;">
+                Reach out and let's talk about your next project.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center; position: relative; z-index: 1;">
+                <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+                   class="btn btn--primary btn--lg">
+                    <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+                    WhatsApp Us
+                </a>
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">
+                    Send a Message
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════════════════════
+       1. PAGE BACKGROUND ORBS
+       ═══════════════════════════════════════════════════════════ */
+    .gal-orbs {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .gal-orb {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%,
+            rgba(245, 183, 0, 0.28),
+            rgba(245, 183, 0, 0.06) 40%,
+            transparent 70%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.12),
+            inset 0 0 80px rgba(245, 183, 0, 0.12),
+            0 0 80px rgba(245, 183, 0, 0.15);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        will-change: transform;
+    }
+    .gal-orb::before {
+        content: "";
+        position: absolute;
+        top: 15%; left: 20%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
+        filter: blur(4px);
+    }
+
+    .gal-orb--1 { width: 220px; height: 220px; top: 8%;  left: 3%;   animation: gal-orb-drift-a 24s ease-in-out infinite; }
+    .gal-orb--2 { width: 140px; height: 140px; top: 50%; right: 5%;  animation: gal-orb-drift-b 28s ease-in-out infinite; }
+    .gal-orb--3 { width: 280px; height: 280px; top: 82%; left: 6%;   animation: gal-orb-drift-c 32s ease-in-out infinite; opacity: 0.6; }
+    .gal-orb--4 { width: 100px; height: 100px; top: 30%; right: 22%; animation: gal-orb-drift-b 22s ease-in-out infinite reverse; }
+    .gal-orb--5 { width: 160px; height: 160px; top: 45%; left: 40%;  animation: gal-orb-drift-a 26s ease-in-out infinite; opacity: 0.5; }
+
+    @keyframes gal-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(50px, -40px) scale(1.08); }
+        66%      { transform: translate(-30px, 50px) scale(0.94); }
+    }
+    @keyframes gal-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-60px, 40px) scale(1.15); }
+    }
+    @keyframes gal-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(70px, -50px) scale(1.06); }
+    }
+
+    .gal-header, .gal-grid-section, .gal-cta { position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════════════════════════
+       2. HEADER GEOMETRY
+       ═══════════════════════════════════════════════════════════ */
+    .gal-header {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        padding-block: clamp(var(--space-24), 14vw, var(--space-32));
+    }
+
+    .geo-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(245, 183, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(245, 183, 0, 0.05) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        animation: geo-grid-drift 40s linear infinite;
+    }
+    @keyframes geo-grid-drift {
+        0%   { background-position: 0 0, 0 0; }
+        100% { background-position: 64px 64px, 64px 64px; }
+    }
+
+    .geo-diagonals {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.5;
+    }
+    .geo-diagonals::before,
+    .geo-diagonals::after {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(245, 183, 0, 0.4), transparent);
+        top: 30%;
+        left: -50%;
+        transform: rotate(-12deg);
+        animation: geo-diag-slide 8s ease-in-out infinite;
+    }
+    .geo-diagonals::after {
+        top: 70%;
+        transform: rotate(8deg);
+        animation-delay: 2s;
+        animation-direction: reverse;
+    }
+    @keyframes geo-diag-slide {
+        0%, 100% { transform: rotate(-12deg) translateX(0); opacity: 0.3; }
+        50%      { transform: rotate(-12deg) translateX(60px); opacity: 0.8; }
+    }
+
+    .geo-corners {
+        position: absolute;
+        inset: var(--space-6);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .geo-corner {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(245, 183, 0, 0.5);
+    }
+    .geo-corner--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .geo-corner--tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .geo-corner--bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .geo-corner--br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+    .header-orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .header-orb {
+        position: absolute;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.20),
+                rgba(245, 183, 0, 0.12) 30%,
+                rgba(245, 183, 0, 0.04) 55%,
+                transparent 75%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.15),
+            inset -10px -10px 60px rgba(245, 183, 0, 0.15),
+            0 0 80px rgba(245, 183, 0, 0.25),
+            0 24px 48px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(3px) saturate(180%);
+        -webkit-backdrop-filter: blur(3px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        will-change: transform;
+    }
+    .header-orb::before {
+        content: "";
+        position: absolute;
+        top: 12%; left: 15%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+        filter: blur(3px);
+    }
+    .header-orb::after {
+        content: "";
+        position: absolute;
+        bottom: 8%; right: 18%;
+        width: 40%; height: 20%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(245, 183, 0, 0.25), transparent 70%);
+        filter: blur(6px);
+    }
+
+    .header-orb--1 { width: 130px; height: 130px; top: 12%; left: 5%;  animation: header-orb-drift-a 18s ease-in-out infinite; }
+    .header-orb--2 { width: 70px;  height: 70px;  top: 65%; left: 12%; animation: header-orb-drift-b 22s ease-in-out infinite; }
+    .header-orb--3 { width: 180px; height: 180px; top: 8%;  right: 6%; animation: header-orb-drift-c 26s ease-in-out infinite; opacity: 0.75; }
+    .header-orb--4 { width: 90px;  height: 90px;  top: 72%; right: 15%; animation: header-orb-drift-a 20s ease-in-out infinite reverse; }
+    .header-orb--5 { width: 60px;  height: 60px;  top: 22%; left: 48%; animation: header-orb-drift-b 24s ease-in-out infinite; opacity: 0.85; }
+    .header-orb--6 { width: 110px; height: 110px; top: 48%; right: 38%; animation: header-orb-drift-c 28s ease-in-out infinite reverse; opacity: 0.55; }
+
+    @keyframes header-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(40px, -25px) scale(1.08); }
+        66%      { transform: translate(-20px, 30px) scale(0.94); }
+    }
+    @keyframes header-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-30px, 40px) scale(1.12); }
+    }
+    @keyframes header-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(45px, -35px) scale(1.06); }
+    }
+
+    .gal-header .container,
+    .gal-header .page-header__inner {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       3. GLASS PRIMITIVES
+       ═══════════════════════════════════════════════════════════ */
+    .glass-panel {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        padding: clamp(var(--space-6), 4vw, var(--space-10));
+        position: relative;
+        overflow: hidden;
+    }
+    .glass-panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        pointer-events: none;
+    }
+
+    .glass-card {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+    }
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       4. FILTER BAR — glass pill
+       ═══════════════════════════════════════════════════════════ */
+    .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-bottom: var(--space-10);
+        padding: var(--space-3);
+        background: rgba(20, 20, 22, 0.4);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--radius-full);
+        width: fit-content;
+        max-width: 100%;
+    }
+    @media (max-width: 640px) {
+        .filter-bar {
+            padding: var(--space-2);
+            gap: var(--space-1);
+            border-radius: var(--radius-lg);
+        }
+    }
+
+    .filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-5);
+        font-family: var(--font-sans);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+    }
+    .filter-chip i {
+        font-size: 1.1em;
+        color: var(--text-subtle);
+        transition: color 300ms ease-out;
+    }
+    .filter-chip:hover {
+        color: var(--heading);
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-1px);
+    }
+    .filter-chip:hover i { color: var(--gold); }
+
+    .filter-chip--active {
+        color: #0B0B0D;
+        background: var(--gold);
+        border-color: var(--gold);
+        box-shadow: 0 6px 20px rgba(245, 183, 0, 0.4);
+    }
+    .filter-chip--active i { color: #0B0B0D; }
+    .filter-chip--active:hover { background: var(--gold-hover); color: #0B0B0D; }
+
+    @media (max-width: 640px) {
+        .filter-chip {
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.65rem;
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       5. GALLERY GRID — masonry-ish flow
+       ═══════════════════════════════════════════════════════════ */
+    .gal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: var(--space-5);
+    }
+    @media (max-width: 480px) {
+        .gal-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+    }
+
+    /* ─── Gallery tile ─── */
+    .gal-tile {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        cursor: zoom-in;
+        isolation: isolate;
+        overflow: hidden;
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gal-tile:hover {
+        transform: translateY(-6px);
+        border-color: rgba(245, 183, 0, 0.45);
+        box-shadow:
+            0 30px 60px rgba(0, 0, 0, 0.55),
+            0 0 40px rgba(245, 183, 0, 0.20);
+    }
+
+    /* Rotating shimmer border */
+    .gal-tile__border {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(245, 183, 0, 0.9) 60deg,
+            transparent 120deg,
+            transparent 360deg
+        );
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+        animation: gal-border-rotate 6s linear infinite;
+        pointer-events: none;
+        z-index: 4;
+    }
+    .gal-tile:hover .gal-tile__border { opacity: 1; }
+    @keyframes gal-border-rotate {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Media area */
+    .gal-tile__media {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+    .gal-tile__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gal-tile:hover .gal-tile__media img { transform: scale(1.10); }
+
+    /* Gradient scrim at bottom for caption legibility */
+    .gal-tile__media::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 50%;
+        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.65) 100%);
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.8;
+        transition: opacity 400ms ease-out;
+    }
+    .gal-tile:hover .gal-tile__media::after { opacity: 1; }
+
+    /* Category badge */
+    .gal-tile__badge {
+        position: absolute;
+        top: var(--space-3);
+        left: var(--space-3);
+        padding: 4px 10px;
+        font-family: var(--font-sans);
+        font-size: 0.6rem;
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--gold);
+        background: rgba(11, 11, 13, 0.7);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(245, 183, 0, 0.35);
+        border-radius: var(--radius-full);
+        z-index: 3;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 400ms ease-out, transform 400ms ease-out;
+    }
+    .gal-tile:hover .gal-tile__badge {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Hover overlay */
+    .gal-tile__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(11, 11, 13, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .gal-tile:hover .gal-tile__overlay { opacity: 1; }
+
+    .gal-tile__expand {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: #0B0B0D;
+        font-size: 1.5rem;
+        transform: scale(0.6) rotate(-30deg);
+        transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 12px 40px rgba(245, 183, 0, 0.5);
+    }
+    .gal-tile:hover .gal-tile__expand {
+        transform: scale(1) rotate(0deg);
+    }
+
+    /* Caption slides up from bottom */
+    .gal-tile__caption {
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        padding: var(--space-4) var(--space-4) var(--space-3);
+        z-index: 3;
+        pointer-events: none;
+        transform: translateY(100%);
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gal-tile:hover .gal-tile__caption { transform: translateY(0); }
+    .gal-tile__caption span {
+        display: block;
+        font-family: var(--font-sans);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-semibold);
+        color: #FFFFFF;
+        line-height: 1.35;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        /* Clamp to 2 lines */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       6. CTA
+       ═══════════════════════════════════════════════════════════ */
+    .gal-cta {
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-geo {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .cta-geo__dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.6;
+        animation: gal-dot-pulse 3s ease-in-out infinite;
+    }
+    .cta-geo__dot--1 { top: 20%; left: 15%; animation-delay: 0s; }
+    .cta-geo__dot--2 { top: 70%; right: 12%; animation-delay: 1s; }
+    .cta-geo__dot--3 { bottom: 25%; left: 25%; animation-delay: 2s; }
+    @keyframes gal-dot-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 0 0 rgba(245, 183, 0, 0.5); }
+        50%      { transform: scale(1.4); opacity: 1; box-shadow: 0 0 0 10px rgba(245, 183, 0, 0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       7. RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+        .header-orb--3,
+        .header-orb--5,
+        .header-orb--6 { display: none; }
+        .header-orb--1 { width: 90px; height: 90px; }
+        .header-orb--2 { width: 50px; height: 50px; }
+        .header-orb--4 { width: 60px; height: 60px; }
+
+        .gal-orb--3,
+        .gal-orb--5 { display: none; }
+        .gal-orb--1 { width: 140px; height: 140px; }
+        .gal-orb--2 { width: 90px; height: 90px; }
+
+        .geo-corners { inset: var(--space-4); }
+        .geo-corner { width: 28px; height: 28px; }
+
+        .gal-tile__expand { width: 44px; height: 44px; font-size: 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .header-orb, .gal-orb, .geo-grid, .geo-diagonals,
+        .gal-tile__border, .cta-geo__dot {
+            animation: none !important;
+        }
+        .gal-tile:hover { transform: none; }
+    }
+
+    /* Light theme */
+    [data-theme="light"] .glass-panel,
+    [data-theme="light"] .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow:
+            0 20px 60px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .gal-orb,
+    [data-theme="light"] .header-orb {
+        background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.6),
+            rgba(184, 136, 0, 0.12) 30%,
+            rgba(184, 136, 0, 0.04) 55%,
+            transparent 75%);
+        box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(184, 136, 0, 0.12),
+            0 20px 40px rgba(15, 23, 42, 0.06);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+    [data-theme="light"] .filter-bar {
+        background: rgba(255, 255, 255, 0.6);
+        border-color: rgba(15, 23, 42, 0.08);
+    }
+    [data-theme="light"] .gal-tile__badge {
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--gold-deep);
+    }
+</style>
 {% endblock %}
 
 {% block extra_js %}
