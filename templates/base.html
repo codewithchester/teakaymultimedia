@@ -1700,6 +1700,167 @@
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 5px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+
+        /* ═══════════════════════════════════════════════════════════
+       MOBILE FIXES — Hero, Nav, Buttons
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Smaller nav on mobile */
+    @media (max-width: 768px) {
+        .nav { height: 64px; gap: var(--space-2); }
+        .nav__logo { gap: var(--space-2); font-size: var(--fs-sm); }
+        .nav__logo-mark { width: 34px; height: 34px; font-size: 0.7rem; }
+        .nav__logo-sub { display: none; }
+        .nav__logo-text { line-height: 1; }
+        .nav__menu { top: 64px; }
+        .nav__actions { gap: 4px; }
+        .icon-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+    }
+    @media (max-width: 400px) {
+        .nav__logo span:not(.nav__logo-mark):not(.nav__logo-text) { display: none; }
+        .nav__logo-text { font-size: 0.7rem; }
+    }
+
+    /* Hero slider: shorter on mobile, no forced full height */
+    @media (max-width: 768px) {
+        .hero-slider {
+            height: auto;
+            min-height: 100vh;
+            max-height: none;
+            padding-block: 0;
+        }
+        .hero-slide {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-slide__content {
+            padding-inline: var(--space-5);
+            padding-top: var(--space-16);
+            padding-bottom: 180px;   /* leave room for audio + dots */
+            text-align: center;
+            margin-inline: auto;
+        }
+        .hero-slide__title {
+            font-size: clamp(1.75rem, 8vw, 2.75rem);
+            line-height: 1.05;
+            margin-bottom: var(--space-5);
+            text-align: center;
+        }
+        .hero-slide__title .line {
+            display: block;
+            text-align: center;
+        }
+        .hero-slide__subtitle {
+            font-size: var(--fs-sm);
+            line-height: 1.5;
+            margin-bottom: var(--space-6);
+            text-align: center;
+            max-width: 100%;
+        }
+        .hero-slide__actions {
+            flex-direction: column;
+            width: 100%;
+            gap: var(--space-3);
+            align-items: stretch;
+        }
+        .hero-slide__actions .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Audio player positioned to not overlap buttons */
+        .hero-audio {
+            bottom: 80px;
+            gap: var(--space-3);
+            padding-inline: var(--space-4);
+            flex-wrap: nowrap;
+        }
+        .hero-audio__label {
+            font-size: 0.6rem;
+            letter-spacing: 0.08em;
+        }
+        .hero-audio__play {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+        }
+        .hero-audio__wave { display: none; }
+        .hero-audio__tracks {
+            gap: var(--space-2);
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hero-audio__tracks::-webkit-scrollbar { display: none; }
+        .hero-audio__track { font-size: 0.7rem; }
+    }
+
+    /* Buttons: ensure dark text on gold in ALL cases */
+    .btn--primary,
+    .btn--primary:link,
+    .btn--primary:visited,
+    .btn--primary:hover,
+    .btn--primary:focus,
+    .btn--primary:active {
+        color: #0B0B0D !important;
+    }
+
+    /* Fix btn--lg padding on mobile */
+    @media (max-width: 480px) {
+        .btn--lg {
+            padding: var(--space-4) var(--space-6);
+            font-size: var(--fs-sm);
+        }
+    }
+
+    /* Stats bar: 2 columns on mobile, no weird borders */
+    @media (max-width: 640px) {
+        .stats-bar__grid { grid-template-columns: repeat(2, 1fr); }
+        .stat {
+            padding: var(--space-6) var(--space-3);
+            border-right: none;
+            border-bottom: 1px solid var(--border);
+        }
+        .stat:nth-child(odd) { border-right: 1px solid var(--border); }
+        .stat:nth-child(3),
+        .stat:nth-child(4) { border-bottom: none; }
+        .stat__number { font-size: clamp(1.75rem, 7vw, 2.25rem); }
+        .stat__label { font-size: var(--fs-xs); }
+    }
+
+    /* Page-header on mobile */
+    @media (max-width: 640px) {
+        .page-header { padding-block: var(--space-12) var(--space-10); }
+        .page-header h1,
+        .page-header .display-lg {
+            font-size: clamp(1.5rem, 8vw, 2.25rem);
+            line-height: 1.1;
+        }
+    }
+
+    /* Fix section padding on mobile */
+    @media (max-width: 640px) {
+        .section { padding-block: var(--space-12); }
+        .container { padding-inline: var(--space-5); }
+    }
+
+    /* Ensure hero portrait / visual doesn't push content off */
+    @media (max-width: 640px) {
+        .hero__portrait-wrap { max-width: 280px; }
+        .hero__portrait { font-size: var(--fs-5xl); }
+    }
+
+    /* Global fix: prevent content from overflowing */
+    html, body { max-width: 100vw; overflow-x: hidden; }
+
+    /* Mobile menu links readable */
+    @media (max-width: 1024px) {
+        .nav__link { padding: var(--space-3) var(--space-4); font-size: var(--fs-base); }
+    }
     </style>
 
     {% block extra_css %}{% endblock %}
