@@ -1,0 +1,122 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}{{ file.original_name }} — Vault{% endblock %}
+{% block page_title %}{{ file.original_name|truncatechars:60 }}{% endblock %}
+{% block page_subtitle %}File details{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'vault:file_list' %}" class="dash-btn dash-btn--ghost dash-btn--sm dash-mb-4">
+    <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Back to Files
+</a>
+
+<div style="display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start;">
+
+    {# Preview #}
+    <div class="dash-card">
+        <div class="dash-card__head">
+            <span class="dash-card__title">Preview</span>
+        </div>
+        <div class="dash-card__body" style="display: flex; align-items: center; justify-content: center; min-height: 280px; background: var(--bg-2);">
+            {% if file.is_image %}
+                <img src="{% url 'vault:preview' file.pk %}" alt="{{ file.original_name }}" style="max-width: 100%; max-height: 400px; border-radius: var(--radius-md); box-shadow: var(--shadow-md);">
+            {% else %}
+                <div style="text-align: center;">
+                    <i class="bx bx-file" style="font-size: 4rem; color: var(--gold); display: block; margin-bottom: 12px;"></i>
+                    <div style="color: var(--heading); font-weight: 600;">{{ file.extension|upper|default:"FILE" }} File</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">No preview available</div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Sidebar #}
+    <div class="dash-card">
+        <div class="dash-card__head">
+            <span class="dash-card__title">Actions</span>
+        </div>
+        <div class="dash-card__body">
+
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                <a href="{% url 'vault:download' file.pk %}" class="dash-btn dash-btn--primary">
+                    <i class="bx bx-download" aria-hidden="true"></i> Download
+                </a>
+                <a href="{% url 'vault:file_edit' file.pk %}" class="dash-btn dash-btn--ghost">
+                    <i class="bx bx-edit" aria-hidden="true"></i> Edit Metadata
+                </a>
+            </div>
+
+            <div class="dash-label" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">Details</div>
+            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem; margin-top: 12px;">
+                <div>
+                    <div style="color: var(--text-subtle); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Size</div>
+                    <div style="color: var(--text); font-weight: 500;">{{ file.size_display }}</div>
+                </div>
+                <div>
+                    <div style="color: var(--text-subtle); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Type</div>
+                    <div style="color: var(--text); font-weight: 500;">{{ file.mime_type|default:"application/octet-stream" }}</div>
+                </div>
+                <div>
+                    <div style="color: var(--text-subtle); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Uploaded</div>
+                    <div style="color: var(--text); font-weight: 500;">{{ file.uploaded_at|date:"M d, Y — H:i" }}</div>
+                </div>
+                {% if file.folder %}
+                    <div>
+                        <div style="color: var(--text-subtle); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Folder</div>
+                        <a href="{% url 'vault:folder_detail' file.folder.pk %}" style="color: var(--gold); font-weight: 500;">
+                            <i class="bx bx-folder"></i> {{ file.folder.name }}
+                        </a>
+                    </div>
+                {% endif %}
+                {% if file.tags_list %}
+                    <div>
+                        <div style="color: var(--text-subtle); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">Tags</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            {% for tag in file.tags_list %}
+                                <span class="dash-pill dash-pill--gold">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if file.checksum %}
+                    <div>
+                        <div style="color: var(--text-subtle); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">SHA-256</div>
+                        <div style="color: var(--text-muted); font-size: 0.7rem; word-break: break-all; font-family: monospace;">{{ file.checksum }}</div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Delete #}
+            <form method="post" action="{% url 'vault:file_delete' file.pk %}"
+                  onsubmit="return confirm('Move this file to trash? You can restore it later.');"
+                  style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">
+                {% csrf_token %}
+                <button type="submit" class="dash-btn dash-btn--danger" style="width: 100%;">
+                    <i class="bx bx-trash" aria-hidden="true"></i> Move to Trash
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% if file.description %}
+<div class="dash-card" style="margin-top: 24px;">
+    <div class="dash-card__head">
+        <span class="dash-card__title">Description</span>
+    </div>
+    <div class="dash-card__body">
+        <div style="white-space: pre-line; color: var(--text); line-height: 1.6;">{{ file.description }}</div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    @media (max-width: 900px) {
+        .dash-grid-2, [style*="grid-template-columns: 1fr 340px"] { grid-template-columns: 1fr !important; }
+    }
+</style>
+
+{% endblock %}

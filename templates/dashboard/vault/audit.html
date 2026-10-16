@@ -1,0 +1,153 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Audit Log — Vault{% endblock %}
+{% block page_title %}Audit Log{% endblock %}
+{% block page_subtitle %}Every action taken inside the vault{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'vault:home' %}" class="dash-btn dash-btn--ghost dash-btn--sm dash-mb-4">
+    <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Back to Vault
+</a>
+
+{# ═══════ FILTER TABS ═══════ #}
+<div class="dash-tabs">
+    <a href="{% url 'vault:audit_log' %}"
+       class="dash-tab {% if not active_action %}is-active{% endif %}">
+        All Actions
+    </a>
+    {% for key, label in action_choices %}
+        <a href="?action={{ key }}"
+           class="dash-tab {% if active_action == key %}is-active{% endif %}">
+            {{ label }}
+        </a>
+    {% endfor %}
+</div>
+
+{# ═══════ AUDIT LOG ═══════ #}
+<div class="dash-card">
+    <div class="dash-card__head">
+        <span class="dash-card__title">
+            {% if active_action %}{{ active_action|title }}{% else %}All{% endif %} Entries
+        </span>
+        <span style="font-size: 0.75rem; color: var(--text-subtle);">{{ logs|length }} entr{{ logs|length|pluralize:"y,ies" }}</span>
+    </div>
+
+    {% if logs %}
+        <div style="overflow-x: auto;">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>When</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>File / Target</th>
+                        <th>IP Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                        <tr>
+                            <td style="color: var(--text-muted); font-size: 0.8rem; white-space: nowrap;">
+                                {{ log.timestamp|date:"M d, H:i" }}
+                                <div style="font-size: 0.7rem; color: var(--text-subtle);">{{ log.timestamp|timesince }} ago</div>
+                            </td>
+                            <td>
+                                {% if log.user %}
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--gold-soft); color: var(--gold); font-weight: 700; font-size: 0.65rem; flex-shrink: 0;">
+                                            {{ log.user.username|slice:":1"|upper }}
+                                        </span>
+                                        <span style="font-size: 0.85rem; color: var(--heading);">{{ log.user.username }}</span>
+                                    </div>
+                                {% else %}
+                                    <span style="color: var(--text-subtle); font-size: 0.8rem;">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if log.action == 'upload' %}
+                                    <span class="dash-pill" style="background: rgba(34,197,94,0.12); color: #22c55e; border-color: rgba(34,197,94,0.3);">
+                                        <i class="bx bx-cloud-upload"></i> {{ log.get_action_display }}
+                                    </span>
+                                {% elif log.action == 'download' %}
+                                    <span class="dash-pill" style="background: rgba(56,189,248,0.12); color: #38bdf8; border-color: rgba(56,189,248,0.3);">
+                                        <i class="bx bx-download"></i> {{ log.get_action_display }}
+                                    </span>
+                                {% elif log.action == 'delete' %}
+                                    <span class="dash-pill" style="background: rgba(245,158,11,0.12); color: #f59e0b; border-color: rgba(245,158,11,0.3);">
+                                        <i class="bx bx-trash"></i> {{ log.get_action_display }}
+                                    </span>
+                                {% elif log.action == 'purge' %}
+                                    <span class="dash-pill" style="background: rgba(239,68,68,0.12); color: #ef4444; border-color: rgba(239,68,68,0.3);">
+                                        <i class="bx bx-x-circle"></i> {{ log.get_action_display }}
+                                    </span>
+                                {% elif log.action == 'restore' %}
+                                    <span class="dash-pill" style="background: rgba(34,197,94,0.12); color: #22c55e; border-color: rgba(34,197,94,0.3);">
+                                        <i class="bx bx-undo"></i> {{ log.get_action_display }}
+                                    </span>
+                                {% elif log.action == 'rename' %}
+                                    <span class="dash-pill dash-pill--gold">
+                                        <i class="bx bx-edit"></i> {{ log.get_action_display }}
+                                    </span>
+                                {% else %}
+                                    <span class="dash-pill dash-pill--gold">
+                                        {{ log.get_action_display }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if log.file_name %}
+                                    <div style="font-size: 0.85rem; color: var(--text); max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        {{ log.file_name }}
+                                    </div>
+                                {% elif log.folder_id %}
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">
+                                        Folder #{{ log.folder_id }}
+                                    </div>
+                                {% else %}
+                                    <span style="color: var(--text-subtle);">—</span>
+                                {% endif %}
+                                {% if log.file_id and log.action != 'upload' and log.action != 'folder_create' and log.action != 'folder_delete' %}
+                                    <a href="{% url 'vault:file_detail' log.file_id %}" style="font-size: 0.7rem; color: var(--gold);">View file →</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <code style="font-size: 0.7rem; color: var(--text-muted); background: var(--bg-2); padding: 2px 6px; border-radius: 3px; font-family: monospace;">
+                                    {{ log.ip_address|default:"—" }}
+                                </code>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="dash-empty">
+            <i class="bx bx-history" aria-hidden="true"></i>
+            <h3>No activity yet</h3>
+            <p>Every action you take inside the vault will appear here.</p>
+            <a href="{% url 'vault:upload' %}" class="dash-btn dash-btn--primary">
+                <i class="bx bx-cloud-upload" aria-hidden="true"></i> Upload a File
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{# ═══════ INFO PANEL ═══════ #}
+<div class="dash-card" style="margin-top: 20px;">
+    <div class="dash-card__body">
+        <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--gold-soft); color: var(--gold); font-size: 1.3rem; flex-shrink: 0;">
+                <i class="bx bx-info-circle"></i>
+            </span>
+            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                <strong style="color: var(--heading); display: block; margin-bottom: 4px;">About the audit log</strong>
+                Every sensitive vault operation is recorded here — uploads, downloads, edits, moves, restores, and deletions — with the user, timestamp, and IP address. This log is read-only and can never be edited from the dashboard.
+                {% if request.user.is_staff %}<br>As staff, you see activity from all users.{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

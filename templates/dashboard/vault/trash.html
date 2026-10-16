@@ -1,0 +1,76 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Trash — Vault{% endblock %}
+{% block page_title %}Trash{% endblock %}
+{% block page_subtitle %}Deleted files — restore or permanently delete{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'vault:home' %}" class="dash-btn dash-btn--ghost dash-btn--sm dash-mb-4">
+    <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Back to Vault
+</a>
+
+{% if files %}
+    <div class="dash-card">
+        <div class="dash-card__head">
+            <span class="dash-card__title">Deleted Files ({{ files|length }})</span>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th>Deleted</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--surface-2); flex-shrink: 0;">
+                                        <i class="bx bx-file-blank" style="color: var(--text-subtle); font-size: 1.2rem;"></i>
+                                    </span>
+                                    <span style="min-width: 0;">
+                                        <span style="display: block; font-weight: 600; color: var(--text-muted); text-decoration: line-through; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px;">{{ file.original_name }}</span>
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="color: var(--text-subtle); font-size: 0.85rem; white-space: nowrap;">{{ file.size_display }}</td>
+                            <td style="color: var(--text-subtle); font-size: 0.8rem; white-space: nowrap;">{{ file.deleted_at|timesince }} ago</td>
+                            <td style="text-align: right; white-space: nowrap;">
+                                <form method="post" action="{% url 'vault:file_restore' file.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dash-btn dash-btn--ghost dash-btn--sm" title="Restore">
+                                        <i class="bx bx-undo" aria-hidden="true"></i> Restore
+                                    </button>
+                                </form>
+                                <form method="post" action="{% url 'vault:file_purge' file.pk %}"
+                                      onsubmit="return confirm('Permanently delete this file? This cannot be undone.');"
+                                      style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dash-btn dash-btn--danger dash-btn--sm" title="Delete forever">
+                                        <i class="bx bx-trash" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="dash-card">
+        <div class="dash-empty">
+            <i class="bx bx-trash" aria-hidden="true"></i>
+            <h3>Trash is empty</h3>
+            <p>Deleted files appear here until you restore or permanently delete them.</p>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

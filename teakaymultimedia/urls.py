@@ -41,6 +41,7 @@ def health_check(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("dashboard/", include("tkmedia.dashboard_urls", namespace="dashboard")),
+    path("dashboard/vault/", include("vault.urls")),
     path("health/", health_check, name="health_check"),
     path("", include("tkmedia.urls")),
 ]

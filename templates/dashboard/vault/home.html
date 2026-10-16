@@ -1,0 +1,169 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Vault — {{ BRAND_NAME }} Dashboard{% endblock %}
+{% block page_title %}Private Vault{% endblock %}
+{% block page_subtitle %}Your secure file storage{% endblock %}
+
+{% block content %}
+
+{# ═══════ ACTION BAR ═══════ #}
+<div class="dash-flex-between dash-mb-4" style="flex-wrap: wrap;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="{% url 'vault:upload' %}" class="dash-btn dash-btn--primary">
+            <i class="bx bx-cloud-upload" aria-hidden="true"></i> Upload File
+        </a>
+        <a href="{% url 'vault:folder_create' %}" class="dash-btn dash-btn--ghost">
+            <i class="bx bx-folder-plus" aria-hidden="true"></i> New Folder
+        </a>
+        <a href="{% url 'vault:file_list' %}" class="dash-btn dash-btn--ghost">
+            <i class="bx bx-list-ul" aria-hidden="true"></i> All Files
+        </a>
+    </div>
+</div>
+
+{# ═══════ STATS ═══════ #}
+<div class="dash-stats">
+
+    <a href="{% url 'vault:file_list' %}" class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-file" aria-hidden="true"></i></span>
+        <div class="dash-stat__number">{{ total_files }}</div>
+        <div class="dash-stat__label">Files</div>
+        <div class="dash-stat__meta">{{ total_folders }} folder{{ total_folders|pluralize }}</div>
+    </a>
+
+    <div class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-hdd" aria-hidden="true"></i></span>
+        <div class="dash-stat__number" style="font-size: 1.5rem;">
+            {% load humanize %}
+            {% if total_size %}
+                {% widthratio total_size 1048576 1 %} MB
+            {% else %}
+                0 MB
+            {% endif %}
+        </div>
+        <div class="dash-stat__label">Storage Used</div>
+        <div class="dash-stat__meta">No limit configured</div>
+    </div>
+
+    <a href="{% url 'vault:trash' %}" class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-trash" aria-hidden="true"></i></span>
+        <div class="dash-stat__number">{{ trash_count }}</div>
+        <div class="dash-stat__label">In Trash</div>
+        <div class="dash-stat__meta">Restorable</div>
+    </a>
+
+    <a href="{% url 'vault:file_list' %}?folder=none" class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-folder-open" aria-hidden="true"></i></span>
+        <div class="dash-stat__number">Root</div>
+        <div class="dash-stat__label">Unfiled</div>
+        <div class="dash-stat__meta">Files without a folder</div>
+    </a>
+
+</div>
+
+{# ═══════ RECENT FILES ═══════ #}
+<div class="dash-card dash-mb-6">
+    <div class="dash-card__head">
+        <span class="dash-card__title">Recent Uploads</span>
+        <a href="{% url 'vault:file_list' %}" class="dash-btn dash-btn--ghost dash-btn--sm">
+            View All <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+        </a>
+    </div>
+
+    {% if recent_files %}
+        <div style="overflow-x: auto;">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th>Folder</th>
+                        <th>Uploaded</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in recent_files %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'vault:file_detail' file.pk %}" style="display: flex; align-items: center; gap: 10px; color: inherit;">
+                                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--surface-2); flex-shrink: 0;">
+                                        {% if file.is_image %}
+                                            <img src="{% url 'vault:preview' file.pk %}" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md);">
+                                        {% else %}
+                                            <i class="bx bx-file" style="color: var(--gold); font-size: 1.2rem;"></i>
+                                        {% endif %}
+                                    </span>
+                                    <span style="min-width: 0;">
+                                        <span style="display: block; font-weight: 600; color: var(--heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px;">{{ file.original_name }}</span>
+                                        <span style="display: block; font-size: 0.7rem; color: var(--text-subtle);">{{ file.extension|upper|default:"FILE" }}</span>
+                                    </span>
+                                </a>
+                            </td>
+                            <td style="color: var(--text-muted); font-size: 0.85rem; white-space: nowrap;">{{ file.size_display }}</td>
+                            <td>
+                                {% if file.folder %}
+                                    <a href="{% url 'vault:folder_detail' file.folder.pk %}" class="dash-pill dash-pill--gold">
+                                        <i class="bx bx-folder"></i> {{ file.folder.name }}
+                                    </a>
+                                {% else %}
+                                    <span style="color: var(--text-subtle); font-size: 0.8rem;">—</span>
+                                {% endif %}
+                            </td>
+                            <td style="color: var(--text-muted); font-size: 0.8rem; white-space: nowrap;">
+                                {{ file.uploaded_at|timesince }} ago
+                            </td>
+                            <td style="text-align: right; white-space: nowrap;">
+                                <a href="{% url 'vault:download' file.pk %}" class="dash-btn dash-btn--ghost dash-btn--sm" title="Download">
+                                    <i class="bx bx-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="dash-empty">
+            <i class="bx bx-cloud-upload" aria-hidden="true"></i>
+            <h3>Your vault is empty</h3>
+            <p>Upload your first file to get started.</p>
+            <a href="{% url 'vault:upload' %}" class="dash-btn dash-btn--primary">
+                <i class="bx bx-cloud-upload" aria-hidden="true"></i> Upload File
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{# ═══════ RECENT FOLDERS ═══════ #}
+{% if recent_folders %}
+<div class="dash-card">
+    <div class="dash-card__head">
+        <span class="dash-card__title">Folders</span>
+        <a href="{% url 'vault:folder_create' %}" class="dash-btn dash-btn--ghost dash-btn--sm">
+            <i class="bx bx-plus" aria-hidden="true"></i> New Folder
+        </a>
+    </div>
+    <div class="dash-card__body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+            {% for folder in recent_folders %}
+                <a href="{% url 'vault:folder_detail' folder.pk %}"
+                   style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-md); transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);"
+                   onmouseover="this.style.borderColor='rgba(245,183,0,0.4)'; this.style.transform='translateY(-2px)';"
+                   onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)';">
+                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--gold-soft); color: var(--gold); font-size: 1.4rem; flex-shrink: 0;">
+                        <i class="bx bx-folder" aria-hidden="true"></i>
+                    </span>
+                    <span style="min-width: 0;">
+                        <span style="display: block; font-weight: 600; color: var(--heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ folder.name }}</span>
+                        <span style="display: block; font-size: 0.75rem; color: var(--text-subtle);">{{ folder.file_count }} file{{ folder.file_count|pluralize }}</span>
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

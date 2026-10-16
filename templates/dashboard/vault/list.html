@@ -1,0 +1,136 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if current_folder %}{{ current_folder.name }}{% else %}All Files{% endif %} — Vault
+{% endblock %}
+
+{% block page_title %}
+    {% if current_folder %}{{ current_folder.name }}{% else %}All Files{% endif %}
+{% endblock %}
+
+{% block page_subtitle %}
+    {% if current_folder %}Folder contents{% else %}Every file in your vault{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{# ═══════ BREADCRUMB ═══════ #}
+<div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; flex-wrap: wrap;">
+    <a href="{% url 'vault:home' %}" style="color: var(--text-muted);">Vault</a>
+    <i class="bx bx-chevron-right" style="color: var(--text-subtle);"></i>
+    <a href="{% url 'vault:file_list' %}" style="color: {% if not current_folder %}var(--gold){% else %}var(--text-muted){% endif %};">All Files</a>
+    {% if current_folder %}
+        <i class="bx bx-chevron-right" style="color: var(--text-subtle);"></i>
+        <span style="color: var(--gold);">{{ current_folder.name }}</span>
+    {% endif %}
+</div>
+
+{# ═══════ ACTION BAR ═══════ #}
+<div class="dash-flex-between dash-mb-4" style="flex-wrap: wrap; gap: 12px;">
+    <form method="get" style="flex: 1; min-width: 240px; max-width: 400px; position: relative;">
+        <i class="bx bx-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-subtle); font-size: 1.1rem; pointer-events: none;"></i>
+        <input type="text" name="q" value="{{ query }}" placeholder="Search by name, tag, description…"
+               class="dash-input" style="padding-left: 38px;">
+    </form>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        {% if current_folder %}
+            <a href="{% url 'vault:upload' %}?folder={{ current_folder.pk }}" class="dash-btn dash-btn--primary">
+                <i class="bx bx-cloud-upload" aria-hidden="true"></i> Upload Here
+            </a>
+            <form method="post" action="{% url 'vault:folder_delete' current_folder.pk %}"
+                  onsubmit="return confirm('Delete this folder? Files inside will be kept (moved to root).');"
+                  style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="dash-btn dash-btn--danger">
+                    <i class="bx bx-trash" aria-hidden="true"></i> Delete Folder
+                </button>
+            </form>
+        {% else %}
+            <a href="{% url 'vault:upload' %}" class="dash-btn dash-btn--primary">
+                <i class="bx bx-cloud-upload" aria-hidden="true"></i> Upload
+            </a>
+            <a href="{% url 'vault:folder_create' %}" class="dash-btn dash-btn--ghost">
+                <i class="bx bx-folder-plus" aria-hidden="true"></i> New Folder
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{# ═══════ FILES ═══════ #}
+{% if files %}
+    <div class="dash-card">
+        <div style="overflow-x: auto;">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Uploaded</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'vault:file_detail' file.pk %}" style="display: flex; align-items: center; gap: 10px; color: inherit;">
+                                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--surface-2); flex-shrink: 0; overflow: hidden;">
+                                        {% if file.is_image %}
+                                            <img src="{% url 'vault:preview' file.pk %}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                                        {% else %}
+                                            <i class="bx bx-file" style="color: var(--gold); font-size: 1.3rem;"></i>
+                                        {% endif %}
+                                    </span>
+                                    <span style="min-width: 0;">
+                                        <span style="display: block; font-weight: 600; color: var(--heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px;">{{ file.original_name }}</span>
+                                        {% if file.tags %}
+                                            <span style="display: block; font-size: 0.7rem; color: var(--text-subtle); margin-top: 2px;">{{ file.tags|truncatechars:60 }}</span>
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </td>
+                            <td>
+                                <span class="dash-pill dash-pill--gold">{{ file.extension|upper|default:"FILE" }}</span>
+                            </td>
+                            <td style="color: var(--text-muted); font-size: 0.85rem; white-space: nowrap;">{{ file.size_display }}</td>
+                            <td style="color: var(--text-muted); font-size: 0.8rem; white-space: nowrap;">{{ file.uploaded_at|timesince }} ago</td>
+                            <td style="text-align: right; white-space: nowrap;">
+                                <a href="{% url 'vault:preview' file.pk %}" target="_blank" rel="noopener"
+                                   class="dash-btn dash-btn--ghost dash-btn--sm" title="Preview"
+                                   {% if not file.is_image %}style="pointer-events: none; opacity: 0.3;"{% endif %}>
+                                    <i class="bx bx-show" aria-hidden="true"></i>
+                                </a>
+                                <a href="{% url 'vault:download' file.pk %}"
+                                   class="dash-btn dash-btn--ghost dash-btn--sm" title="Download">
+                                    <i class="bx bx-download" aria-hidden="true"></i>
+                                </a>
+                                <a href="{% url 'vault:file_edit' file.pk %}"
+                                   class="dash-btn dash-btn--ghost dash-btn--sm" title="Edit">
+                                    <i class="bx bx-edit" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="dash-card">
+        <div class="dash-empty">
+            <i class="bx bx-folder-open" aria-hidden="true"></i>
+            <h3>{% if query %}No matches{% else %}Empty{% endif %}</h3>
+            <p>{% if query %}Try a different search term.{% else %}Upload a file or create a folder to get started.{% endif %}</p>
+            {% if not query %}
+                <a href="{% url 'vault:upload' %}" class="dash-btn dash-btn--primary">
+                    <i class="bx bx-cloud-upload" aria-hidden="true"></i> Upload File
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

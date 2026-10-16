@@ -1,0 +1,60 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Edit — {{ file.original_name }}{% endblock %}
+{% block page_title %}Edit File{% endblock %}
+{% block page_subtitle %}{{ file.original_name }}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'vault:file_detail' file.pk %}" class="dash-btn dash-btn--ghost dash-btn--sm dash-mb-4">
+    <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Back to File
+</a>
+
+<div class="dash-card" style="max-width: 720px;">
+    <div class="dash-card__head">
+        <span class="dash-card__title">Edit Metadata</span>
+    </div>
+    <div class="dash-card__body">
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="dash-field">
+                <label class="dash-label dash-label--required" for="{{ form.original_name.id_for_label }}">File Name</label>
+                {{ form.original_name }}
+                {% if form.original_name.errors %}<div class="dash-error">{{ form.original_name.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div class="dash-field">
+                <label class="dash-label" for="{{ form.folder.id_for_label }}">Folder</label>
+                {{ form.folder }}
+                {% if form.folder.errors %}<div class="dash-error">{{ form.folder.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div class="dash-field">
+                <label class="dash-label" for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}<div class="dash-error">{{ form.description.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div class="dash-field">
+                <label class="dash-label" for="{{ form.tags.id_for_label }}">Tags</label>
+                {{ form.tags }}
+                <div class="dash-help">Separate with commas.</div>
+                {% if form.tags.errors %}<div class="dash-error">{{ form.tags.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div style="display: flex; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); margin-top: 16px;">
+                <button type="submit" class="dash-btn dash-btn--primary">
+                    <i class="bx bx-save" aria-hidden="true"></i> Save Changes
+                </button>
+                <a href="{% url 'vault:file_detail' file.pk %}" class="dash-btn dash-btn--ghost">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

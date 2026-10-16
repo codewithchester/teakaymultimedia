@@ -1,0 +1,48 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}New Folder — Vault{% endblock %}
+{% block page_title %}New Folder{% endblock %}
+{% block page_subtitle %}Create a folder in your vault{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'vault:home' %}" class="dash-btn dash-btn--ghost dash-btn--sm dash-mb-4">
+    <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Back to Vault
+</a>
+
+<div class="dash-card" style="max-width: 560px;">
+    <div class="dash-card__head">
+        <span class="dash-card__title">Folder Details</span>
+    </div>
+    <div class="dash-card__body">
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="dash-field">
+                <label class="dash-label dash-label--required" for="{{ form.name.id_for_label }}">Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="dash-error">{{ form.name.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div class="dash-field">
+                <label class="dash-label" for="{{ form.parent.id_for_label }}">Parent Folder</label>
+                {{ form.parent }}
+                <div class="dash-help">Optional. Leave as root to create a top-level folder.</div>
+                {% if form.parent.errors %}<div class="dash-error">{{ form.parent.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div style="display: flex; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); margin-top: 16px;">
+                <button type="submit" class="dash-btn dash-btn--primary">
+                    <i class="bx bx-folder-plus" aria-hidden="true"></i> Create Folder
+                </button>
+                <a href="{% url 'vault:home' %}" class="dash-btn dash-btn--ghost">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
