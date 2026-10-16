@@ -1,0 +1,1 @@
+web: gunicorn teakaymultimedia.wsgi:application
