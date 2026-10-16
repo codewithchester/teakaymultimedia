@@ -1,54 +1,111 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Services — {{ BRAND_NAME }}{% endblock %}
 {% block meta_description %}Services offered by {{ BRAND_NAME }}: web development, design, multimedia, and technical solutions.{% endblock %}
 
 {% block content %}
 
-<section class="page-header">
+{# ═══════════════ FLOATING ORBS (page background) ═══════════════ #}
+<div class="services-orbs" aria-hidden="true">
+    <span class="services-orb services-orb--1"></span>
+    <span class="services-orb services-orb--2"></span>
+    <span class="services-orb services-orb--3"></span>
+    <span class="services-orb services-orb--4"></span>
+    <span class="services-orb services-orb--5"></span>
+</div>
+
+{# ═══════════════ PAGE HEADER ═══════════════ #}
+<section class="page-header services-header">
+
+    {# Geometric line patterns #}
+    <div class="geo-grid" aria-hidden="true"></div>
+    <div class="geo-diagonals" aria-hidden="true"></div>
+    <div class="geo-corners" aria-hidden="true">
+        <span class="geo-corner geo-corner--tl"></span>
+        <span class="geo-corner geo-corner--tr"></span>
+        <span class="geo-corner geo-corner--bl"></span>
+        <span class="geo-corner geo-corner--br"></span>
+    </div>
+
+    {# Floating glass orbs #}
+    <div class="header-orbs" aria-hidden="true">
+        <span class="header-orb header-orb--1"></span>
+        <span class="header-orb header-orb--2"></span>
+        <span class="header-orb header-orb--3"></span>
+        <span class="header-orb header-orb--4"></span>
+        <span class="header-orb header-orb--5"></span>
+        <span class="header-orb header-orb--6"></span>
+    </div>
+
     <div class="container">
         <div class="page-header__inner">
-            <span class="badge">Services</span>
-            <h1>What {{ BRAND_NAME }} does</h1>
-            <p>Professional digital services covering web development, design, multimedia, and technical support.</p>
+            <span class="eyebrow reveal">Our Services</span>
+            <h1 class="display-lg reveal reveal--delay-1" style="margin-top: var(--space-4);">
+                What we <span class="text-gold">do</span> —<br>
+                and do it <span class="text-gold">right</span>.
+            </h1>
+            <p class="reveal reveal--delay-2" style="color: var(--text-muted); font-size: var(--fs-md); max-width: 60ch; margin-top: var(--space-5);">
+                Professional digital services covering web development, design, multimedia,
+                and technical support.
+            </p>
         </div>
     </div>
 </section>
 
-<section class="section">
+{# ═══════════════ SERVICES GRID ═══════════════ #}
+<section class="section services-section">
     <div class="container">
 
         {% if services %}
-            <div class="grid grid--wide">
+            <div class="services-grid">
                 {% for service in services %}
-                    <article class="service-card">
-                        <div class="service-card__media">
+                    <a href="{{ service.get_absolute_url }}"
+                       class="service-tile glass-card reveal reveal--delay-{{ forloop.counter0|divisibleby:3|yesno:'3,1' }}"
+                       style="transition-delay: {{ forloop.counter0 }}00ms;">
+
+                        {# Animated shimmer border #}
+                        <div class="service-tile__border" aria-hidden="true"></div>
+
+                        {# Media #}
+                        <div class="service-tile__media">
                             {% if service.cover_image %}
                                 <img src="{{ service.cover_image.url }}" alt="{{ service.title }}">
                             {% else %}
-                                <span aria-hidden="true">{{ service.icon|default:"◆" }}</span>
+                                <span class="service-tile__icon" aria-hidden="true">
+                                    <i class="bx bx-{{ service.icon|default:'cube' }}"></i>
+                                </span>
+                                <span class="service-tile__ring" aria-hidden="true"></span>
                             {% endif %}
+                            <span class="service-tile__number">0{{ forloop.counter }}</span>
                         </div>
-                        <div class="service-card__body">
-                            <h3>{{ service.title }}</h3>
-                            <p>{{ service.short_description }}</p>
-                            <div class="service-card__footer">
+
+                        {# Body #}
+                        <div class="service-tile__body">
+                            <h3 class="service-tile__title">{{ service.title }}</h3>
+                            <p class="service-tile__desc">{{ service.short_description }}</p>
+
+                            <div class="service-tile__footer">
                                 {% if service.starting_price %}
-                                    <span class="service-card__price">
+                                    <span class="service-tile__price">
                                         {% if service.price_note %}{{ service.price_note }} {% endif %}
                                         GHS {{ service.starting_price }}
                                     </span>
                                 {% else %}
-                                    <span class="text-muted">Request a quote</span>
+                                    <span class="service-tile__price service-tile__price--quote">Request a quote</span>
                                 {% endif %}
-                                <a href="{{ service.get_absolute_url }}" class="btn btn--ghost btn--sm">Learn more →</a>
+                                <span class="service-tile__cta">
+                                    Learn More
+                                    <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                                </span>
                             </div>
                         </div>
-                    </article>
+                    </a>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="empty-state">
+            <div class="empty-state glass-panel reveal">
+                <i class="bx bx-folder-open" style="font-size: 3rem; color: var(--gold); margin-bottom: var(--space-4); display: block;" aria-hidden="true"></i>
                 <h3>No services published yet</h3>
                 <p>Log into the admin panel to add your first service.</p>
             </div>
@@ -57,20 +114,744 @@
     </div>
 </section>
 
-<section class="section" style="background: var(--color-surface);">
-    <div class="container container--narrow text-center">
-        <span class="badge badge--accent">Let's Work Together</span>
-        <h2 style="margin-top: var(--space-4);">Need something specific?</h2>
-        <p class="text-muted" style="margin-top: var(--space-4); margin-bottom: var(--space-8);">
-            Reach out to discuss your project directly.
-        </p>
-        <div class="hero__actions" style="justify-content: center;">
-            <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg">
-                WhatsApp TK MULTIMEDIA
-            </a>
-            <a href="{{ BRAND_EMAIL_URL }}" class="btn btn--secondary btn--lg">Send an Email</a>
+{# ═══════════════ PROCESS SECTION ═══════════════ #}
+<section class="section process-section">
+    <div class="container">
+        <div class="section-header section-header--center reveal">
+            <span class="eyebrow">How We Work</span>
+            <h2>From idea to <span class="text-gold">launch</span>.</h2>
+            <p>A clear, four-step process that keeps you informed at every stage.</p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-step glass-card reveal">
+                <div class="process-step__num">01</div>
+                <div class="process-step__icon">
+                    <i class="bx bx-conversation" aria-hidden="true"></i>
+                </div>
+                <h4>Discover</h4>
+                <p>We listen, ask questions, and understand your goals before touching a single line of code.</p>
+            </div>
+            <div class="process-step glass-card reveal reveal--delay-1">
+                <div class="process-step__num">02</div>
+                <div class="process-step__icon">
+                    <i class="bx bx-pencil" aria-hidden="true"></i>
+                </div>
+                <h4>Design</h4>
+                <p>We map out the strategy, then design clean, intentional visuals that serve the goal.</p>
+            </div>
+            <div class="process-step glass-card reveal reveal--delay-2">
+                <div class="process-step__num">03</div>
+                <div class="process-step__icon">
+                    <i class="bx bx-code-alt" aria-hidden="true"></i>
+                </div>
+                <h4>Build</h4>
+                <p>We develop with modern tools, keep you updated, and refine as we go.</p>
+            </div>
+            <div class="process-step glass-card reveal reveal--delay-3">
+                <div class="process-step__num">04</div>
+                <div class="process-step__icon">
+                    <i class="bx bx-rocket" aria-hidden="true"></i>
+                </div>
+                <h4>Launch</h4>
+                <p>We ship, test, and support — so what you get is not just built, but ready.</p>
+            </div>
         </div>
     </div>
 </section>
 
+{# ═══════════════ CTA ═══════════════ #}
+<section class="section">
+    <div class="container container--narrow">
+        <div class="services-cta glass-panel reveal">
+
+            {# Geometric accents in the CTA #}
+            <div class="cta-geo" aria-hidden="true">
+                <span class="cta-geo__dot cta-geo__dot--1"></span>
+                <span class="cta-geo__dot cta-geo__dot--2"></span>
+                <span class="cta-geo__dot cta-geo__dot--3"></span>
+                <span class="cta-geo__line cta-geo__line--1"></span>
+                <span class="cta-geo__line cta-geo__line--2"></span>
+            </div>
+
+            <span class="eyebrow" style="display: block; text-align: center; position: relative; z-index: 1;">Let's Work Together</span>
+            <h2 style="margin-top: var(--space-4); margin-bottom: var(--space-6); text-align: center; position: relative; z-index: 1;">
+                Need something <span class="text-gold">specific</span>?
+            </h2>
+            <p style="color: var(--text-muted); font-size: var(--fs-md); margin-bottom: var(--space-8); text-align: center; position: relative; z-index: 1;">
+                Tell us about your project — we'll get back to you the same day.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center; position: relative; z-index: 1;">
+                <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+                   class="btn btn--primary btn--lg">
+                    <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+                    WhatsApp Us
+                </a>
+                <a href="{{ BRAND_EMAIL_URL }}" class="btn btn--outline btn--lg">Send an Email</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════════════════════
+       1. PAGE BACKGROUND ORBS — fixed, drifting
+       ═══════════════════════════════════════════════════════════ */
+    .services-orbs {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .services-orb {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%,
+            rgba(245, 183, 0, 0.30),
+            rgba(245, 183, 0, 0.07) 40%,
+            transparent 70%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.12),
+            inset 0 0 80px rgba(245, 183, 0, 0.12),
+            0 0 80px rgba(245, 183, 0, 0.15);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        will-change: transform;
+    }
+    .services-orb::before {
+        content: "";
+        position: absolute;
+        top: 15%; left: 20%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
+        filter: blur(4px);
+    }
+
+    .services-orb--1 { width: 220px; height: 220px; top: 10%; left: 3%;   animation: services-orb-drift-a 24s ease-in-out infinite; }
+    .services-orb--2 { width: 140px; height: 140px; top: 55%; right: 5%;  animation: services-orb-drift-b 28s ease-in-out infinite; }
+    .services-orb--3 { width: 280px; height: 280px; top: 78%; left: 6%;   animation: services-orb-drift-c 32s ease-in-out infinite; opacity: 0.6; }
+    .services-orb--4 { width: 100px; height: 100px; top: 30%; right: 22%; animation: services-orb-drift-b 22s ease-in-out infinite reverse; }
+    .services-orb--5 { width: 160px; height: 160px; top: 45%; left: 40%;  animation: services-orb-drift-a 26s ease-in-out infinite; opacity: 0.5; }
+
+    @keyframes services-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(50px, -40px) scale(1.08); }
+        66%      { transform: translate(-30px, 50px) scale(0.94); }
+    }
+    @keyframes services-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-60px, 40px) scale(1.15); }
+    }
+    @keyframes services-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(70px, -50px) scale(1.06); }
+    }
+
+    /* Keep content above the fixed orbs */
+    .services-header, .services-grid, .process-grid, .services-cta {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       2. HEADER — geometric lines + floating orbs
+       ═══════════════════════════════════════════════════════════ */
+    .services-header {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        padding-block: clamp(var(--space-24), 14vw, var(--space-32));
+    }
+
+    /* Faint grid pattern */
+    .geo-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(245, 183, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(245, 183, 0, 0.05) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        animation: geo-grid-drift 40s linear infinite;
+    }
+    @keyframes geo-grid-drift {
+        0%   { background-position: 0 0, 0 0; }
+        100% { background-position: 64px 64px, 64px 64px; }
+    }
+
+    /* Diagonal accent lines */
+    .geo-diagonals {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.5;
+    }
+    .geo-diagonals::before,
+    .geo-diagonals::after {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(245, 183, 0, 0.4), transparent);
+        top: 30%;
+        left: -50%;
+        transform: rotate(-12deg);
+        animation: geo-diag-slide 8s ease-in-out infinite;
+    }
+    .geo-diagonals::after {
+        top: 70%;
+        transform: rotate(8deg);
+        animation-delay: 2s;
+        animation-direction: reverse;
+    }
+    @keyframes geo-diag-slide {
+        0%, 100% { transform: rotate(-12deg) translateX(0); opacity: 0.3; }
+        50%      { transform: rotate(-12deg) translateX(60px); opacity: 0.8; }
+    }
+
+    /* Corner brackets */
+    .geo-corners {
+        position: absolute;
+        inset: var(--space-6);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .geo-corner {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(245, 183, 0, 0.5);
+    }
+    .geo-corner--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .geo-corner--tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .geo-corner--bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .geo-corner--br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+    /* Floating glass orbs in header */
+    .header-orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .header-orb {
+        position: absolute;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.20),
+                rgba(245, 183, 0, 0.12) 30%,
+                rgba(245, 183, 0, 0.04) 55%,
+                transparent 75%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.15),
+            inset -10px -10px 60px rgba(245, 183, 0, 0.15),
+            0 0 80px rgba(245, 183, 0, 0.25),
+            0 24px 48px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(3px) saturate(180%);
+        -webkit-backdrop-filter: blur(3px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        will-change: transform;
+    }
+    .header-orb::before {
+        content: "";
+        position: absolute;
+        top: 12%; left: 15%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+        filter: blur(3px);
+    }
+    .header-orb::after {
+        content: "";
+        position: absolute;
+        bottom: 8%; right: 18%;
+        width: 40%; height: 20%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(245, 183, 0, 0.25), transparent 70%);
+        filter: blur(6px);
+    }
+
+    .header-orb--1 { width: 130px; height: 130px; top: 12%; left: 5%;  animation: header-orb-drift-a 18s ease-in-out infinite; }
+    .header-orb--2 { width: 70px;  height: 70px;  top: 65%; left: 12%; animation: header-orb-drift-b 22s ease-in-out infinite; }
+    .header-orb--3 { width: 180px; height: 180px; top: 8%;  right: 6%; animation: header-orb-drift-c 26s ease-in-out infinite; opacity: 0.75; }
+    .header-orb--4 { width: 90px;  height: 90px;  top: 72%; right: 15%; animation: header-orb-drift-a 20s ease-in-out infinite reverse; }
+    .header-orb--5 { width: 60px;  height: 60px;  top: 22%; left: 48%; animation: header-orb-drift-b 24s ease-in-out infinite; opacity: 0.85; }
+    .header-orb--6 { width: 110px; height: 110px; top: 48%; right: 38%; animation: header-orb-drift-c 28s ease-in-out infinite reverse; opacity: 0.55; }
+
+    @keyframes header-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(40px, -25px) scale(1.08); }
+        66%      { transform: translate(-20px, 30px) scale(0.94); }
+    }
+    @keyframes header-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-30px, 40px) scale(1.12); }
+    }
+    @keyframes header-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(45px, -35px) scale(1.06); }
+    }
+
+    .services-header .container,
+    .services-header .page-header__inner {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       3. GLASS PRIMITIVES
+       ═══════════════════════════════════════════════════════════ */
+    .glass-panel {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        padding: clamp(var(--space-6), 4vw, var(--space-10));
+        position: relative;
+        overflow: hidden;
+    }
+    .glass-panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        pointer-events: none;
+    }
+
+    .glass-card {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+        pointer-events: none;
+    }
+    .glass-card:hover {
+        border-color: rgba(245, 183, 0, 0.45);
+        transform: translateY(-8px);
+        box-shadow:
+            0 30px 70px rgba(0, 0, 0, 0.55),
+            0 0 50px rgba(245, 183, 0, 0.20),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       4. SERVICES GRID
+       ═══════════════════════════════════════════════════════════ */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: var(--space-6);
+    }
+    @media (max-width: 480px) {
+        .services-grid { grid-template-columns: 1fr; gap: var(--space-5); }
+    }
+
+    /* ─── Service tile ─── */
+    .service-tile {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        isolation: isolate;
+        min-height: 100%;
+    }
+
+    /* Shimmer border trace on hover */
+    .service-tile__border {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(245, 183, 0, 0.9) 60deg,
+            transparent 120deg,
+            transparent 360deg
+        );
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+        animation: border-rotate 6s linear infinite;
+        pointer-events: none;
+        z-index: 2;
+    }
+    .service-tile:hover .service-tile__border { opacity: 1; }
+
+    @keyframes border-rotate {
+        0%   { background-position: 0% 50%; transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Media area */
+    .service-tile__media {
+        position: relative;
+        aspect-ratio: 16/10;
+        background: linear-gradient(135deg, var(--surface-2), var(--surface));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .service-tile__media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.35) 100%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .service-tile__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        z-index: 0;
+    }
+    .service-tile:hover .service-tile__media img {
+        transform: scale(1.08);
+    }
+
+    /* Icon fallback */
+    .service-tile__icon {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: rgba(245, 183, 0, 0.10);
+        border: 2px solid rgba(245, 183, 0, 0.3);
+        color: var(--gold);
+        font-size: 2.5rem;
+        z-index: 1;
+        transition: all 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .service-tile:hover .service-tile__icon {
+        background: var(--gold);
+        color: #0B0B0D;
+        transform: rotate(-8deg) scale(1.08);
+        box-shadow: 0 12px 40px rgba(245, 183, 0, 0.4);
+    }
+
+    /* Rotating ring behind icon */
+    .service-tile__ring {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 130px;
+        height: 130px;
+        margin: -65px 0 0 -65px;
+        border-radius: 50%;
+        border: 1px dashed rgba(245, 183, 0, 0.35);
+        animation: ring-spin 20s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    @keyframes ring-spin {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Number badge */
+    .service-tile__number {
+        position: absolute;
+        top: var(--space-4);
+        right: var(--space-4);
+        font-family: var(--font-display);
+        font-size: var(--fs-sm);
+        font-weight: var(--fw-black);
+        color: rgba(255, 255, 255, 0.5);
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 4px 10px;
+        border-radius: var(--radius-full);
+        border: 1px solid rgba(255,255,255,0.1);
+        z-index: 2;
+        letter-spacing: 0.1em;
+    }
+
+    /* Body */
+    .service-tile__body {
+        padding: var(--space-6);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        flex: 1;
+    }
+
+    .service-tile__title {
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+        transition: color 300ms ease-out;
+    }
+    .service-tile:hover .service-tile__title { color: var(--gold); }
+
+    .service-tile__desc {
+        color: var(--text-muted);
+        font-size: var(--fs-sm);
+        line-height: var(--lh-relaxed);
+        flex: 1;
+        margin: 0;
+    }
+
+    .service-tile__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+        padding-top: var(--space-4);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin-top: var(--space-2);
+    }
+
+    .service-tile__price {
+        font-family: var(--font-sans);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--gold);
+    }
+    .service-tile__price--quote { color: var(--text-subtle); }
+
+    .service-tile__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-family: var(--font-sans);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        transition: color 300ms ease-out, gap 300ms ease-out;
+    }
+    .service-tile:hover .service-tile__cta {
+        color: var(--gold);
+        gap: var(--space-3);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       5. PROCESS SECTION
+       ═══════════════════════════════════════════════════════════ */
+    .process-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .process-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--space-5);
+        position: relative;
+    }
+
+    .process-step {
+        padding: var(--space-8) var(--space-6);
+        position: relative;
+    }
+
+    .process-step__num {
+        position: absolute;
+        top: var(--space-4);
+        right: var(--space-5);
+        font-family: var(--font-display);
+        font-size: 3.5rem;
+        font-weight: var(--fw-black);
+        line-height: 1;
+        color: rgba(245, 183, 0, 0.12);
+        letter-spacing: -0.04em;
+        transition: color 500ms ease-out, transform 500ms ease-out;
+    }
+    .process-step:hover .process-step__num {
+        color: rgba(245, 183, 0, 0.28);
+        transform: scale(1.05);
+    }
+
+    .process-step__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-md);
+        background: var(--gold-soft);
+        color: var(--gold);
+        border: 1px solid rgba(245, 183, 0, 0.3);
+        font-size: 1.6rem;
+        margin-bottom: var(--space-5);
+        transition: all 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .process-step:hover .process-step__icon {
+        background: var(--gold);
+        color: #0B0B0D;
+        transform: scale(1.1) rotate(-6deg);
+        box-shadow: 0 10px 30px rgba(245, 183, 0, 0.4);
+    }
+
+    .process-step h4 {
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        margin-bottom: var(--space-3);
+        position: relative;
+        z-index: 1;
+    }
+
+    .process-step p {
+        color: var(--text-muted);
+        font-size: var(--fs-sm);
+        line-height: var(--lh-relaxed);
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       6. CTA PANEL
+       ═══════════════════════════════════════════════════════════ */
+    .services-cta {
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Geometric accents */
+    .cta-geo {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .cta-geo__dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.6;
+        animation: dot-pulse 3s ease-in-out infinite;
+    }
+    .cta-geo__dot--1 { top: 20%; left: 15%; animation-delay: 0s; }
+    .cta-geo__dot--2 { top: 70%; right: 12%; animation-delay: 1s; }
+    .cta-geo__dot--3 { bottom: 25%; left: 25%; animation-delay: 2s; }
+    @keyframes dot-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 0 0 rgba(245, 183, 0, 0.5); }
+        50%      { transform: scale(1.4); opacity: 1; box-shadow: 0 0 0 10px rgba(245, 183, 0, 0); }
+    }
+
+    .cta-geo__line {
+        position: absolute;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(245, 183, 0, 0.5), transparent);
+        width: 100px;
+        opacity: 0.4;
+    }
+    .cta-geo__line--1 { top: 30%; left: 0; }
+    .cta-geo__line--2 { bottom: 30%; right: 0; }
+
+    /* ═══════════════════════════════════════════════════════════
+       7. RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+        .header-orb--3,
+        .header-orb--5,
+        .header-orb--6 { display: none; }
+        .header-orb--1 { width: 90px; height: 90px; }
+        .header-orb--2 { width: 50px; height: 50px; }
+        .header-orb--4 { width: 60px; height: 60px; }
+
+        .services-orb--3,
+        .services-orb--5 { display: none; }
+        .services-orb--1 { width: 140px; height: 140px; }
+        .services-orb--2 { width: 90px; height: 90px; }
+
+        .geo-corners { inset: var(--space-4); }
+        .geo-corner { width: 28px; height: 28px; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        .header-orb, .services-orb, .geo-grid, .geo-diagonals,
+        .service-tile__ring, .service-tile__border, .cta-geo__dot {
+            animation: none !important;
+        }
+        .glass-card:hover { transform: none; }
+    }
+
+    /* Light theme */
+    [data-theme="light"] .glass-panel,
+    [data-theme="light"] .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow:
+            0 20px 60px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .services-orb,
+    [data-theme="light"] .header-orb {
+        background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.6),
+            rgba(184, 136, 0, 0.12) 30%,
+            rgba(184, 136, 0, 0.04) 55%,
+            transparent 75%);
+        box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(184, 136, 0, 0.12),
+            0 20px 40px rgba(15, 23, 42, 0.06);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+</style>
 {% endblock %}

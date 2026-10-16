@@ -1,79 +1,1057 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ service.title }} — {{ BRAND_NAME }}{% endblock %}
 {% block meta_description %}{{ service.short_description }}{% endblock %}
 
 {% block content %}
 
-<section class="page-header">
+{# ═══════════════ FLOATING ORBS (page background) ═══════════════ #}
+<div class="sd-orbs" aria-hidden="true">
+    <span class="sd-orb sd-orb--1"></span>
+    <span class="sd-orb sd-orb--2"></span>
+    <span class="sd-orb sd-orb--3"></span>
+    <span class="sd-orb sd-orb--4"></span>
+    <span class="sd-orb sd-orb--5"></span>
+</div>
+
+{# ═══════════════ PAGE HEADER ═══════════════ #}
+<section class="page-header sd-header">
+
+    {# Geometric line patterns #}
+    <div class="geo-grid" aria-hidden="true"></div>
+    <div class="geo-diagonals" aria-hidden="true"></div>
+    <div class="geo-corners" aria-hidden="true">
+        <span class="geo-corner geo-corner--tl"></span>
+        <span class="geo-corner geo-corner--tr"></span>
+        <span class="geo-corner geo-corner--bl"></span>
+        <span class="geo-corner geo-corner--br"></span>
+    </div>
+
+    {# Floating glass orbs #}
+    <div class="header-orbs" aria-hidden="true">
+        <span class="header-orb header-orb--1"></span>
+        <span class="header-orb header-orb--2"></span>
+        <span class="header-orb header-orb--3"></span>
+        <span class="header-orb header-orb--4"></span>
+        <span class="header-orb header-orb--5"></span>
+        <span class="header-orb header-orb--6"></span>
+    </div>
+
     <div class="container">
         <div class="page-header__inner">
-            <span class="badge">Service</span>
-            <h1>{{ service.title }}</h1>
-            <p>{{ service.short_description }}</p>
+            <span class="eyebrow reveal">Service</span>
+            <h1 class="display-lg reveal reveal--delay-1" style="margin-top: var(--space-4);">
+                {{ service.title }}
+            </h1>
+            <p class="reveal reveal--delay-2" style="color: var(--text-muted); font-size: var(--fs-md); max-width: 60ch; margin-top: var(--space-5);">
+                {{ service.short_description }}
+            </p>
         </div>
     </div>
 </section>
 
-<section class="section">
+{# ═══════════════ MAIN DETAIL LAYOUT ═══════════════ #}
+<section class="section sd-body-section">
     <div class="container">
-        <div class="detail-layout">
+        <div class="sd-layout">
 
-            <div>
+            {# ─── Main content ─── #}
+            <div class="sd-main">
+
                 {% if service.cover_image %}
-                    <img src="{{ service.cover_image.url }}" alt="{{ service.title }}"
-                         style="border-radius: var(--radius-lg); margin-bottom: var(--space-8); width: 100%;">
+                    <div class="sd-cover glass-card reveal">
+                        <img src="{{ service.cover_image.url }}" alt="{{ service.title }}">
+                        <div class="sd-cover__glow" aria-hidden="true"></div>
+                    </div>
+                {% else %}
+                    <div class="sd-cover sd-cover--placeholder glass-card reveal">
+                        <i class="bx bx-{{ service.icon|default:'cube' }}" aria-hidden="true"></i>
+                        <span class="sd-cover__ring" aria-hidden="true"></span>
+                        <span class="sd-cover__label">{{ service.title }}</span>
+                    </div>
                 {% endif %}
 
-                <div class="detail-body">
-                    {{ service.description }}
+                <div class="sd-description glass-panel reveal">
+                    <span class="eyebrow">Overview</span>
+                    <div class="sd-description__body detail-body">
+                        {{ service.description }}
+                    </div>
                 </div>
+
+                {# ─── What's included ─── #}
+                <div class="sd-includes glass-panel reveal">
+                    <span class="eyebrow">What's Included</span>
+                    <h3 style="margin-block: var(--space-4) var(--space-6);">
+                        Everything you need to <span class="text-gold">launch</span>.
+                    </h3>
+
+                    <ul class="sd-includes__list">
+                        <li>
+                            <span class="sd-includes__check" aria-hidden="true">
+                                <i class="bx bx-check"></i>
+                            </span>
+                            <span>Consultation &amp; project scoping</span>
+                        </li>
+                        <li>
+                            <span class="sd-includes__check" aria-hidden="true">
+                                <i class="bx bx-check"></i>
+                            </span>
+                            <span>Design &amp; development</span>
+                        </li>
+                        <li>
+                            <span class="sd-includes__check" aria-hidden="true">
+                                <i class="bx bx-check"></i>
+                            </span>
+                            <span>Testing &amp; quality assurance</span>
+                        </li>
+                        <li>
+                            <span class="sd-includes__check" aria-hidden="true">
+                                <i class="bx bx-check"></i>
+                            </span>
+                            <span>Deployment &amp; handover</span>
+                        </li>
+                        <li>
+                            <span class="sd-includes__check" aria-hidden="true">
+                                <i class="bx bx-check"></i>
+                            </span>
+                            <span>Post-launch support window</span>
+                        </li>
+                    </ul>
+                </div>
+
+                {# ─── FAQ (optional, contextual) ─── #}
+                <div class="sd-faq glass-panel reveal">
+                    <span class="eyebrow">Common Questions</span>
+                    <h3 style="margin-block: var(--space-4) var(--space-6);">
+                        Things clients <span class="text-gold">ask</span>.
+                    </h3>
+
+                    <details class="sd-faq__item">
+                        <summary>
+                            <span>How long does this usually take?</span>
+                            <i class="bx bx-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <p>Timelines depend on scope. A standard project typically runs 2–6 weeks. We'll give you a clear estimate after our initial conversation.</p>
+                    </details>
+                    <details class="sd-faq__item">
+                        <summary>
+                            <span>Do you work with clients outside Ghana?</span>
+                            <i class="bx bx-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <p>Yes — we work remotely with clients worldwide. Communication happens over email, WhatsApp, or video calls.</p>
+                    </details>
+                    <details class="sd-faq__item">
+                        <summary>
+                            <span>What if I need changes after launch?</span>
+                            <i class="bx bx-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <p>Every project includes a support window for post-launch fixes. Ongoing maintenance is available as a separate arrangement.</p>
+                    </details>
+                </div>
+
             </div>
 
-            <aside class="detail-meta">
-                <h3>Service details</h3>
-                <div class="detail-meta__list">
-                    {% if service.starting_price %}
-                        <div class="detail-meta__row">
-                            <span class="detail-meta__label">Starting price</span>
-                            <span class="detail-meta__value">
-                                GHS {{ service.starting_price }}
-                                {% if service.price_note %} · {{ service.price_note }}{% endif %}
+            {# ─── Sidebar ─── #}
+            <aside class="sd-sidebar reveal reveal--delay-1">
+                <div class="sd-sidebar__inner glass-panel">
+
+                    <span class="eyebrow">Service Details</span>
+
+                    <div class="sd-meta">
+                        <div class="sd-meta__row">
+                            <span class="sd-meta__label">Category</span>
+                            <span class="sd-meta__value">Digital Service</span>
+                        </div>
+
+                        {% if service.starting_price %}
+                            <div class="sd-meta__row">
+                                <span class="sd-meta__label">Starting price</span>
+                                <span class="sd-meta__value sd-meta__value--price">
+                                    GHS {{ service.starting_price }}
+                                    {% if service.price_note %}
+                                        <small>· {{ service.price_note }}</small>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        {% else %}
+                            <div class="sd-meta__row">
+                                <span class="sd-meta__label">Pricing</span>
+                                <span class="sd-meta__value">Request a quote</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="sd-meta__row">
+                            <span class="sd-meta__label">Availability</span>
+                            <span class="sd-meta__value sd-meta__value--available">
+                                <span class="sd-meta__dot" aria-hidden="true"></span>
+                                Taking new projects
                             </span>
                         </div>
-                    {% endif %}
+                    </div>
+
+                    <div class="sd-sidebar__cta">
+                        <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+                           class="btn btn--primary btn--block">
+                            <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+                            WhatsApp Us
+                        </a>
+                        <a href="{{ BRAND_EMAIL_URL }}"
+                           class="btn btn--outline btn--block"
+                           style="margin-top: var(--space-3);">
+                            <i class="bx bx-envelope" aria-hidden="true"></i>
+                            Send an Email
+                        </a>
+                    </div>
+
+                    <div class="sd-sidebar__trust">
+                        <div class="sd-sidebar__trust-item">
+                            <i class="bx bx-shield-quarter" aria-hidden="true"></i>
+                            <span>Fixed pricing, no surprises</span>
+                        </div>
+                        <div class="sd-sidebar__trust-item">
+                            <i class="bx bx-time-five" aria-hidden="true"></i>
+                            <span>Same-day response</span>
+                        </div>
+                        <div class="sd-sidebar__trust-item">
+                            <i class="bx bx-check-circle" aria-hidden="true"></i>
+                            <span>Satisfaction guaranteed</span>
+                        </div>
+                    </div>
+
                 </div>
-
-                <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
-                   class="btn btn--primary btn--block">Discuss on WhatsApp</a>
-
-                <a href="{{ BRAND_EMAIL_URL }}"
-                   class="btn btn--secondary btn--block" style="margin-top: var(--space-2);">
-                    Send an Email
-                </a>
             </aside>
 
         </div>
     </div>
 </section>
 
+{# ═══════════════ OTHER SERVICES ═══════════════ #}
 {% if other_services %}
-<section class="section" style="background: var(--color-surface);">
+<section class="section sd-others-section">
     <div class="container">
-        <h2 style="margin-bottom: var(--space-8);">Other services</h2>
-        <div class="grid">
+        <div class="section-header section-header--center reveal">
+            <span class="eyebrow">Explore More</span>
+            <h2>Other <span class="text-gold">services</span>.</h2>
+            <p>More ways we can help your business grow.</p>
+        </div>
+
+        <div class="sd-others-grid">
             {% for s in other_services %}
-                <article class="service-card">
-                    <div class="service-card__body">
+                <a href="{{ s.get_absolute_url }}"
+                   class="sd-other-card glass-card reveal"
+                   style="transition-delay: {{ forloop.counter0 }}00ms;">
+                    <div class="sd-other-card__border" aria-hidden="true"></div>
+
+                    <div class="sd-other-card__icon">
+                        <i class="bx bx-{{ s.icon|default:'cube' }}" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="sd-other-card__body">
                         <h3>{{ s.title }}</h3>
                         <p>{{ s.short_description }}</p>
-                        <a href="{{ s.get_absolute_url }}" class="btn btn--ghost btn--sm">Learn more →</a>
+
+                        <span class="sd-other-card__cta">
+                            Learn More
+                            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                        </span>
                     </div>
-                </article>
+                </a>
             {% endfor %}
         </div>
     </div>
 </section>
 {% endif %}
 
+{# ═══════════════ CTA ═══════════════ #}
+<section class="section">
+    <div class="container container--narrow">
+        <div class="sd-cta glass-panel reveal">
+
+            <div class="cta-geo" aria-hidden="true">
+                <span class="cta-geo__dot cta-geo__dot--1"></span>
+                <span class="cta-geo__dot cta-geo__dot--2"></span>
+                <span class="cta-geo__dot cta-geo__dot--3"></span>
+            </div>
+
+            <span class="eyebrow" style="display: block; text-align: center; position: relative; z-index: 1;">Ready to start?</span>
+            <h2 style="margin-top: var(--space-4); margin-bottom: var(--space-6); text-align: center; position: relative; z-index: 1;">
+                Let's build something <span class="text-gold">great</span>.
+            </h2>
+            <p style="color: var(--text-muted); font-size: var(--fs-md); margin-bottom: var(--space-8); text-align: center; position: relative; z-index: 1;">
+                Tell us about your project and we'll get back to you the same day.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center; position: relative; z-index: 1;">
+                <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+                   class="btn btn--primary btn--lg">
+                    <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+                    WhatsApp Us
+                </a>
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--outline btn--lg">
+                    Send a Message
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════════════════════
+       1. PAGE BACKGROUND ORBS
+       ═══════════════════════════════════════════════════════════ */
+    .sd-orbs {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .sd-orb {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%,
+            rgba(245, 183, 0, 0.28),
+            rgba(245, 183, 0, 0.06) 40%,
+            transparent 70%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.12),
+            inset 0 0 80px rgba(245, 183, 0, 0.12),
+            0 0 80px rgba(245, 183, 0, 0.15);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        will-change: transform;
+    }
+    .sd-orb::before {
+        content: "";
+        position: absolute;
+        top: 15%; left: 20%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
+        filter: blur(4px);
+    }
+
+    .sd-orb--1 { width: 220px; height: 220px; top: 8%; left: 3%;   animation: sd-orb-drift-a 24s ease-in-out infinite; }
+    .sd-orb--2 { width: 140px; height: 140px; top: 50%; right: 5%;  animation: sd-orb-drift-b 28s ease-in-out infinite; }
+    .sd-orb--3 { width: 280px; height: 280px; top: 82%; left: 6%;   animation: sd-orb-drift-c 32s ease-in-out infinite; opacity: 0.6; }
+    .sd-orb--4 { width: 100px; height: 100px; top: 30%; right: 22%; animation: sd-orb-drift-b 22s ease-in-out infinite reverse; }
+    .sd-orb--5 { width: 160px; height: 160px; top: 45%; left: 40%;  animation: sd-orb-drift-a 26s ease-in-out infinite; opacity: 0.5; }
+
+    @keyframes sd-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(50px, -40px) scale(1.08); }
+        66%      { transform: translate(-30px, 50px) scale(0.94); }
+    }
+    @keyframes sd-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-60px, 40px) scale(1.15); }
+    }
+    @keyframes sd-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(70px, -50px) scale(1.06); }
+    }
+
+    .sd-header, .sd-layout, .sd-others-grid, .sd-cta { position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════════════════════════
+       2. HEADER GEOMETRY
+       ═══════════════════════════════════════════════════════════ */
+    .sd-header {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        padding-block: clamp(var(--space-24), 14vw, var(--space-32));
+    }
+
+    .geo-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(rgba(245, 183, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(245, 183, 0, 0.05) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 85%);
+        animation: geo-grid-drift 40s linear infinite;
+    }
+    @keyframes geo-grid-drift {
+        0%   { background-position: 0 0, 0 0; }
+        100% { background-position: 64px 64px, 64px 64px; }
+    }
+
+    .geo-diagonals {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.5;
+    }
+    .geo-diagonals::before,
+    .geo-diagonals::after {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(245, 183, 0, 0.4), transparent);
+        top: 30%;
+        left: -50%;
+        transform: rotate(-12deg);
+        animation: geo-diag-slide 8s ease-in-out infinite;
+    }
+    .geo-diagonals::after {
+        top: 70%;
+        transform: rotate(8deg);
+        animation-delay: 2s;
+        animation-direction: reverse;
+    }
+    @keyframes geo-diag-slide {
+        0%, 100% { transform: rotate(-12deg) translateX(0); opacity: 0.3; }
+        50%      { transform: rotate(-12deg) translateX(60px); opacity: 0.8; }
+    }
+
+    .geo-corners {
+        position: absolute;
+        inset: var(--space-6);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .geo-corner {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(245, 183, 0, 0.5);
+    }
+    .geo-corner--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .geo-corner--tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .geo-corner--bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .geo-corner--br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+    /* Header orbs */
+    .header-orbs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .header-orb {
+        position: absolute;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.20),
+                rgba(245, 183, 0, 0.12) 30%,
+                rgba(245, 183, 0, 0.04) 55%,
+                transparent 75%);
+        box-shadow:
+            inset 0 0 40px rgba(255, 255, 255, 0.15),
+            inset -10px -10px 60px rgba(245, 183, 0, 0.15),
+            0 0 80px rgba(245, 183, 0, 0.25),
+            0 24px 48px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(3px) saturate(180%);
+        -webkit-backdrop-filter: blur(3px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        will-change: transform;
+    }
+    .header-orb::before {
+        content: "";
+        position: absolute;
+        top: 12%; left: 15%;
+        width: 30%; height: 30%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+        filter: blur(3px);
+    }
+    .header-orb::after {
+        content: "";
+        position: absolute;
+        bottom: 8%; right: 18%;
+        width: 40%; height: 20%;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(245, 183, 0, 0.25), transparent 70%);
+        filter: blur(6px);
+    }
+
+    .header-orb--1 { width: 130px; height: 130px; top: 12%; left: 5%;  animation: header-orb-drift-a 18s ease-in-out infinite; }
+    .header-orb--2 { width: 70px;  height: 70px;  top: 65%; left: 12%; animation: header-orb-drift-b 22s ease-in-out infinite; }
+    .header-orb--3 { width: 180px; height: 180px; top: 8%;  right: 6%; animation: header-orb-drift-c 26s ease-in-out infinite; opacity: 0.75; }
+    .header-orb--4 { width: 90px;  height: 90px;  top: 72%; right: 15%; animation: header-orb-drift-a 20s ease-in-out infinite reverse; }
+    .header-orb--5 { width: 60px;  height: 60px;  top: 22%; left: 48%; animation: header-orb-drift-b 24s ease-in-out infinite; opacity: 0.85; }
+    .header-orb--6 { width: 110px; height: 110px; top: 48%; right: 38%; animation: header-orb-drift-c 28s ease-in-out infinite reverse; opacity: 0.55; }
+
+    @keyframes header-orb-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33%      { transform: translate(40px, -25px) scale(1.08); }
+        66%      { transform: translate(-20px, 30px) scale(0.94); }
+    }
+    @keyframes header-orb-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(-30px, 40px) scale(1.12); }
+    }
+    @keyframes header-orb-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50%      { transform: translate(45px, -35px) scale(1.06); }
+    }
+
+    .sd-header .container,
+    .sd-header .page-header__inner {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       3. GLASS PRIMITIVES
+       ═══════════════════════════════════════════════════════════ */
+    .glass-panel {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        padding: clamp(var(--space-6), 4vw, var(--space-10));
+        position: relative;
+        overflow: hidden;
+    }
+    .glass-panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        pointer-events: none;
+    }
+
+    .glass-card {
+        background: rgba(20, 20, 22, 0.55);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+        pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       4. DETAIL LAYOUT
+       ═══════════════════════════════════════════════════════════ */
+    .sd-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-10);
+        align-items: start;
+    }
+    @media (min-width: 960px) {
+        .sd-layout { grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: var(--space-12); }
+    }
+
+    .sd-main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-8);
+        min-width: 0;
+    }
+
+    /* Cover image */
+    .sd-cover {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+    .sd-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sd-cover:hover img { transform: scale(1.04); }
+
+    .sd-cover__glow {
+        position: absolute;
+        inset: -20%;
+        background: radial-gradient(circle at 50% 50%, rgba(245, 183, 0, 0.25), transparent 55%);
+        filter: blur(40px);
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.7;
+        animation: sd-glow-pulse 4s ease-in-out infinite;
+    }
+    @keyframes sd-glow-pulse {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50%      { opacity: 0.9; transform: scale(1.08); }
+    }
+
+    /* Placeholder cover when no image */
+    .sd-cover--placeholder {
+        aspect-ratio: 16/9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-4);
+        padding: var(--space-12) !important;
+    }
+    .sd-cover--placeholder i {
+        font-size: 4rem;
+        color: var(--gold);
+        position: relative;
+        z-index: 1;
+        transition: transform 500ms ease-out;
+    }
+    .sd-cover--placeholder:hover i { transform: rotate(-8deg) scale(1.06); }
+    .sd-cover__ring {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 180px; height: 180px;
+        margin: -90px 0 0 -90px;
+        border-radius: 50%;
+        border: 1px dashed rgba(245, 183, 0, 0.35);
+        animation: sd-ring-spin 24s linear infinite;
+        pointer-events: none;
+    }
+    @keyframes sd-ring-spin {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .sd-cover__label {
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Description body */
+    .sd-description__body {
+        color: var(--text);
+        font-size: var(--fs-md);
+        line-height: var(--lh-relaxed);
+        white-space: pre-line;
+        margin-top: var(--space-5);
+    }
+
+    /* Includes list */
+    .sd-includes__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    .sd-includes__list li {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-4);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--radius-md);
+        transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        font-size: var(--fs-sm);
+        color: var(--text);
+    }
+    .sd-includes__list li:hover {
+        background: rgba(245, 183, 0, 0.06);
+        border-color: rgba(245, 183, 0, 0.3);
+        transform: translateX(6px);
+    }
+    .sd-includes__check {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: rgba(245, 183, 0, 0.15);
+        color: var(--gold);
+        font-size: 1rem;
+        flex-shrink: 0;
+        border: 1px solid rgba(245, 183, 0, 0.3);
+        transition: all 400ms ease-out;
+    }
+    .sd-includes__list li:hover .sd-includes__check {
+        background: var(--gold);
+        color: #0B0B0D;
+        transform: scale(1.1) rotate(-6deg);
+    }
+
+    /* FAQ */
+    .sd-faq__item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-block: var(--space-3);
+    }
+    .sd-faq__item:last-child { border-bottom: none; }
+    .sd-faq__item summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-3);
+        cursor: pointer;
+        font-family: var(--font-sans);
+        font-size: var(--fs-base);
+        font-weight: var(--fw-semibold);
+        color: var(--heading);
+        list-style: none;
+        transition: color 300ms ease-out;
+        padding-block: var(--space-2);
+    }
+    .sd-faq__item summary::-webkit-details-marker { display: none; }
+    .sd-faq__item summary:hover { color: var(--gold); }
+    .sd-faq__item summary i {
+        font-size: 1.3rem;
+        color: var(--gold);
+        transition: transform 300ms ease-out;
+        flex-shrink: 0;
+    }
+    .sd-faq__item[open] summary i { transform: rotate(180deg); }
+    .sd-faq__item p {
+        color: var(--text-muted);
+        font-size: var(--fs-sm);
+        line-height: var(--lh-relaxed);
+        padding-top: var(--space-2);
+        padding-bottom: var(--space-3);
+        margin: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       5. SIDEBAR
+       ═══════════════════════════════════════════════════════════ */
+    .sd-sidebar {
+        position: sticky;
+        top: 96px;
+    }
+    .sd-sidebar__inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+    }
+
+    .sd-meta {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    .sd-meta__row {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        padding-block: var(--space-3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .sd-meta__row:last-child { border-bottom: none; }
+    .sd-meta__label {
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        text-transform: uppercase;
+        letter-spacing: var(--ls-wide);
+        color: var(--text-subtle);
+    }
+    .sd-meta__value {
+        font-family: var(--font-sans);
+        font-size: var(--fs-base);
+        font-weight: var(--fw-semibold);
+        color: var(--heading);
+    }
+    .sd-meta__value--price {
+        font-family: var(--font-display);
+        font-size: var(--fs-xl);
+        font-weight: var(--fw-black);
+        color: var(--gold);
+        letter-spacing: -0.02em;
+    }
+    .sd-meta__value--price small {
+        font-family: var(--font-sans);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-medium);
+        color: var(--text-subtle);
+        letter-spacing: 0;
+    }
+    .sd-meta__value--available {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        color: var(--success);
+    }
+    .sd-meta__dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+        animation: sd-dot-pulse 2s ease-in-out infinite;
+    }
+    @keyframes sd-dot-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+        50%      { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    }
+
+    .sd-sidebar__cta {
+        display: flex;
+        flex-direction: column;
+        padding-top: var(--space-4);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .sd-sidebar__trust {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        padding-top: var(--space-4);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .sd-sidebar__trust-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--fs-xs);
+        color: var(--text-muted);
+    }
+    .sd-sidebar__trust-item i {
+        font-size: 1.1rem;
+        color: var(--gold);
+        flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       6. OTHER SERVICES
+       ═══════════════════════════════════════════════════════════ */
+    .sd-others-section { position: relative; }
+
+    .sd-others-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--space-6);
+    }
+
+    .sd-other-card {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+        padding: var(--space-6);
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sd-other-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(245, 183, 0, 0.45);
+        box-shadow:
+            0 30px 70px rgba(0, 0, 0, 0.55),
+            0 0 50px rgba(245, 183, 0, 0.20);
+    }
+
+    /* Rotating shimmer border */
+    .sd-other-card__border {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(245, 183, 0, 0.9) 60deg,
+            transparent 120deg,
+            transparent 360deg
+        );
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+        animation: sd-border-rotate 6s linear infinite;
+        pointer-events: none;
+        z-index: 2;
+    }
+    .sd-other-card:hover .sd-other-card__border { opacity: 1; }
+    @keyframes sd-border-rotate {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .sd-other-card__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: var(--radius-md);
+        background: var(--gold-soft);
+        color: var(--gold);
+        border: 1px solid rgba(245, 183, 0, 0.3);
+        font-size: 1.75rem;
+        transition: all 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sd-other-card:hover .sd-other-card__icon {
+        background: var(--gold);
+        color: #0B0B0D;
+        transform: rotate(-8deg) scale(1.1);
+        box-shadow: 0 12px 40px rgba(245, 183, 0, 0.4);
+    }
+
+    .sd-other-card__body h3 {
+        font-family: var(--font-display);
+        font-size: var(--fs-lg);
+        font-weight: var(--fw-black);
+        color: var(--heading);
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        margin-bottom: var(--space-3);
+        transition: color 300ms ease-out;
+    }
+    .sd-other-card:hover .sd-other-card__body h3 { color: var(--gold); }
+
+    .sd-other-card__body p {
+        color: var(--text-muted);
+        font-size: var(--fs-sm);
+        line-height: var(--lh-relaxed);
+        margin-bottom: var(--space-4);
+    }
+
+    .sd-other-card__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-family: var(--font-sans);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        transition: color 300ms ease-out, gap 300ms ease-out;
+    }
+    .sd-other-card:hover .sd-other-card__cta {
+        color: var(--gold);
+        gap: var(--space-3);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       7. CTA
+       ═══════════════════════════════════════════════════════════ */
+    .sd-cta {
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-geo {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .cta-geo__dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.6;
+        animation: sd-dot-pulse-cta 3s ease-in-out infinite;
+    }
+    .cta-geo__dot--1 { top: 20%; left: 15%; animation-delay: 0s; }
+    .cta-geo__dot--2 { top: 70%; right: 12%; animation-delay: 1s; }
+    .cta-geo__dot--3 { bottom: 25%; left: 25%; animation-delay: 2s; }
+    @keyframes sd-dot-pulse-cta {
+        0%, 100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 0 0 rgba(245, 183, 0, 0.5); }
+        50%      { transform: scale(1.4); opacity: 1; box-shadow: 0 0 0 10px rgba(245, 183, 0, 0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       8. RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 960px) {
+        .sd-sidebar {
+            position: static;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .header-orb--3,
+        .header-orb--5,
+        .header-orb--6 { display: none; }
+        .header-orb--1 { width: 90px; height: 90px; }
+        .header-orb--2 { width: 50px; height: 50px; }
+        .header-orb--4 { width: 60px; height: 60px; }
+
+        .sd-orb--3,
+        .sd-orb--5 { display: none; }
+        .sd-orb--1 { width: 140px; height: 140px; }
+        .sd-orb--2 { width: 90px; height: 90px; }
+
+        .geo-corners { inset: var(--space-4); }
+        .geo-corner { width: 28px; height: 28px; }
+
+        .sd-cover--placeholder { padding: var(--space-8) !important; }
+        .sd-cover--placeholder i { font-size: 3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .header-orb, .sd-orb, .geo-grid, .geo-diagonals,
+        .sd-cover__ring, .sd-cover__glow, .sd-other-card__border,
+        .cta-geo__dot, .sd-meta__dot {
+            animation: none !important;
+        }
+    }
+
+    [data-theme="light"] .glass-panel,
+    [data-theme="light"] .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow:
+            0 20px 60px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .sd-orb,
+    [data-theme="light"] .header-orb {
+        background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.6),
+            rgba(184, 136, 0, 0.12) 30%,
+            rgba(184, 136, 0, 0.04) 55%,
+            transparent 75%);
+        box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(184, 136, 0, 0.12),
+            0 20px 40px rgba(15, 23, 42, 0.06);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+    [data-theme="light"] .sd-includes__list li {
+        background: rgba(15, 23, 42, 0.02);
+        border-color: rgba(15, 23, 42, 0.06);
+    }
+</style>
 {% endblock %}
