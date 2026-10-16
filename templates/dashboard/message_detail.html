@@ -1,0 +1,116 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Message — {{ BRAND_NAME }} Dashboard{% endblock %}
+{% block page_title %}Message{% endblock %}
+{% block page_subtitle %}From {{ msg.name }}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'dashboard:messages' %}" class="dash-btn dash-btn--ghost dash-btn--sm dash-mb-4">
+    <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Back to Messages
+</a>
+
+<div class="dash-grid-2" style="grid-template-columns: 1fr 320px;">
+
+    {# Message body #}
+    <div class="dash-card">
+        <div class="dash-card__head">
+            <span class="dash-card__title">{{ msg.subject }}</span>
+            <span class="dash-pill dash-pill--{{ msg.status }}">{{ msg.get_status_display }}</span>
+        </div>
+        <div class="dash-card__body">
+            <div style="margin-bottom: 24px;">
+                <div style="display:flex; flex-wrap:wrap; gap:24px;">
+                    <div>
+                        <div class="dash-label" style="margin-bottom:4px;">From</div>
+                        <div style="font-weight:600; color:var(--heading);">{{ msg.name }}</div>
+                        <a href="mailto:{{ msg.email }}" style="color:var(--gold); font-size:0.85rem;">{{ msg.email }}</a>
+                    </div>
+                    {% if msg.phone %}
+                        <div>
+                            <div class="dash-label" style="margin-bottom:4px;">Phone</div>
+                            <a href="tel:{{ msg.phone }}" style="color:var(--gold);">{{ msg.phone }}</a>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <div class="dash-label" style="margin-bottom:4px;">Received</div>
+                        <div style="color:var(--text-muted); font-size:0.9rem;">{{ msg.created_at|date:"M d, Y — H:i" }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dash-label">Message</div>
+            <div style="padding: 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-md); white-space: pre-line; line-height: 1.7; color: var(--text);">
+                {{ msg.message }}
+            </div>
+        </div>
+    </div>
+
+    {# Actions sidebar #}
+    <div class="dash-card" style="height: fit-content;">
+        <div class="dash-card__head">
+            <span class="dash-card__title">Actions</span>
+        </div>
+        <div class="dash-card__body">
+
+            {# Reply buttons #}
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom: 20px;">
+                <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject|urlencode }}"
+                   class="dash-btn dash-btn--primary">
+                    <i class="bx bx-envelope" aria-hidden="true"></i> Reply by Email
+                </a>
+                {% if msg.phone %}
+                    <a href="https://wa.me/{{ msg.phone|cut:' '|cut:'+' }}" target="_blank" rel="noopener"
+                       class="dash-btn dash-btn--ghost">
+                        <i class="bx bxl-whatsapp" aria-hidden="true"></i> Reply on WhatsApp
+                    </a>
+                {% endif %}
+            </div>
+
+            {# Status change #}
+            <div class="dash-label">Change Status</div>
+            <form method="post" action="{% url 'dashboard:message_set_status' msg.pk %}" style="margin-bottom: 16px;">
+                {% csrf_token %}
+                <select name="status" class="dash-select" onchange="this.form.submit()">
+                    {% for key, label in status_choices %}
+                        <option value="{{ key }}" {% if msg.status == key %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            {# Metadata #}
+            <div class="dash-label" style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">Metadata</div>
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:0.8rem;">
+                <div>
+                    <span style="color: var(--text-subtle);">IP:</span>
+                    <span style="color: var(--text-muted);">{{ msg.ip_address|default:"—" }}</span>
+                </div>
+                <div>
+                    <span style="color: var(--text-subtle);">User agent:</span>
+                    <div style="color: var(--text-muted); font-size: 0.7rem; word-break: break-all;">{{ msg.user_agent|default:"—"|truncatechars:120 }}</div>
+                </div>
+            </div>
+
+            {# Delete #}
+            <form method="post" action="{% url 'dashboard:message_delete' msg.pk %}"
+                  onsubmit="return confirm('Delete this message permanently? This cannot be undone.');"
+                  style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">
+                {% csrf_token %}
+                <button type="submit" class="dash-btn dash-btn--danger" style="width: 100%;">
+                    <i class="bx bx-trash" aria-hidden="true"></i> Delete Message
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+    @media (max-width: 900px) {
+        .dash-grid-2 { grid-template-columns: 1fr !important; }
+    }
+</style>
+
+{% endblock %}

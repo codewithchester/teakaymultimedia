@@ -1,0 +1,88 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Messages — {{ BRAND_NAME }} Dashboard{% endblock %}
+{% block page_title %}Messages{% endblock %}
+{% block page_subtitle %}Contact form submissions{% endblock %}
+
+{% block content %}
+
+{# Filter tabs #}
+<div class="dash-tabs">
+    <a href="{% url 'dashboard:messages' %}"
+       class="dash-tab {% if not active_status %}is-active{% endif %}">
+        All
+    </a>
+    {% for key, label in status_choices %}
+        <a href="?status={{ key }}"
+           class="dash-tab {% if active_status == key %}is-active{% endif %}">
+            {{ label }}
+        </a>
+    {% endfor %}
+</div>
+
+{# Messages #}
+<div class="dash-card">
+    <div class="dash-card__head">
+        <span class="dash-card__title">
+            {% if active_status %}{{ active_status|title }}{% else %}All{% endif %} Messages
+        </span>
+        <span style="font-size:0.75rem; color:var(--text-subtle);">{{ messages_list|length }} total</span>
+    </div>
+
+    {% if messages_list %}
+        <div style="overflow-x: auto;">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                        <th>Received</th>
+                        <th style="text-align: right;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in messages_list %}
+                        <tr>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:var(--gold-soft); color:var(--gold); font-weight:700; flex-shrink:0; font-size:0.75rem;">
+                                        {{ msg.name|slice:":1"|upper }}
+                                    </span>
+                                    <div style="min-width:0;">
+                                        <div style="font-weight:600; color:var(--heading); font-size:0.9rem;">{{ msg.name }}</div>
+                                        <div style="font-size:0.75rem; color:var(--text-subtle);">{{ msg.email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="max-width:320px;">
+                                <div style="font-weight:500; color:var(--heading); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ msg.subject }}</div>
+                                <div style="font-size:0.75rem; color:var(--text-subtle); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ msg.short_message }}</div>
+                            </td>
+                            <td>
+                                <span class="dash-pill dash-pill--{{ msg.status }}">{{ msg.get_status_display }}</span>
+                            </td>
+                            <td style="color: var(--text-muted); font-size: 0.8rem; white-space: nowrap;">
+                                {{ msg.created_at|timesince }} ago
+                            </td>
+                            <td style="text-align: right; white-space: nowrap;">
+                                <a href="{% url 'dashboard:message_detail' msg.pk %}" class="dash-btn dash-btn--ghost dash-btn--sm">
+                                    Open <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="dash-empty">
+            <i class="bx bx-envelope" aria-hidden="true"></i>
+            <h3>No messages</h3>
+            <p>Nothing to show here yet.</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

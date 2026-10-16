@@ -1,0 +1,193 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Site Settings — {{ BRAND_NAME }} Dashboard{% endblock %}
+{% block page_title %}Site Settings{% endblock %}
+{% block page_subtitle %}Brand, homepage, contact, legal{% endblock %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="dash-card" style="border-color: rgba(239,68,68,0.4); margin-bottom: 20px;">
+            <div class="dash-card__body">
+                {% for error in form.non_field_errors %}
+                    <div class="dash-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="dash-grid-2">
+
+        {# ═══════ LEFT COLUMN ═══════ #}
+        <div>
+
+            {# Brand #}
+            <div class="dash-card dash-mb-4">
+                <div class="dash-card__head">
+                    <span class="dash-card__title">Brand</span>
+                </div>
+                <div class="dash-card__body">
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.brand_name.id_for_label }}">Brand Name</label>
+                        {{ form.brand_name }}
+                        {% if form.brand_name.errors %}<div class="dash-error">{{ form.brand_name.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.tagline.id_for_label }}">Tagline</label>
+                        {{ form.tagline }}
+                        {% if form.tagline.errors %}<div class="dash-error">{{ form.tagline.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.footer_text.id_for_label }}">Footer Text</label>
+                        {{ form.footer_text }}
+                        <div class="dash-help">Optional line shown in the site footer.</div>
+                        {% if form.footer_text.errors %}<div class="dash-error">{{ form.footer_text.errors.0 }}</div>{% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            {# Homepage #}
+            <div class="dash-card dash-mb-4">
+                <div class="dash-card__head">
+                    <span class="dash-card__title">Homepage</span>
+                </div>
+                <div class="dash-card__body">
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.homepage_headline.id_for_label }}">Headline</label>
+                        {{ form.homepage_headline }}
+                        {% if form.homepage_headline.errors %}<div class="dash-error">{{ form.homepage_headline.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.homepage_intro.id_for_label }}">Introduction</label>
+                        {{ form.homepage_intro }}
+                        {% if form.homepage_intro.errors %}<div class="dash-error">{{ form.homepage_intro.errors.0 }}</div>{% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            {# About #}
+            <div class="dash-card dash-mb-4">
+                <div class="dash-card__head">
+                    <span class="dash-card__title">About Page</span>
+                </div>
+                <div class="dash-card__body">
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.about_story.id_for_label }}">Brand Story</label>
+                        {{ form.about_story }}
+                        {% if form.about_story.errors %}<div class="dash-error">{{ form.about_story.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.about_philosophy.id_for_label }}">Working Philosophy</label>
+                        {{ form.about_philosophy }}
+                        {% if form.about_philosophy.errors %}<div class="dash-error">{{ form.about_philosophy.errors.0 }}</div>{% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        {# ═══════ RIGHT COLUMN ═══════ #}
+        <div>
+
+            {# Contact #}
+            <div class="dash-card dash-mb-4">
+                <div class="dash-card__head">
+                    <span class="dash-card__title">Contact</span>
+                </div>
+                <div class="dash-card__body">
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.contact_email.id_for_label }}">Email</label>
+                        {{ form.contact_email }}
+                        {% if form.contact_email.errors %}<div class="dash-error">{{ form.contact_email.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.contact_whatsapp.id_for_label }}">WhatsApp</label>
+                        {{ form.contact_whatsapp }}
+                        <div class="dash-help">International format, no leading zero, no +. Example: 233531372310</div>
+                        {% if form.contact_whatsapp.errors %}<div class="dash-error">{{ form.contact_whatsapp.errors.0 }}</div>{% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            {# Audio #}
+            <div class="dash-card dash-mb-4">
+                <div class="dash-card__head">
+                    <span class="dash-card__title">Homepage Audio</span>
+                </div>
+                <div class="dash-card__body">
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.homepage_audio.id_for_label }}">Audio File</label>
+                        {{ form.homepage_audio }}
+                        <div class="dash-help">Optional. MP3 or M4A recommended.</div>
+                        {% if form.homepage_audio.errors %}<div class="dash-error">{{ form.homepage_audio.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.homepage_audio_transcript.id_for_label }}">Transcript</label>
+                        {{ form.homepage_audio_transcript }}
+                        {% if form.homepage_audio_transcript.errors %}<div class="dash-error">{{ form.homepage_audio_transcript.errors.0 }}</div>{% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            {# Legal #}
+            <div class="dash-card dash-mb-4">
+                <div class="dash-card__head">
+                    <span class="dash-card__title">Legal Pages</span>
+                </div>
+                <div class="dash-card__body">
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.privacy_policy.id_for_label }}">Privacy Policy</label>
+                        {{ form.privacy_policy }}
+                        <div class="dash-help">Leave blank to use the default placeholder text.</div>
+                        {% if form.privacy_policy.errors %}<div class="dash-error">{{ form.privacy_policy.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="dash-field">
+                        <label class="dash-label" for="{{ form.terms_of_use.id_for_label }}">Terms of Use</label>
+                        {{ form.terms_of_use }}
+                        <div class="dash-help">Leave blank to use the default placeholder text.</div>
+                        {% if form.terms_of_use.errors %}<div class="dash-error">{{ form.terms_of_use.errors.0 }}</div>{% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {# ═══════ SAVE BAR ═══════ #}
+    <div style="position: sticky; bottom: 16px; margin-top: 24px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: var(--shadow-lg);">
+        <div style="font-size: 0.8rem; color: var(--text-muted);">
+            <i class="bx bx-info-circle" aria-hidden="true"></i>
+            Changes apply to the live site immediately after saving.
+        </div>
+        <button type="submit" class="dash-btn dash-btn--primary">
+            <i class="bx bx-save" aria-hidden="true"></i> Save Changes
+        </button>
+    </div>
+
+</form>
+
+{% endblock %}

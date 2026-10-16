@@ -1,0 +1,174 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Overview — {{ BRAND_NAME }} Dashboard{% endblock %}
+{% block page_title %}Overview{% endblock %}
+{% block page_subtitle %}Welcome back, {{ request.user.username }}{% endblock %}
+
+{% block content %}
+
+<div class="dash-welcome">
+    <h2>Welcome back 👋</h2>
+    <p>Here's a quick look at everything happening on {{ BRAND_NAME }}.</p>
+</div>
+
+{# ═══════ STATS ═══════ #}
+<div class="dash-stats">
+
+    <a href="{% url 'dashboard:services' %}" class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-briefcase" aria-hidden="true"></i></span>
+        <div class="dash-stat__number">{{ stats.services_total }}</div>
+        <div class="dash-stat__label">Services</div>
+        <div class="dash-stat__meta">{{ stats.services_published }} published</div>
+    </a>
+
+    <a href="{% url 'dashboard:projects' %}" class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-folder" aria-hidden="true"></i></span>
+        <div class="dash-stat__number">{{ stats.projects_total }}</div>
+        <div class="dash-stat__label">Projects</div>
+        <div class="dash-stat__meta">{{ stats.projects_published }} published</div>
+    </a>
+
+    <a href="{% url 'dashboard:gallery' %}" class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-image" aria-hidden="true"></i></span>
+        <div class="dash-stat__number">{{ stats.gallery_total }}</div>
+        <div class="dash-stat__label">Gallery</div>
+        <div class="dash-stat__meta">{{ stats.gallery_published }} published</div>
+    </a>
+
+    <a href="{% url 'dashboard:messages' %}" class="dash-stat">
+        <span class="dash-stat__icon"><i class="bx bx-envelope" aria-hidden="true"></i></span>
+        <div class="dash-stat__number">{{ stats.messages_total }}</div>
+        <div class="dash-stat__label">Messages</div>
+        <div class="dash-stat__meta">
+            {% if stats.messages_new %}<span style="color: var(--gold);">{{ stats.messages_new }} unread</span>{% else %}All read{% endif %}
+        </div>
+    </a>
+
+</div>
+
+{# ═══════ RECENT ═══════ #}
+<div class="dash-grid-2">
+
+    {# Recent messages #}
+    <div class="dash-card">
+        <div class="dash-card__head">
+            <span class="dash-card__title">Recent Messages</span>
+            <a href="{% url 'dashboard:messages' %}" class="dash-btn dash-btn--ghost dash-btn--sm">
+                View All <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="dash-card__body">
+            {% if recent_messages %}
+                <ul style="display:flex; flex-direction:column; gap:12px;">
+                    {% for msg in recent_messages %}
+                        <li>
+                            <a href="{% url 'dashboard:message_detail' msg.pk %}"
+                               style="display:flex; align-items:flex-start; gap:12px; padding:10px; border-radius:var(--radius-md); transition:background 200ms ease-out;"
+                               onmouseover="this.style.background='var(--surface-2)'"
+                               onmouseout="this.style.background='transparent'">
+                                <span style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; background:var(--gold-soft); color:var(--gold); font-weight:700; flex-shrink:0; font-size:0.85rem;">
+                                    {{ msg.name|slice:":1"|upper }}
+                                </span>
+                                <span style="flex:1; min-width:0;">
+                                    <span style="display:flex; align-items:center; gap:8px; margin-bottom:2px;">
+                                        <strong style="font-size:0.9rem; color:var(--heading);">{{ msg.name }}</strong>
+                                        <span class="dash-pill dash-pill--{{ msg.status }}">{{ msg.get_status_display }}</span>
+                                    </span>
+                                    <span style="display:block; font-size:0.8rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        {{ msg.subject }}
+                                    </span>
+                                    <span style="display:block; font-size:0.7rem; color:var(--text-subtle); margin-top:2px;">
+                                        {{ msg.created_at|timesince }} ago
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="dash-empty" style="padding: 24px;">
+                    <i class="bx bx-envelope" aria-hidden="true"></i>
+                    <h3>No messages yet</h3>
+                    <p>When visitors submit the contact form, they'll appear here.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Recent projects #}
+    <div class="dash-card">
+        <div class="dash-card__head">
+            <span class="dash-card__title">Recent Projects</span>
+            <a href="{% url 'dashboard:projects' %}" class="dash-btn dash-btn--ghost dash-btn--sm">
+                View All <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="dash-card__body">
+            {% if recent_projects %}
+                <ul style="display:flex; flex-direction:column; gap:12px;">
+                    {% for project in recent_projects %}
+                        <li>
+                            <a href="/admin/tkmedia/project/{{ project.pk }}/change/"
+                               target="_blank" rel="noopener"
+                               style="display:flex; align-items:center; gap:12px; padding:10px; border-radius:var(--radius-md); transition:background 200ms ease-out;"
+                               onmouseover="this.style.background='var(--surface-2)'"
+                               onmouseout="this.style.background='transparent'">
+                                <span style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:var(--radius-md); background:var(--surface-2); overflow:hidden; flex-shrink:0;">
+                                    {% if project.cover_image %}
+                                        <img src="{{ project.cover_image.url }}" alt="" style="width:100%; height:100%; object-fit:cover;">
+                                    {% else %}
+                                        <i class="bx bx-folder" style="color:var(--gold); font-size:1.3rem;"></i>
+                                    {% endif %}
+                                </span>
+                                <span style="flex:1; min-width:0;">
+                                    <span style="display:block; font-size:0.9rem; font-weight:600; color:var(--heading); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        {{ project.title }}
+                                    </span>
+                                    <span style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+                                        <span class="dash-pill {% if project.is_published %}dash-pill--published{% else %}dash-pill--draft{% endif %}">
+                                            {% if project.is_published %}Published{% else %}Draft{% endif %}
+                                        </span>
+                                        <span style="font-size:0.7rem; color:var(--text-subtle);">{{ project.get_category_display }}</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="dash-empty" style="padding: 24px;">
+                    <i class="bx bx-folder" aria-hidden="true"></i>
+                    <h3>No projects yet</h3>
+                    <p>Add your first portfolio project from the admin panel.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{# ═══════ QUICK ACTIONS ═══════ #}
+<div class="dash-card" style="margin-top: 24px;">
+    <div class="dash-card__head">
+        <span class="dash-card__title">Quick Actions</span>
+    </div>
+    <div class="dash-card__body">
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <a href="{% url 'dashboard:settings' %}" class="dash-btn dash-btn--primary">
+                <i class="bx bx-cog" aria-hidden="true"></i> Edit Site Settings
+            </a>
+            <a href="/admin/tkmedia/service/add/" target="_blank" rel="noopener" class="dash-btn dash-btn--ghost">
+                <i class="bx bx-plus" aria-hidden="true"></i> Add Service
+            </a>
+            <a href="/admin/tkmedia/project/add/" target="_blank" rel="noopener" class="dash-btn dash-btn--ghost">
+                <i class="bx bx-plus" aria-hidden="true"></i> Add Project
+            </a>
+            <a href="/admin/tkmedia/galleryitem/add/" target="_blank" rel="noopener" class="dash-btn dash-btn--ghost">
+                <i class="bx bx-plus" aria-hidden="true"></i> Add Gallery Item
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
