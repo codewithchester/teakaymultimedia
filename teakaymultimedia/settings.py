@@ -85,9 +85,54 @@ TEMPLATES = [
 WSGI_APPLICATION = "teakaymultimedia.wsgi.application"
 
 # ─── Database ────────────────────────────────────────────
+# DB_ENGINE = os.getenv("DB_ENGINE", "sqlite").lower()
+
+# if DB_ENGINE == "postgres":
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.postgresql",
+#             "NAME": os.getenv("DB_NAME", ""),
+#             "USER": os.getenv("DB_USER", ""),
+#             "PASSWORD": os.getenv("DB_PASSWORD", ""),
+#             "HOST": os.getenv("DB_HOST", "localhost"),
+#             "PORT": os.getenv("DB_PORT", "5432"),
+#             "CONN_MAX_AGE": 60,
+#         }
+#     }
+# else:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.sqlite3",
+#             "NAME": BASE_DIR / "db.sqlite3",
+#         }
+#     }
+# ─── Database ────────────────────────────────────────────
+# Priority:
+# 1. DATABASE_URL env var (Neon, Supabase, Render Postgres) — production
+# 2. DB_ENGINE=postgres + individual vars — custom Postgres
+# 3. Fallback to SQLite (local development)
+from urllib.parse import urlparse
+
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 DB_ENGINE = os.getenv("DB_ENGINE", "sqlite").lower()
 
-if DB_ENGINE == "postgres":
+if DATABASE_URL:
+    url = urlparse(DATABASE_URL)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": url.path.lstrip("/"),
+            "USER": url.username or "",
+            "PASSWORD": url.password or "",
+            "HOST": url.hostname or "",
+            "PORT": url.port or 5432,
+            "CONN_MAX_AGE": 60,
+            "OPTIONS": {
+                "sslmode": "require",
+            },
+        }
+    }
+elif DB_ENGINE == "postgres":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
