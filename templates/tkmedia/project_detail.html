@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ project.title }} — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}{{ project.summary }}{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">{{ project.get_category_display }}</span>
+            <h1>{{ project.title }}</h1>
+            <p>{{ project.summary }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="detail-layout">
+
+            <div>
+                {% if project.cover_image %}
+                    <img src="{{ project.cover_image.url }}" alt="{{ project.title }}"
+                         style="border-radius: var(--radius-lg); margin-bottom: var(--space-8); width: 100%;">
+                {% endif %}
+
+                <div class="detail-body">
+                    {{ project.description }}
+                </div>
+
+                {% if project.images.all %}
+                    <h2 style="margin-top: var(--space-12); margin-bottom: var(--space-6);">Gallery</h2>
+                    <div class="gallery-grid">
+                        {% for img in project.images.all %}
+                            <div class="gallery-item"
+                                 data-lightbox
+                                 data-lightbox-src="{{ img.image.url }}"
+                                 data-lightbox-alt="{{ img.caption|default:project.title }}"
+                                 data-lightbox-caption="{{ img.caption }}">
+                                <img src="{{ img.image.url }}"
+                                     alt="{{ img.caption|default:project.title }}"
+                                     loading="lazy">
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <aside class="detail-meta">
+                <h3>Project details</h3>
+                <div class="detail-meta__list">
+                    <div class="detail-meta__row">
+                        <span class="detail-meta__label">Category</span>
+                        <span class="detail-meta__value">{{ project.get_category_display }}</span>
+                    </div>
+
+                    {% if project.completed_on %}
+                        <div class="detail-meta__row">
+                            <span class="detail-meta__label">Completed</span>
+                            <span class="detail-meta__value">{{ project.completed_on|date:"F Y" }}</span>
+                        </div>
+                    {% endif %}
+
+                    {% if project.technologies %}
+                        <div class="detail-meta__row">
+                            <span class="detail-meta__label">Technologies</span>
+                            <div class="tag-list" style="margin-top: var(--space-2);">
+                                {% for tech in project.technologies_list %}
+                                    <span class="tag">{{ tech }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if project.external_url %}
+                    <a href="{{ project.external_url }}" target="_blank" rel="noopener noreferrer"
+                       class="btn btn--primary btn--block">View live project</a>
+                {% endif %}
+
+                {% if project.source_url %}
+                    <a href="{{ project.source_url }}" target="_blank" rel="noopener noreferrer"
+                       class="btn btn--secondary btn--block"
+                       style="margin-top: var(--space-2);">View source code</a>
+                {% endif %}
+            </aside>
+
+        </div>
+    </div>
+</section>
+
+{% if related_projects %}
+<section class="section" style="background: var(--color-surface);">
+    <div class="container">
+        <h2 style="margin-bottom: var(--space-8);">Related projects</h2>
+        <div class="grid grid--wide">
+            {% for p in related_projects %}
+                <a href="{{ p.get_absolute_url }}" class="project-card">
+                    <div class="project-card__media {% if not p.cover_image %}project-card__media--placeholder{% endif %}">
+                        {% if p.cover_image %}
+                            <img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">
+                        {% else %}
+                            <span aria-hidden="true">{{ p.title|slice:":1"|upper }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="project-card__body">
+                        <h3>{{ p.title }}</h3>
+                        <p>{{ p.summary }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/lightbox.js' %}" defer></script>
+{% endblock %}

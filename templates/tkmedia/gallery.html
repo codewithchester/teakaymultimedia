@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Gallery — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}Selected visual work by {{ BRAND_NAME }}.{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">Gallery</span>
+            <h1>Selected visual work</h1>
+            <p>A curated collection of designs, flyers, and creative media.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        <div class="filter-bar" data-filter-bar>
+            <a href="{% url 'tkmedia:gallery' %}"
+               class="filter-chip {% if not active_category %}filter-chip--active{% endif %}"
+               data-filter="all">All</a>
+            {% for key, label in categories %}
+                <a href="?category={{ key }}"
+                   class="filter-chip {% if active_category == key %}filter-chip--active{% endif %}"
+                   data-filter="{{ key }}">{{ label }}</a>
+            {% endfor %}
+        </div>
+
+        {% if items %}
+            <div class="gallery-public">
+                {% for item in items %}
+                    <div class="gallery-public__item"
+                         data-lightbox
+                         data-lightbox-src="{{ item.image.url }}"
+                         data-lightbox-alt="{{ item.alt_text }}"
+                         data-lightbox-caption="{{ item.caption|default:item.title }}">
+                        <img src="{{ item.image.url }}" alt="{{ item.alt_text }}" loading="lazy">
+                        {% if item.caption %}
+                            <div class="gallery-public__overlay">{{ item.caption }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No gallery items yet</h3>
+                <p>Add public images from the admin panel to display them here.</p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/lightbox.js' %}" defer></script>
+{% endblock %}

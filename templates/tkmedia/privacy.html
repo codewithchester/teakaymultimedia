@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy — {{ BRAND_NAME }}{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">Legal</span>
+            <h1>Privacy Policy</h1>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container container--narrow">
+        <div class="legal-content">
+{% if settings_obj.privacy_policy %}
+{{ settings_obj.privacy_policy }}
+{% else %}
+This is a placeholder privacy policy. Please review and replace it with one appropriate to your business and applicable laws.
+
+Information collected through this website may include: contact form submissions (name, email, phone, subject, message), limited technical data (IP address, browser user agent) for spam prevention and rate limiting, and analytics data if analytics are enabled.
+
+Contact {{ settings_obj.contact_email }} for any privacy-related questions.
+{% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

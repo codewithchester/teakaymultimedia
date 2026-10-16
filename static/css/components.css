@@ -1,0 +1,419 @@
+/* ─── Buttons ─────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    line-height: 1;
+    border-radius: var(--radius-md);
+    border: var(--border-thin) solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: var(--transition-base);
+    user-select: none;
+}
+
+.btn:disabled, .btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn--primary {
+    background: var(--color-brand);
+    color: #ffffff;
+    box-shadow: var(--shadow-md);
+}
+
+.btn--primary:hover {
+    background: var(--color-brand-hover);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.btn--primary:active {
+    transform: translateY(0);
+    background: var(--color-brand-active);
+}
+
+.btn--secondary {
+    background: transparent;
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+}
+
+.btn--secondary:hover {
+    color: var(--color-brand);
+    border-color: var(--color-brand);
+    background: var(--color-brand-soft);
+    transform: translateY(-2px);
+}
+
+.btn--accent {
+    background: var(--color-accent);
+    color: #ffffff;
+    box-shadow: var(--shadow-md);
+}
+
+.btn--accent:hover {
+    background: var(--color-accent-hover);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--color-text);
+    border-color: transparent;
+}
+
+.btn--ghost:hover {
+    background: var(--color-surface-2);
+    color: var(--color-brand);
+}
+
+.btn--lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--fs-md);
+}
+
+.btn--sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--fs-sm);
+}
+
+.btn--block { width: 100%; }
+
+/* ─── Icon Button (for theme toggle, hamburger) ───────── */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    transition: var(--transition-base);
+    border: var(--border-thin) solid transparent;
+}
+
+.icon-btn:hover {
+    background: var(--color-surface-2);
+    color: var(--color-brand);
+    border-color: var(--color-border);
+}
+
+.icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ─── Card ────────────────────────────────────────────── */
+.card {
+    background: var(--color-surface);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: var(--transition-base);
+}
+
+.card--hover:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ─── Badge ───────────────────────────────────────────── */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+    background: var(--color-brand-soft);
+    color: var(--color-brand);
+    border: var(--border-thin) solid transparent;
+}
+
+.badge--accent {
+    background: rgba(249, 115, 22, 0.12);
+    color: var(--color-accent);
+}
+
+/* ─── Messages / Alerts ───────────────────────────────── */
+.messages {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: var(--z-toast);
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.message {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    border-left: 4px solid;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+    font-size: var(--fs-sm);
+    animation: slide-in var(--duration-base) var(--ease-out);
+}
+
+.message--success { border-color: var(--color-success); }
+.message--error   { border-color: var(--color-danger); }
+.message--warning { border-color: var(--color-warning); }
+.message--info    { border-color: var(--color-info); }
+
+@keyframes slide-in {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 480px) {
+    .messages {
+        left: var(--space-4);
+        right: var(--space-4);
+        max-width: none;
+    }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════
+   STAGE 4 — Forms & Audio Player
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Form Fields ─────────────────────────────────────── */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+}
+
+@media (min-width: 600px) {
+    .form-row--2 { grid-template-columns: 1fr 1fr; }
+}
+
+.form-label {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+}
+
+.form-label--required::after {
+    content: " *";
+    color: var(--color-danger);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--fs-base);
+    font-family: inherit;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: var(--border-thin) solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    transition: var(--transition-colors);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px var(--color-brand-soft);
+}
+
+.form-textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: var(--lh-relaxed);
+}
+
+.form-help {
+    font-size: var(--fs-xs);
+    color: var(--color-text-subtle);
+}
+
+.form-error {
+    font-size: var(--fs-sm);
+    color: var(--color-danger);
+}
+
+.form-input[aria-invalid="true"],
+.form-textarea[aria-invalid="true"] {
+    border-color: var(--color-danger);
+}
+
+/* ─── Honeypot (must be invisible but accessible to bots) ─── */
+.hp-field,
+.hp-wrapper {
+    position: absolute !important;
+    left: -9999px !important;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* ─── Audio Player ────────────────────────────────────── */
+.audio-intro {
+    background: var(--color-surface);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 640px;
+    margin-inline: auto;
+}
+
+.audio-intro__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.audio-intro__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--color-brand-soft);
+    color: var(--color-brand);
+    flex-shrink: 0;
+}
+
+.audio-intro__icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.audio-intro__title {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-heading);
+}
+
+.audio-intro__subtitle {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+}
+
+.audio-intro__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.audio-intro__play {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: var(--color-brand);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-base);
+    flex-shrink: 0;
+}
+
+.audio-intro__play:hover {
+    background: var(--color-brand-hover);
+    transform: scale(1.05);
+}
+
+.audio-intro__play svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.audio-intro__progress {
+    flex: 1;
+    height: 6px;
+    background: var(--color-surface-3);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.audio-intro__progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--color-brand);
+    transition: width 100ms linear;
+}
+
+.audio-intro__time {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 80px;
+    text-align: right;
+}
+
+.audio-intro__transcript-toggle {
+    font-size: var(--fs-xs);
+    color: var(--color-brand);
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    padding: 0;
+    align-self: flex-start;
+}
+
+.audio-intro__transcript {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    line-height: var(--lh-relaxed);
+    padding: var(--space-4);
+    background: var(--color-surface-2);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-brand);
+}
+
+.audio-intro__transcript[hidden] { display: none; }

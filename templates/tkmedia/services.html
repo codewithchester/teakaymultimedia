@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Services — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}Services offered by {{ BRAND_NAME }}: web development, design, multimedia, and technical solutions.{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">Services</span>
+            <h1>What {{ BRAND_NAME }} does</h1>
+            <p>Professional digital services covering web development, design, multimedia, and technical support.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        {% if services %}
+            <div class="grid grid--wide">
+                {% for service in services %}
+                    <article class="service-card">
+                        <div class="service-card__media">
+                            {% if service.cover_image %}
+                                <img src="{{ service.cover_image.url }}" alt="{{ service.title }}">
+                            {% else %}
+                                <span aria-hidden="true">{{ service.icon|default:"◆" }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="service-card__body">
+                            <h3>{{ service.title }}</h3>
+                            <p>{{ service.short_description }}</p>
+                            <div class="service-card__footer">
+                                {% if service.starting_price %}
+                                    <span class="service-card__price">
+                                        {% if service.price_note %}{{ service.price_note }} {% endif %}
+                                        GHS {{ service.starting_price }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">Request a quote</span>
+                                {% endif %}
+                                <a href="{{ service.get_absolute_url }}" class="btn btn--ghost btn--sm">Learn more →</a>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No services published yet</h3>
+                <p>Log into the admin panel to add your first service.</p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<section class="section" style="background: var(--color-surface);">
+    <div class="container container--narrow text-center">
+        <span class="badge badge--accent">Let's Work Together</span>
+        <h2 style="margin-top: var(--space-4);">Need something specific?</h2>
+        <p class="text-muted" style="margin-top: var(--space-4); margin-bottom: var(--space-8);">
+            Reach out to discuss your project directly.
+        </p>
+        <div class="hero__actions" style="justify-content: center;">
+            <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg">
+                WhatsApp TK MULTIMEDIA
+            </a>
+            <a href="{{ BRAND_EMAIL_URL }}" class="btn btn--secondary btn--lg">Send an Email</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

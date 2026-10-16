@@ -1,0 +1,46 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer__grid">
+
+            <div class="footer__brand-col">
+                <div class="footer__brand">{{ BRAND_NAME }}</div>
+                <p class="footer__tagline">{{ BRAND_TAGLINE }}</p>
+
+                <ul class="footer__contact">
+                    <li>
+                        <a class="footer__link" href="{{ BRAND_EMAIL_URL }}">
+                            {{ BRAND_EMAIL }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="footer__link"
+                           href="{{ BRAND_WHATSAPP_URL }}"
+                           target="_blank" rel="noopener noreferrer">
+                            WhatsApp: +{{ BRAND_WHATSAPP }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer__links-col">
+                <h3 class="footer__heading">Explore</h3>
+                <ul class="footer__links-grid">
+                    <li><a class="footer__link" href="{% url 'tkmedia:home' %}">Home</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:about' %}">About</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:services' %}">Services</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:portfolio' %}">Portfolio</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:gallery' %}">Gallery</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:contact' %}">Contact</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:privacy' %}">Privacy</a></li>
+                    <li><a class="footer__link" href="{% url 'tkmedia:terms' %}">Terms</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer__bottom">
+            <span>&copy; {% now "Y" %} {{ BRAND_NAME }}. All rights reserved.</span>
+            <span>Built with Django.</span>
+        </div>
+    </div>
+</footer>

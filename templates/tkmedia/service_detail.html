@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.title }} — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}{{ service.short_description }}{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">Service</span>
+            <h1>{{ service.title }}</h1>
+            <p>{{ service.short_description }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="detail-layout">
+
+            <div>
+                {% if service.cover_image %}
+                    <img src="{{ service.cover_image.url }}" alt="{{ service.title }}"
+                         style="border-radius: var(--radius-lg); margin-bottom: var(--space-8); width: 100%;">
+                {% endif %}
+
+                <div class="detail-body">
+                    {{ service.description }}
+                </div>
+            </div>
+
+            <aside class="detail-meta">
+                <h3>Service details</h3>
+                <div class="detail-meta__list">
+                    {% if service.starting_price %}
+                        <div class="detail-meta__row">
+                            <span class="detail-meta__label">Starting price</span>
+                            <span class="detail-meta__value">
+                                GHS {{ service.starting_price }}
+                                {% if service.price_note %} · {{ service.price_note }}{% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+                   class="btn btn--primary btn--block">Discuss on WhatsApp</a>
+
+                <a href="{{ BRAND_EMAIL_URL }}"
+                   class="btn btn--secondary btn--block" style="margin-top: var(--space-2);">
+                    Send an Email
+                </a>
+            </aside>
+
+        </div>
+    </div>
+</section>
+
+{% if other_services %}
+<section class="section" style="background: var(--color-surface);">
+    <div class="container">
+        <h2 style="margin-bottom: var(--space-8);">Other services</h2>
+        <div class="grid">
+            {% for s in other_services %}
+                <article class="service-card">
+                    <div class="service-card__body">
+                        <h3>{{ s.title }}</h3>
+                        <p>{{ s.short_description }}</p>
+                        <a href="{{ s.get_absolute_url }}" class="btn btn--ghost btn--sm">Learn more →</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

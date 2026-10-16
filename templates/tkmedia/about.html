@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}About — {{ BRAND_NAME }}{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">About</span>
+            <h1>A technology, media, and digital solutions brand.</h1>
+            <p>{{ BRAND_NAME }} combines software development, creative design, and multimedia production.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container container--narrow">
+
+        <h2>Brand story</h2>
+        <p class="text-muted">
+            {% if settings_obj.about_story %}
+                {{ settings_obj.about_story }}
+            {% else %}
+                {{ BRAND_NAME }} was created to bring technology, creativity, and digital innovation
+                together for businesses and individuals. Every project is approached with care,
+                clarity, and attention to detail.
+            {% endif %}
+        </p>
+
+        <h2 style="margin-top: var(--space-12);">Working philosophy</h2>
+        <p class="text-muted">
+            {% if settings_obj.about_philosophy %}
+                {{ settings_obj.about_philosophy }}
+            {% else %}
+                Every project starts with understanding the goal, then designing and building a
+                solution that is clean, reliable, and appropriate for the real problem.
+            {% endif %}
+        </p>
+
+        {% if technical_skills %}
+            <div class="skills-group" style="margin-top: var(--space-12);">
+                <h3 class="skills-group__heading">Technical skills</h3>
+                <div class="skills-grid">
+                    {% for skill in technical_skills %}
+                        <div class="skill-card">
+                            <div class="skill-card__name">{{ skill.name }}</div>
+                            {% if skill.description %}
+                                <div class="skill-card__desc">{{ skill.description }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if creative_skills %}
+            <div class="skills-group">
+                <h3 class="skills-group__heading">Creative skills</h3>
+                <div class="skills-grid">
+                    {% for skill in creative_skills %}
+                        <div class="skill-card">
+                            <div class="skill-card__name">{{ skill.name }}</div>
+                            {% if skill.description %}
+                                <div class="skill-card__desc">{{ skill.description }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if tools %}
+            <div class="skills-group">
+                <h3 class="skills-group__heading">Tools &amp; technologies</h3>
+                <div class="skills-grid">
+                    {% for skill in tools %}
+                        <div class="skill-card">
+                            <div class="skill-card__name">{{ skill.name }}</div>
+                            {% if skill.description %}
+                                <div class="skill-card__desc">{{ skill.description }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="hero__actions" style="margin-top: var(--space-12);">
+            <a href="{% url 'tkmedia:services' %}" class="btn btn--primary">View Services</a>
+            <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--secondary">See Portfolio</a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

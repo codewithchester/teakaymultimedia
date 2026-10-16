@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Contact — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}Get in touch with {{ BRAND_NAME }} for web development, design, and multimedia services.{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">Contact</span>
+            <h1>Let's build something great.</h1>
+            <p>Reach out via the form, WhatsApp, or email — whichever you prefer.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="contact-layout">
+
+            <div class="contact-form-wrap">
+                <form method="post" action="{% url 'tkmedia:contact' %}" class="form" novalidate>
+                    {% csrf_token %}
+
+                    {# Honeypot — hidden from real users, catches bots #}
+                    <div class="hp-wrapper" aria-hidden="true">
+                        <label for="{{ form.website.id_for_label }}">Website</label>
+                        {{ form.website }}
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        <div class="message message--error">
+                            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-row form-row--2">
+                        <div class="form-group">
+                            <label class="form-label form-label--required" for="{{ form.name.id_for_label }}">Name</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <span class="form-error">{{ form.name.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label--required" for="{{ form.email.id_for_label }}">Email</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <span class="form-error">{{ form.email.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-row form-row--2">
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.phone.id_for_label }}">Phone (optional)</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <span class="form-error">{{ form.phone.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label--required" for="{{ form.subject.id_for_label }}">Subject</label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <span class="form-error">{{ form.subject.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label form-label--required" for="{{ form.message.id_for_label }}">Message</label>
+                        {{ form.message }}
+                        {% if form.message.errors %}
+                            <span class="form-error">{{ form.message.errors.0 }}</span>
+                        {% endif %}
+                        <span class="form-help">Please provide as much detail as you can.</span>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn--primary btn--lg">Send Message</button>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="contact-info">
+                <h3 class="contact-info__heading">Direct contact</h3>
+
+                <div class="contact-info__item">
+                    <div class="contact-info__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </div>
+                    <div>
+                        <div class="contact-info__label">Email</div>
+                        <div class="contact-info__value">
+                            <a href="{{ BRAND_EMAIL_URL }}">{{ BRAND_EMAIL }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-info__item">
+                    <div class="contact-info__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    </div>
+                    <div>
+                        <div class="contact-info__label">WhatsApp</div>
+                        <div class="contact-info__value">
+                            <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer">
+                                +{{ BRAND_WHATSAPP }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+                   class="btn btn--primary btn--block" style="margin-top: var(--space-5);">
+                    Open WhatsApp chat
+                </a>
+            </aside>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

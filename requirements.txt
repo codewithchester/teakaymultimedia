@@ -1,0 +1,13 @@
+# Core
+Django==6.1
+python-dotenv==1.0.1
+Pillow==12.3.0
+
+# Production static file serving
+whitenoise==6.12.0
+
+# Production database (used later; harmless to install now)
+psycopg[binary]==3.3.6
+
+# Deployment
+gunicorn==26.2.0

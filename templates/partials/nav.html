@@ -1,0 +1,54 @@
+{% load static %}
+<header class="site-header">
+    <div class="container">
+        <nav class="nav" aria-label="Primary navigation">
+
+            <a href="{% url 'tkmedia:home' %}" class="nav__logo" aria-label="{{ BRAND_NAME }} home">
+                <img src="{% static 'images/logo.png' %}"
+                     alt=""
+                     class="nav__logo-mark"
+                     width="40"
+                     height="40"
+                     aria-hidden="true">
+                <span>{{ BRAND_NAME }}</span>
+            </a>
+
+            <ul class="nav__menu" id="primary-menu" data-nav-menu data-open="false">
+                <li><a class="nav__link" href="{% url 'tkmedia:home' %}">Home</a></li>
+                <li><a class="nav__link" href="{% url 'tkmedia:about' %}">About</a></li>
+                <li><a class="nav__link" href="{% url 'tkmedia:services' %}">Services</a></li>
+                <li><a class="nav__link" href="{% url 'tkmedia:portfolio' %}">Portfolio</a></li>
+                <li><a class="nav__link" href="{% url 'tkmedia:gallery' %}">Gallery</a></li>
+                <li><a class="nav__link" href="{% url 'tkmedia:contact' %}">Contact</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <button
+                    type="button"
+                    class="icon-btn"
+                    data-theme-toggle
+                    aria-label="Switch theme"
+                >
+                    <i class="bx bx-sun" aria-hidden="true"></i>
+                </button>
+
+                <a href="{% url 'tkmedia:contact' %}" class="btn btn--primary btn--sm nav__cta">
+                    <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+                    Let's Talk
+                </a>
+
+                <button
+                    type="button"
+                    class="icon-btn nav__toggle"
+                    data-nav-toggle
+                    aria-label="Toggle navigation menu"
+                    aria-controls="primary-menu"
+                    aria-expanded="false"
+                >
+                    <i class="bx bx-menu" aria-hidden="true"></i>
+                </button>
+            </div>
+
+        </nav>
+    </div>
+</header>

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Portfolio — {{ BRAND_NAME }}{% endblock %}
+{% block meta_description %}Selected work and projects by {{ BRAND_NAME }}.{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <div class="page-header__inner">
+            <span class="badge">Portfolio</span>
+            <h1>Selected work &amp; projects</h1>
+            <p>A collection of websites, designs, and multimedia projects by {{ BRAND_NAME }}.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        <div class="filter-bar" data-filter-bar>
+            <a href="{% url 'tkmedia:portfolio' %}"
+               class="filter-chip {% if not active_category %}filter-chip--active{% endif %}"
+               data-filter="all">All</a>
+            {% for key, label in categories %}
+                <a href="?category={{ key }}"
+                   class="filter-chip {% if active_category == key %}filter-chip--active{% endif %}"
+                   data-filter="{{ key }}">{{ label }}</a>
+            {% endfor %}
+        </div>
+
+        {% if projects %}
+            <div class="grid grid--wide">
+                {% for project in projects %}
+                    <a href="{{ project.get_absolute_url }}"
+                       class="project-card"
+                       data-project-category="{{ project.category }}">
+                        <div class="project-card__media {% if not project.cover_image %}project-card__media--placeholder{% endif %}">
+                            {% if project.is_featured %}
+                                <span class="badge badge--accent project-card__badge">Featured</span>
+                            {% endif %}
+                            {% if project.cover_image %}
+                                <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">
+                            {% else %}
+                                <span aria-hidden="true">{{ project.title|slice:":1"|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="project-card__body">
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.summary }}</p>
+                            <div class="project-card__meta">
+                                <span class="tag">{{ project.get_category_display }}</span>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No projects published yet</h3>
+                <p>Add your first project from the admin panel.</p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/portfolio.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ BRAND_NAME }} — {{ BRAND_TAGLINE }}{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/audio-player.js' %}" defer></script>
+{% endblock %}
+{% block content %}
+
+{# ═══════════════ HERO ═══════════════ #}
+<section class="hero">
+    <div class="container">
+        <div class="hero__inner">
+
+            <div class="hero__copy">
+                <span class="badge hero__badge fade-up">Technology &bull; Creativity &bull; Innovation</span>
+
+                <h1 class="hero__title fade-up fade-up--delay-1">
+                    Building Digital Experiences.<br>
+                    Creating Possibilities.
+                </h1>
+
+                <p class="hero__subtitle fade-up fade-up--delay-2">
+                    {{ BRAND_NAME }} brings technology, creativity, and digital innovation
+                    together through web development, multimedia production, digital design,
+                    and practical technology solutions.
+                </p>
+
+                <div class="hero__actions fade-up fade-up--delay-3">
+                    <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--primary btn--lg">Explore My Work</a>
+                    <a href="{% url 'tkmedia:services' %}" class="btn btn--secondary btn--lg">View My Services</a>
+                </div>
+            </div>
+
+            <div class="hero__visual fade-up fade-up--delay-2">
+                <div class="hero__portrait" role="img" aria-label="TK MULTIMEDIA brand mark">
+                    TK
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{# ═══════════════ AUDIO INTRODUCTION ═══════════════ #}
+{% if settings_obj.homepage_audio %}
+<section class="section section--tight">
+    <div class="container">
+        {% include "partials/audio_player.html" %}
+    </div>
+</section>
+{% endif %}
+
+{# ═══════════════ ABOUT PREVIEW ═══════════════ #}
+<section class="section" id="about">
+    <div class="container container--narrow text-center">
+        <span class="badge">About</span>
+        <h2 style="margin-top: var(--space-4);">A technology, media, and digital solutions brand.</h2>
+        <p class="text-muted" style="margin-top: var(--space-4);">
+            {{ BRAND_NAME }} combines software development, creative design, and multimedia
+            production to deliver professional digital experiences for businesses and individuals.
+        </p>
+        <p class="text-muted">
+            This section will be fully editable from the private dashboard in a later stage.
+        </p>
+    </div>
+</section>
+
+{# ═══════════════ SERVICES PREVIEW ═══════════════ #}
+<section class="section" id="services" style="background: var(--color-surface);">
+    <div class="container">
+        <div class="text-center" style="margin-bottom: var(--space-12);">
+            <span class="badge">Services</span>
+            <h2 style="margin-top: var(--space-4);">What {{ BRAND_NAME }} does</h2>
+            <p class="text-muted" style="margin-top: var(--space-4);">A preview of core service areas.</p>
+        </div>
+
+        {% if services %}
+            <div class="grid grid--wide">
+                {% for service in services %}
+                    <article class="service-card">
+                        <div class="service-card__media">
+                            {% if service.cover_image %}
+                                <img src="{{ service.cover_image.url }}" alt="{{ service.title }}">
+                            {% else %}
+                                <span aria-hidden="true">{{ service.icon|default:"◆" }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="service-card__body">
+                            <h3>{{ service.title }}</h3>
+                            <p>{{ service.short_description }}</p>
+                            <a href="{{ service.get_absolute_url }}" class="btn btn--ghost btn--sm">Learn more →</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+            <div class="text-center" style="margin-top: var(--space-8);">
+                <a href="{% url 'tkmedia:services' %}" class="btn btn--secondary">View all services</a>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No services yet</h3>
+                <p>Add services from the admin panel to see them here.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{# ═══════════════ PORTFOLIO PREVIEW ═══════════════ #}
+<section class="section" id="portfolio">
+    <div class="container">
+        <div class="text-center" style="margin-bottom: var(--space-12);">
+            <span class="badge">Portfolio</span>
+            <h2 style="margin-top: var(--space-4);">Selected work</h2>
+            <p class="text-muted" style="margin-top: var(--space-4);">A few recent projects.</p>
+        </div>
+
+        {% if featured_projects %}
+            <div class="grid grid--wide">
+                {% for project in featured_projects %}
+                    <a href="{{ project.get_absolute_url }}" class="project-card">
+                        <div class="project-card__media {% if not project.cover_image %}project-card__media--placeholder{% endif %}">
+                            {% if project.cover_image %}
+                                <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">
+                            {% else %}
+                                <span aria-hidden="true">{{ project.title|slice:":1"|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="project-card__body">
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.summary }}</p>
+                            <div class="project-card__meta">
+                                <span class="tag">{{ project.get_category_display }}</span>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="text-center" style="margin-top: var(--space-8);">
+                <a href="{% url 'tkmedia:portfolio' %}" class="btn btn--secondary">View full portfolio</a>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No featured projects yet</h3>
+                <p>Mark projects as "Featured" in the admin panel to display them here.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{# ═══════════════ CONTACT CTA ═══════════════ #}
+<section class="section" id="contact" style="background: var(--color-surface);">
+    <div class="container container--narrow text-center">
+        <span class="badge badge--accent">Let's Work Together</span>
+        <h2 style="margin-top: var(--space-4);">Ready to build something great?</h2>
+        <p class="text-muted" style="margin-top: var(--space-4); margin-bottom: var(--space-8);">
+            Reach out on WhatsApp or email to discuss your project.
+        </p>
+
+        <div class="hero__actions" style="justify-content: center;">
+            <a href="{{ BRAND_WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+               class="btn btn--primary btn--lg">
+                WhatsApp TK MULTIMEDIA
+            </a>
+            <a href="{{ BRAND_EMAIL_URL }}" class="btn btn--secondary btn--lg">
+                Send an Email
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
