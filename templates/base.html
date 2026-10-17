@@ -28,7 +28,8 @@
     <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}?v=2">
     <link rel="apple-touch-icon" href="{% static 'images/logo.png' %}?v=2">
     <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
-        {# ─── Extra SEO ─── #}
+
+    {# ─── Extra SEO ─── #}
     <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
     <meta name="google" content="notranslate">
     <meta name="format-detection" content="telephone=no">
@@ -56,6 +57,7 @@
     }
     </script>
 
+    {# ─── Fonts ─── #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -1204,7 +1206,7 @@
     .skill-card__desc { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-1); }
 
     /* ═══════════════════════════════════════════════════════════
-       23. FOOTER — compact, side-by-side links
+       23. FOOTER — COMPACT
        ═══════════════════════════════════════════════════════════ */
     .site-footer {
         margin-top: auto;
@@ -1232,19 +1234,13 @@
         gap: var(--space-8);
         margin-bottom: var(--space-10);
     }
-    /* Two-column layout: brand full-width on top, links side-by-side below */
     @media (min-width: 480px) {
         .footer__grid {
             grid-template-columns: repeat(2, 1fr);
             gap: var(--space-8) var(--space-6);
         }
-        .footer__brand-col {
-            grid-column: 1 / -1;
-            max-width: 100%;
-        }
-        .footer__column:last-child {
-            grid-column: 1 / -1;
-        }
+        .footer__brand-col { grid-column: 1 / -1; max-width: 100%; }
+        .footer__column:last-child { grid-column: 1 / -1; }
     }
     @media (min-width: 1024px) {
         .footer__grid {
@@ -1362,7 +1358,6 @@
         border-radius: 1px;
     }
 
-    /* 2-column list so links sit side by side */
     .footer__list {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1383,15 +1378,11 @@
         padding-block: 2px;
         line-height: 1.5;
     }
-    .footer__link:hover {
-        color: var(--gold);
-        transform: translateX(3px);
-    }
+    .footer__link:hover { color: var(--gold); transform: translateX(3px); }
     @media (max-width: 640px) {
         .footer__link { font-size: var(--fs-xs); }
     }
 
-    /* Contact list — 2-column on small tablets */
     .footer__contact-list {
         display: grid;
         grid-template-columns: 1fr;
@@ -1632,51 +1623,48 @@
         .nav__logo-sub { display: none; }
         .nav__menu { top: 64px; max-height: calc(100vh - 64px); }
         .icon-btn { width: 38px; height: 38px; font-size: 1.1rem; }
-    }
 
-    @media (max-width: 380px) {
-        .nav__logo-text { display: none; }
-    }
-
-    @media (max-width: 768px) {
+        /* ─── HERO SLIDER (CRITICAL FIX) ─── */
         .hero-slider {
-            height: auto;
-            min-height: 100vh;
+            height: 100vh;
+            height: 100dvh;
+            min-height: 600px;
             max-height: none;
         }
         .hero-slide {
-            position: relative;
-            min-height: 100vh;
-            padding-top: 40px;
-            padding-bottom: 220px;
-            align-items: flex-start;
+            position: absolute; /* Keep absolute so slides don't stack! */
+            inset: 0;
+            padding-top: 80px;
+            padding-bottom: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .hero-slide.active { position: relative; }
         .hero-slide__content {
-            padding-inline: var(--space-5);
+            padding-inline: var(--space-4);
             padding-bottom: 0;
-            margin-top: var(--space-10);
+            margin-top: 0;
             text-align: center;
+            width: 100%;
         }
         .hero-slide__title {
-            font-size: clamp(1.6rem, 7.5vw, 2.75rem);
+            font-size: clamp(1.8rem, 7vw, 2.75rem);
             line-height: 1.05;
             margin-bottom: var(--space-4);
             text-align: center;
         }
-        .hero-slide__title .line { text-align: center; }
         .hero-slide__subtitle {
-            font-size: var(--fs-sm);
+            font-size: 0.95rem;
             line-height: 1.5;
             margin-bottom: var(--space-6);
-            padding-inline: var(--space-2);
+            padding-inline: 0;
             text-align: center;
         }
         .hero-slide__actions {
             flex-direction: column;
             align-items: stretch;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             margin-inline: auto;
             gap: var(--space-3);
         }
@@ -1684,10 +1672,12 @@
             width: 100%;
             justify-content: center;
         }
+
+        /* ─── HERO AUDIO PLAYER ─── */
         .hero-audio {
-            bottom: 62px;
+            bottom: 70px;
             gap: var(--space-2);
-            padding-inline: var(--space-3);
+            padding-inline: var(--space-4);
             flex-wrap: nowrap;
             justify-content: space-between;
         }
@@ -1698,8 +1688,8 @@
             margin-left: auto;
         }
         .hero-audio__play {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             font-size: 1rem;
         }
         .hero-audio__tracks {
@@ -1714,27 +1704,19 @@
             font-size: 0.62rem;
             padding: 2px 3px;
         }
+
+        /* ─── HERO NAV DOTS ─── */
         .hero-slider__nav {
-            bottom: var(--space-3);
-            gap: var(--space-1);
+            bottom: 16px;
+            gap: var(--space-2);
             padding: var(--space-1) var(--space-3);
         }
         .hero-slider__dot {
-            font-size: 0.6rem;
-            padding: 4px 3px;
+            font-size: 0.65rem;
+            padding: 4px 4px;
         }
-    }
 
-    @media (max-width: 380px) {
-        .hero-slide__title { font-size: 1.4rem; }
-        .hero-audio__tracks { gap: 2px; }
-        .hero-audio__track { font-size: 0.55rem; padding: 2px 1px; }
-        .hero-audio__label { display: none; }
-        .hero-slider__nav { gap: 2px; padding: 2px 4px; }
-        .hero-slider__dot { font-size: 0.55rem; padding: 2px; }
-    }
-
-    @media (max-width: 640px) {
+        /* ─── STATS BAR ─── */
         .stats-bar__grid { grid-template-columns: repeat(2, 1fr); }
         .stat {
             padding: var(--space-6) var(--space-3);
@@ -1745,9 +1727,8 @@
         .stat:nth-child(4) { border-bottom: none; }
         .stat__number { font-size: clamp(1.75rem, 7vw, 2.25rem); }
         .stat__label { font-size: var(--fs-xs); }
-    }
 
-    @media (max-width: 640px) {
+        /* ─── PAGE HEADER & SECTIONS ─── */
         .page-header { padding-block: var(--space-12) var(--space-10); }
         .page-header h1,
         .page-header .display-lg {
@@ -1755,6 +1736,16 @@
             line-height: 1.1;
         }
         .section { padding-block: var(--space-12); }
+    }
+
+    @media (max-width: 380px) {
+        .nav__logo-text { display: none; }
+        .hero-slide__title { font-size: 1.4rem; }
+        .hero-audio__tracks { gap: 2px; }
+        .hero-audio__track { font-size: 0.55rem; padding: 2px 1px; }
+        .hero-audio__label { display: none; }
+        .hero-slider__nav { gap: 2px; padding: 2px 4px; }
+        .hero-slider__dot { font-size: 0.55rem; padding: 2px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
