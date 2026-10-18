@@ -591,6 +591,19 @@
     }
     .hero-slide.active .hero-slide__bg { transform: scale(1); }
 
+    /* ─── FIXED: VIDEO CSS ADDED HERE ─── */
+    .hero-slide__video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+        display: block;
+        background-color: #0B0B0D;
+    }
+
     .hero-slide__overlay {
         position: absolute;
         inset: 0;
@@ -1624,55 +1637,53 @@
         .nav__menu { top: 64px; max-height: calc(100vh - 64px); }
         .icon-btn { width: 38px; height: 38px; font-size: 1.1rem; }
 
-        /* ─── HERO SLIDER (CRITICAL FIX) ─── */
+            /* ─── HERO SLIDER (MATCHING THE PORTFOLIO LOOK) ─── */
         .hero-slider {
-            height: 100vh;
-            height: 100dvh;
-            min-height: 600px;
-            max-height: none;
+            height: 75vh; /* Clean, compact height */
+            height: 75dvh;
+            min-height: 500px;
+            max-height: 700px;
         }
         .hero-slide {
-            position: absolute; /* Keep absolute so slides don't stack! */
+            position: absolute;
             inset: 0;
-            padding-top: 80px;
-            padding-bottom: 140px;
+            padding: 0; /* Removed padding that caused the giant gap */
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .hero-slide__content {
-            padding-inline: var(--space-4);
-            padding-bottom: 0;
-            margin-top: 0;
-            text-align: center;
+            padding-inline: var(--space-5);
+            padding-bottom: 80px; /* Leave room for audio player */
+            padding-top: 0;
+            text-align: left; /* Left-aligned just like your screenshot */
             width: 100%;
+            z-index: 2;
         }
         .hero-slide__title {
-            font-size: clamp(1.8rem, 7vw, 2.75rem);
+            font-size: clamp(2rem, 8vw, 2.75rem);
             line-height: 1.05;
             margin-bottom: var(--space-4);
-            text-align: center;
+            text-align: left;
         }
         .hero-slide__subtitle {
             font-size: 0.95rem;
             line-height: 1.5;
             margin-bottom: var(--space-6);
-            padding-inline: 0;
-            text-align: center;
+            margin-inline: 0;
+            text-align: left;
         }
         .hero-slide__actions {
             flex-direction: column;
-            align-items: stretch;
+            align-items: flex-start; /* Buttons align to the left */
             width: 100%;
-            max-width: 280px;
-            margin-inline: auto;
+            max-width: 300px;
             gap: var(--space-3);
         }
         .hero-slide__actions .btn {
             width: 100%;
             justify-content: center;
         }
-
         /* ─── HERO AUDIO PLAYER ─── */
         .hero-audio {
             bottom: 70px;
