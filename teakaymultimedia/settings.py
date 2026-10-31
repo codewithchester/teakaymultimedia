@@ -1,5 +1,5 @@
 """
-Django settings for TK MULTIMEDIA.
+Django settings for TEAKAY MULTIMEDIA.
 Environment-driven. See .env.example for all variables.
 """
 from pathlib import Path
